@@ -1,0 +1,94 @@
+{
+	"posts": [
+		{
+			"username": "Varun",
+			"handle": "@Varun",
+			"avatar": "res://assets/SocialMedia/boy.png",
+			"post_image": "res://assets/SocialMedia/romantic-scenery-starnberg-lake-sunset-boardwalk-52409506.webp",
+			"likes": 1505.0,
+			"caption": "Took This today",
+			"comments": 42.0
+		},
+		{
+			"username": "Saksham",
+			"handle": "@Saksham",
+			"avatar": "res://assets/SocialMedia/boy.png",
+			"post_image": "res://assets/SocialMedia/romantic-scenery-starnberg-lake-sunset-boardwalk-52409506.webp",
+			"likes": 3289.0,
+			"caption": "New setup! Who dis? 💻",
+			"comments": 127.0
+		},
+		{
+			"username": "CoffeeAddict",
+			"handle": "@coffee_daily",
+			"avatar": "res://assets/SocialMedia/boy.png",
+			"post_image": "res://assets/SocialMedia/romantic-scenery-starnberg-lake-sunset-boardwalk-52409506.webp",
+			"likes": 892.0,
+			"caption": "Monday mood ☕️",
+			"comments": 34.0
+		},
+		{
+			"username": "FitnessJourney",
+			"handle": "@gains_4_days",
+			"avatar": "res://assets/SocialMedia/boy.png",
+			"post_image": "res://assets/SocialMedia/romantic-scenery-starnberg-lake-sunset-boardwalk-52409506.webp",
+			"likes": 2156.0,
+			"caption": "Leg day = best day 💪 #nopainnogain",
+			"comments": 89.0
+		},
+		{
+			"username": "Wanderlust",
+			"handle": "@travel_sam",
+			"avatar": "res://assets/SocialMedia/boy.png",
+			"post_image": "res://assets/SocialMedia/romantic-scenery-starnberg-lake-sunset-boardwalk-52409506.webp",
+			"likes": 5421.0,
+			"caption": "Paradise found 🌴✈️",
+			"comments": 203.0
+		},
+		{
+			"username": "FoodiePics",
+			"handle": "@foodie_insta",
+			"avatar": "res://assets/SocialMedia/boy.png",
+			"post_image": "res://assets/SocialMedia/romantic-scenery-starnberg-lake-sunset-boardwalk-52409506.webp",
+			"likes": 1876.0,
+			"caption": "Brunch goals 🥞🍳",
+			"comments": 67.0
+		},
+		{
+			"username": "PetLover",
+			"handle": "@doggo_daily",
+			"avatar": "res://assets/SocialMedia/boy.png",
+			"post_image": "res://assets/SocialMedia/romantic-scenery-starnberg-lake-sunset-boardwalk-52409506.webp",
+			"likes": 4532.0,
+			"caption": "Someone wants treats 🐶",
+			"comments": 156.0
+		},
+		{
+			"username": "ArtVibes",
+			"handle": "@creative_mind",
+			"avatar": "res://assets/SocialMedia/boy.png",
+			"post_image": "res://assets/SocialMedia/romantic-scenery-starnberg-lake-sunset-boardwalk-52409506.webp",
+			"likes": 987.0,
+			"caption": "Work in progress 🎨",
+			"comments": 43.0
+		},
+		{
+			"username": "NaturePhotog",
+			"handle": "@wild_shots",
+			"avatar": "res://assets/SocialMedia/boy.png",
+			"post_image": "res://assets/SocialMedia/romantic-scenery-starnberg-lake-sunset-boardwalk-52409506.webp",
+			"likes": 6234.0,
+			"caption": "Golden hour magic 🌅",
+			"comments": 289.0
+		},
+		{
+			"username": "TechReviews",
+			"handle": "@gadget_geek",
+			"avatar": "res://assets/SocialMedia/boy.png",
+			"post_image": "res://assets/SocialMedia/romantic-scenery-starnberg-lake-sunset-boardwalk-52409506.webp",
+			"likes": 2901.0,
+			"caption": "Unboxing day! Link in bio 📦",
+			"comments": 134.0
+		}
+	]
+}

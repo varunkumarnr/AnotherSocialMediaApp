@@ -1,0 +1,106 @@
+[gd_scene format=3 uid="uid://cxcukuuo83toi"]
+
+[ext_resource type="Script" uid="uid://cdpuvm0r0hwqj" path="res://scripts/ui/articleView.gd" id="1_8xd1a"]
+
+[node name="ArticleView" type="Control" unique_id=1510266103]
+layout_mode = 3
+anchors_preset = 0
+script = ExtResource("1_8xd1a")
+
+[node name="ColorRect" type="ColorRect" parent="." unique_id=315372245]
+layout_mode = 0
+offset_right = 1072.0
+offset_bottom = 1910.0
+
+[node name="VBoxContainer" type="VBoxContainer" parent="." unique_id=1341002529]
+layout_mode = 0
+offset_right = 1070.0
+offset_bottom = 1902.0
+
+[node name="HeaderBar" type="Panel" parent="VBoxContainer" unique_id=1535422104]
+layout_mode = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="VBoxContainer/HeaderBar" unique_id=1205286639]
+layout_mode = 0
+offset_right = 1060.0
+offset_bottom = 218.0
+theme_override_constants/margin_left = 20
+theme_override_constants/margin_top = 20
+theme_override_constants/margin_right = 20
+theme_override_constants/margin_bottom = 20
+
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/HeaderBar/MarginContainer" unique_id=656876723]
+layout_mode = 2
+
+[node name="ArticleNumberLabel" type="Label" parent="VBoxContainer/HeaderBar/MarginContainer/HBoxContainer" unique_id=1075781577]
+layout_mode = 2
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_font_sizes/font_size = 48
+text = "Article 1.1 -"
+horizontal_alignment = 1
+
+[node name="ProgressLabel" type="Label" parent="VBoxContainer/HeaderBar/MarginContainer/HBoxContainer" unique_id=706674224]
+layout_mode = 2
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_font_sizes/font_size = 48
+text = "1/15"
+
+[node name="ArticleTitleBar" type="Panel" parent="VBoxContainer" unique_id=76636397]
+layout_mode = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="VBoxContainer/ArticleTitleBar" unique_id=1744620507]
+layout_mode = 0
+offset_left = 14.0
+offset_top = 176.0
+offset_right = 1064.0
+offset_bottom = 412.0
+theme_override_constants/margin_left = 20
+theme_override_constants/margin_top = 20
+theme_override_constants/margin_right = 20
+theme_override_constants/margin_bottom = 20
+
+[node name="ArticleTitleLabel" type="Label" parent="VBoxContainer/ArticleTitleBar/MarginContainer" unique_id=314951970]
+layout_mode = 2
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_font_sizes/font_size = 40
+text = "DataPrivacy & Collection"
+horizontal_alignment = 1
+
+[node name="Description" type="Panel" parent="VBoxContainer" unique_id=2001899570]
+layout_mode = 2
+
+[node name="ScrollContainer" type="ScrollContainer" parent="VBoxContainer/Description" unique_id=1171320164]
+layout_mode = 0
+offset_left = 2.0
+offset_top = 404.0
+offset_right = 1072.0
+offset_bottom = 1340.0
+
+[node name="MarginContainer" type="MarginContainer" parent="VBoxContainer/Description/ScrollContainer" unique_id=994768886]
+layout_mode = 2
+
+[node name="DescriptionLabel" type="Label" parent="VBoxContainer/Description/ScrollContainer/MarginContainer" unique_id=737906488]
+layout_mode = 2
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_font_sizes/font_size = 32
+text = "asaudguaidaidhai hdiahdihaidhaidhaihdiahdiahdihaidh"
+
+[node name="BottomBar" type="Panel" parent="VBoxContainer" unique_id=2003166630]
+layout_mode = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="VBoxContainer/BottomBar" unique_id=1627366878]
+layout_mode = 0
+offset_left = 8.0
+offset_top = 1480.0
+offset_right = 1070.0
+offset_bottom = 1682.0
+theme_override_constants/margin_left = 20
+theme_override_constants/margin_top = 20
+theme_override_constants/margin_right = 20
+theme_override_constants/margin_bottom = 20
+
+[node name="AcceptButton" type="Button" parent="VBoxContainer/BottomBar/MarginContainer" unique_id=1802548792]
+custom_minimum_size = Vector2(0, 90)
+layout_mode = 2
+theme_override_font_sizes/font_size = 36
+text = "Accept"

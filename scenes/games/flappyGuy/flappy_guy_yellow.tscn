@@ -1,0 +1,66 @@
+[gd_scene format=3 uid="uid://0g48b1xv4ihq"]
+
+[ext_resource type="Script" uid="uid://dnup06l87aklg" path="res://scripts/minigames/flappyguy/flappyguy.gd" id="1_12n4j"]
+[ext_resource type="Texture2D" uid="uid://bx8wph84y1gql" path="res://assets/minigames/sprites/flappyGuy/yellow/character_yellow_idle.png" id="1_apatx"]
+[ext_resource type="Texture2D" uid="uid://diiw2hv66than" path="res://assets/minigames/sprites/flappyGuy/yellow/character_yellow_duck.png" id="2_12n4j"]
+[ext_resource type="Texture2D" uid="uid://dkvywov10v5si" path="res://assets/minigames/sprites/flappyGuy/yellow/character_yellow_jump.png" id="3_0ibqj"]
+[ext_resource type="Texture2D" uid="uid://cl0kqabiim5n" path="res://assets/minigames/sprites/flappyGuy/yellow/character_yellow_walk_a.png" id="4_3wv65"]
+[ext_resource type="Texture2D" uid="uid://bf50xyp6l0yop" path="res://assets/minigames/sprites/flappyGuy/yellow/character_yellow_walk_b.png" id="5_t5kw8"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_seyn7"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("1_apatx")
+}],
+"loop": true,
+"name": &"idle",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("2_12n4j")
+}, {
+"duration": 1.0,
+"texture": ExtResource("1_apatx")
+}, {
+"duration": 1.0,
+"texture": ExtResource("3_0ibqj")
+}],
+"loop": true,
+"name": &"jump",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("1_apatx")
+}, {
+"duration": 1.0,
+"texture": ExtResource("4_3wv65")
+}, {
+"duration": 1.0,
+"texture": ExtResource("5_t5kw8")
+}],
+"loop": true,
+"name": &"walk",
+"speed": 5.0
+}]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_ud3ju"]
+radius = 56.0
+height = 136.0
+
+[node name="flappyGuy" type="CharacterBody2D" unique_id=1331058368]
+script = ExtResource("1_12n4j")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=835033285]
+position = Vector2(-15.5, -101.50001)
+scale = Vector2(0.87890625, 0.83984375)
+sprite_frames = SubResource("SpriteFrames_seyn7")
+animation = &"idle"
+autoplay = "idle"
+frame_progress = 0.3031194
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1845186211]
+position = Vector2(-19, -65)
+shape = SubResource("CapsuleShape2D_ud3ju")

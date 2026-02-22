@@ -1,0 +1,81 @@
+[gd_scene format=3 uid="uid://cuhtntfp55rmo"]
+
+[ext_resource type="Script" uid="uid://cj6bffnp6nt04" path="res://scripts/ui/postCard.gd" id="1_g344y"]
+[ext_resource type="Texture2D" uid="uid://krb7g2loj53a" path="res://assets/SocialMedia/boy.png" id="1_jy8wh"]
+[ext_resource type="Texture2D" uid="uid://do3ttockw8fq8" path="res://assets/SocialMedia/romantic-scenery-starnberg-lake-sunset-boardwalk-52409506.webp" id="2_g344y"]
+[ext_resource type="Texture2D" uid="uid://b55jfmmcgh5s1" path="res://assets/SocialMedia/heart-regular-full.svg" id="3_tvdvt"]
+[ext_resource type="Texture2D" uid="uid://clxjttdsm78rb" path="res://assets/SocialMedia/comment-regular-full.svg" id="4_8prp5"]
+[ext_resource type="Texture2D" uid="uid://dokrl2pfi6246" path="res://assets/SocialMedia/send.png" id="5_dej3w"]
+
+[node name="Post1" type="VBoxContainer" unique_id=2063246612]
+offset_top = 12.0
+offset_right = 1008.0
+offset_bottom = 1292.0
+script = ExtResource("1_g344y")
+
+[node name="PostHeader" type="HBoxContainer" parent="." unique_id=72779899]
+layout_mode = 2
+
+[node name="Avatar" type="TextureRect" parent="PostHeader" unique_id=670173125]
+custom_minimum_size = Vector2(150, 150)
+layout_mode = 2
+texture = ExtResource("1_jy8wh")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Username" type="Label" parent="PostHeader" unique_id=2020456108]
+custom_minimum_size = Vector2(200, 100)
+layout_mode = 2
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_font_sizes/font_size = 48
+text = "Varun
+@Varun"
+
+[node name="PostMenu" type="Label" parent="PostHeader" unique_id=1777928122]
+custom_minimum_size = Vector2(650, 100)
+layout_direction = 3
+layout_mode = 2
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_font_sizes/font_size = 100
+text = "⋮"
+
+[node name="PostImage" type="TextureRect" parent="." unique_id=1065001635]
+layout_mode = 2
+texture = ExtResource("2_g344y")
+
+[node name="HBoxContainer" type="HBoxContainer" parent="." unique_id=804981539]
+layout_mode = 2
+
+[node name="LikeIcon" type="TextureRect" parent="HBoxContainer" unique_id=816549549]
+custom_minimum_size = Vector2(180, 180)
+layout_mode = 2
+texture = ExtResource("3_tvdvt")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="CommentIcon" type="TextureRect" parent="HBoxContainer" unique_id=1205311580]
+custom_minimum_size = Vector2(180, 180)
+layout_direction = 2
+layout_mode = 2
+texture = ExtResource("4_8prp5")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="ShareIcon" type="TextureRect" parent="HBoxContainer" unique_id=1214465238]
+custom_minimum_size = Vector2(150, 0)
+layout_mode = 2
+texture = ExtResource("5_dej3w")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="LikeCount" type="Label" parent="." unique_id=600408666]
+layout_mode = 2
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_font_sizes/font_size = 48
+text = "1505 Likes"
+
+[node name="PostDescription" type="Label" parent="." unique_id=861307343]
+layout_mode = 2
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_font_sizes/font_size = 48
+text = "Took This today"

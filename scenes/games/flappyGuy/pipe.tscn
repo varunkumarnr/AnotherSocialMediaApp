@@ -1,0 +1,21 @@
+[gd_scene format=3 uid="uid://cr76yrmct5o8g"]
+
+[ext_resource type="Script" uid="uid://pxlhbqw1jj8l" path="res://scripts/minigames/flappyguy/pipes.gd" id="1_1kbsb"]
+[ext_resource type="Texture2D" uid="uid://s54dn0hvyi0s" path="res://assets/minigames/Background/block_green.png" id="2_78sxx"]
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_78sxx"]
+texture = ExtResource("2_78sxx")
+texture_region_size = Vector2i(64, 64)
+0:0/0 = 0
+0:0/0/physics_layer_0/polygon_0/points = PackedVector2Array(-32, -32, 32, -32, 32, 32, -32, 32)
+
+[sub_resource type="TileSet" id="TileSet_00mcw"]
+tile_size = Vector2i(64, 64)
+physics_layer_0/collision_layer = 2
+sources/0 = SubResource("TileSetAtlasSource_78sxx")
+
+[node name="Pipe" type="Node2D" unique_id=166637482]
+script = ExtResource("1_1kbsb")
+
+[node name="PipeLayer" type="TileMapLayer" parent="." unique_id=1398833375]
+tile_set = SubResource("TileSet_00mcw")

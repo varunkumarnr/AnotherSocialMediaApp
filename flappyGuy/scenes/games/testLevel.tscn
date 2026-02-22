@@ -1,0 +1,39 @@
+[gd_scene format=3 uid="uid://30hrdmj80ecc"]
+
+[ext_resource type="Script" uid="uid://cudy01hl86b32" path="res://scripts/minigames/testLevel.gd" id="1_w1fky"]
+
+[node name="TestLevel" type="Control" unique_id=38930037]
+layout_mode = 3
+anchors_preset = 0
+script = ExtResource("1_w1fky")
+
+[node name="ColorRect" type="ColorRect" parent="." unique_id=24253894]
+layout_mode = 0
+offset_right = 1080.0
+offset_bottom = 1916.0
+
+[node name="CenterContainer" type="CenterContainer" parent="." unique_id=1192359385]
+layout_mode = 0
+offset_right = 1079.0
+offset_bottom = 1910.0
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CenterContainer" unique_id=205396647]
+layout_mode = 2
+
+[node name="ArticleLabel" type="Label" parent="CenterContainer/VBoxContainer" unique_id=450546022]
+layout_mode = 2
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_font_sizes/font_size = 48
+text = "Article Challenge"
+
+[node name="InstructionLabel" type="Label" parent="CenterContainer/VBoxContainer" unique_id=143468780]
+layout_mode = 2
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_font_sizes/font_size = 48
+text = "Click the below button if you Agree."
+horizontal_alignment = 1
+
+[node name="AgreeButton" type="Button" parent="CenterContainer/VBoxContainer" unique_id=623790837]
+custom_minimum_size = Vector2(0, 100)
+layout_mode = 2
+text = "Agree"

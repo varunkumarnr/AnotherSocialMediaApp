@@ -1,0 +1,146 @@
+[gd_scene format=4 uid="uid://c1h1hbfbwyws1"]
+
+[ext_resource type="PackedScene" uid="uid://bb66y5nbliqn0" path="res://scenes/games/mini_game_template.tscn" id="1_0wuu5"]
+[ext_resource type="Texture2D" uid="uid://ne8p24mfgx0" path="res://assets/minigames/Background/background_clouds.png" id="2_sxhkc"]
+[ext_resource type="Script" uid="uid://dnup06l87aklg" path="res://scripts/minigames/flappyguy/flappyguy.gd" id="2_xnywt"]
+[ext_resource type="Texture2D" uid="uid://p0iqjucijsfl" path="res://assets/minigames/Background/background_color_desert.png" id="4_6d5sg"]
+[ext_resource type="Texture2D" uid="uid://bs6jolvk1lqcp" path="res://assets/minigames/Background/background_solid_dirt.png" id="4_usu75"]
+[ext_resource type="Texture2D" uid="uid://b852612xfb3xq" path="res://assets/minigames/Background/background_solid_grass.png" id="6_xnywt"]
+[ext_resource type="Texture2D" uid="uid://dsc53laighlt8" path="res://assets/minigames/Background/background_solid_sky.png" id="7_6d5sg"]
+[ext_resource type="Texture2D" uid="uid://p0utsr361yiy" path="res://assets/minigames/Background/background_solid_sand.png" id="7_ucj17"]
+[ext_resource type="Texture2D" uid="uid://dvrqc6ic6aads" path="res://assets/minigames/Background/background_color_mushrooms.png" id="9_ucj17"]
+[ext_resource type="Texture2D" uid="uid://yrcen5kburdq" path="res://assets/minigames/Background/background_color_hills.png" id="9_vcyhe"]
+[ext_resource type="Texture2D" uid="uid://clt25at5skg78" path="res://assets/minigames/Background/background_color_trees.png" id="11_a2j87"]
+[ext_resource type="Texture2D" uid="uid://eifjxtypmp2r" path="res://assets/minigames/Background/background_fade_desert.png" id="12_1fei8"]
+[ext_resource type="Texture2D" uid="uid://c3cyl07vewvsv" path="res://assets/minigames/Background/background_fade_hills.png" id="13_odgvd"]
+[ext_resource type="Texture2D" uid="uid://brspt3ssaewm0" path="res://assets/minigames/Background/background_fade_mushrooms.png" id="14_rgp4n"]
+[ext_resource type="Texture2D" uid="uid://gdye0yker2er" path="res://assets/minigames/Background/background_fade_trees.png" id="15_jp87w"]
+[ext_resource type="Texture2D" uid="uid://cjui2482duaoq" path="res://assets/minigames/Background/background_solid_cloud.png" id="16_fwfom"]
+[ext_resource type="PackedScene" uid="uid://0g48b1xv4ihq" path="res://scenes/games/flappyGuy/flappy_guy_yellow.tscn" id="16_hq44n"]
+[ext_resource type="Script" uid="uid://c5wlvkidwio2n" path="res://scripts/minigames/flappyguy/flappyguy_player.gd" id="17_6d5sg"]
+[ext_resource type="Script" uid="uid://cf2vqjdfdmkr8" path="res://scripts/minigames/flappyguy/pipeSpawner.gd" id="18_xnywt"]
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_eiw7c"]
+texture = ExtResource("2_sxhkc")
+texture_region_size = Vector2i(256, 256)
+0:0/0 = 0
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_i5o4b"]
+texture = ExtResource("4_6d5sg")
+texture_region_size = Vector2i(256, 256)
+0:0/0 = 0
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_gr452"]
+texture = ExtResource("4_usu75")
+texture_region_size = Vector2i(256, 256)
+0:0/0 = 0
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_ndddb"]
+texture = ExtResource("6_xnywt")
+texture_region_size = Vector2i(256, 256)
+0:0/0 = 0
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_y0y74"]
+texture = ExtResource("7_ucj17")
+texture_region_size = Vector2i(256, 256)
+0:0/0 = 0
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_ph3u7"]
+texture = ExtResource("7_6d5sg")
+texture_region_size = Vector2i(256, 256)
+0:0/0 = 0
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_0rxvs"]
+texture = ExtResource("9_vcyhe")
+texture_region_size = Vector2i(256, 256)
+0:0/0 = 0
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_uuo4g"]
+texture = ExtResource("9_ucj17")
+texture_region_size = Vector2i(256, 256)
+0:0/0 = 0
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_knlel"]
+texture = ExtResource("11_a2j87")
+texture_region_size = Vector2i(256, 256)
+0:0/0 = 0
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_3umbg"]
+texture = ExtResource("12_1fei8")
+texture_region_size = Vector2i(256, 256)
+0:0/0 = 0
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_dveiu"]
+texture = ExtResource("13_odgvd")
+texture_region_size = Vector2i(256, 256)
+0:0/0 = 0
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_vtecj"]
+texture = ExtResource("14_rgp4n")
+texture_region_size = Vector2i(256, 256)
+0:0/0 = 0
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_7qa8y"]
+texture = ExtResource("15_jp87w")
+texture_region_size = Vector2i(256, 256)
+0:0/0 = 0
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_8xs0d"]
+texture = ExtResource("16_fwfom")
+texture_region_size = Vector2i(256, 256)
+0:0/0 = 0
+
+[sub_resource type="TileSet" id="TileSet_r351u"]
+tile_size = Vector2i(256, 256)
+sources/0 = SubResource("TileSetAtlasSource_eiw7c")
+sources/1 = SubResource("TileSetAtlasSource_i5o4b")
+sources/2 = SubResource("TileSetAtlasSource_0rxvs")
+sources/3 = SubResource("TileSetAtlasSource_uuo4g")
+sources/4 = SubResource("TileSetAtlasSource_knlel")
+sources/5 = SubResource("TileSetAtlasSource_3umbg")
+sources/6 = SubResource("TileSetAtlasSource_dveiu")
+sources/7 = SubResource("TileSetAtlasSource_vtecj")
+sources/8 = SubResource("TileSetAtlasSource_7qa8y")
+sources/9 = SubResource("TileSetAtlasSource_8xs0d")
+sources/10 = SubResource("TileSetAtlasSource_gr452")
+sources/11 = SubResource("TileSetAtlasSource_ndddb")
+sources/12 = SubResource("TileSetAtlasSource_y0y74")
+sources/13 = SubResource("TileSetAtlasSource_ph3u7")
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_6d5sg"]
+texture = ExtResource("6_xnywt")
+texture_region_size = Vector2i(256, 256)
+0:0/0 = 0
+0:0/0/physics_layer_0/polygon_0/points = PackedVector2Array(-128, -128, 128, -128, 128, 128, -128, 128)
+
+[sub_resource type="TileSet" id="TileSet_xnywt"]
+tile_size = Vector2i(256, 256)
+physics_layer_0/collision_layer = 2
+sources/0 = SubResource("TileSetAtlasSource_6d5sg")
+
+[node name="FlappyGuy" unique_id=1547774175 instance=ExtResource("1_0wuu5")]
+script = ExtResource("2_xnywt")
+
+[node name="FarBackground" type="Parallax2D" parent="GameContent" parent_id_path=PackedInt32Array(1692499069) index="0" unique_id=1388554513]
+repeat_size = Vector2(1080, 0)
+autoscroll = Vector2(-200, 0)
+
+[node name="BackGround" type="TileMapLayer" parent="GameContent/FarBackground" index="0" unique_id=972895601]
+tile_map_data = PackedByteArray("AAAAAAAADQAAAAAAAAABAAAADQAAAAAAAAACAAAADQAAAAAAAAADAAAADQAAAAAAAAAEAAAADQAAAAAAAAAAAAEADQAAAAAAAAABAAEADQAAAAAAAAACAAEADQAAAAAAAAADAAEADQAAAAAAAAAEAAEADQAAAAAAAAAAAAIADQAAAAAAAAABAAIADQAAAAAAAAACAAIADQAAAAAAAAADAAIADQAAAAAAAAAEAAIADQAAAAAAAAAAAAMAAAAAAAAAAAABAAMAAAAAAAAAAAACAAMAAAAAAAAAAAADAAMAAAAAAAAAAAAEAAMAAAAAAAAAAAAAAAQAAwAAAAAAAAABAAQAAwAAAAAAAAACAAQAAwAAAAAAAAADAAQAAwAAAAAAAAAEAAQAAwAAAAAAAAAAAAUACgAAAAAAAAABAAUACgAAAAAAAAACAAUACgAAAAAAAAADAAUACgAAAAAAAAAEAAUACgAAAAAAAAAAAAYACgAAAAAAAAABAAYACgAAAAAAAAACAAYACgAAAAAAAAADAAYACgAAAAAAAAAEAAYACgAAAAAAAAA=")
+tile_set = SubResource("TileSet_r351u")
+
+[node name="Pipes" type="Node2D" parent="GameContent" parent_id_path=PackedInt32Array(1692499069) index="1" unique_id=1321171614]
+
+[node name="flappyGuy" parent="GameContent" parent_id_path=PackedInt32Array(1692499069) index="2" unique_id=1331058368 groups=["player"] instance=ExtResource("16_hq44n")]
+position = Vector2(134, 721)
+collision_mask = 6
+script = ExtResource("17_6d5sg")
+
+[node name="PipeSpawner" type="Node2D" parent="GameContent" parent_id_path=PackedInt32Array(1692499069) index="3" unique_id=625435693]
+script = ExtResource("18_xnywt")
+
+[node name="SpawnTimer" type="Timer" parent="GameContent/PipeSpawner" index="0" unique_id=421631283]
+
+[node name="Ground" type="TileMapLayer" parent="GameContent" parent_id_path=PackedInt32Array(1692499069) index="4" unique_id=871789277]
+tile_map_data = PackedByteArray("AAAAAAcAAAAAAAAAAAABAAcAAAAAAAAAAAACAAcAAAAAAAAAAAADAAcAAAAAAAAAAAAEAAcAAAAAAAAAAAAAAP//AAAAAAAAAAABAP//AAAAAAAAAAACAP//AAAAAAAAAAADAP//AAAAAAAAAAAEAP//AAAAAAAAAAAFAP//AAAAAAAAAAAGAP//AAAAAAAAAAA=")
+tile_set = SubResource("TileSet_xnywt")

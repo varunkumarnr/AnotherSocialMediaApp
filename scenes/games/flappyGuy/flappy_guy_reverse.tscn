@@ -1,0 +1,9 @@
+[gd_scene format=3 uid="uid://l6hla5rrgj0p"]
+
+[ext_resource type="PackedScene" uid="uid://c1h1hbfbwyws1" path="res://scenes/games/flappyGuy/flappy_guy.tscn" id="1_pjiee"]
+[ext_resource type="Script" uid="uid://75om1h24m7n" path="res://scripts/minigames/flappyguy/flappyguyplayer_reversed.gd" id="2_o43u0"]
+
+[node name="FlappyGuy" unique_id=1547774175 instance=ExtResource("1_pjiee")]
+
+[node name="flappyGuy" parent="GameContent" parent_id_path=PackedInt32Array(1692499069) index="2" unique_id=1331058368]
+script = ExtResource("2_o43u0")

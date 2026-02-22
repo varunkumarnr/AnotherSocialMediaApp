@@ -1,0 +1,154 @@
+[gd_scene format=3 uid="uid://bb66y5nbliqn0"]
+
+[ext_resource type="Script" uid="uid://da1jkxi1qorno" path="res://scripts/core/miniGamesTemplate.gd" id="1_t35xr"]
+
+[node name="MiniGameTemplate" type="Node2D" unique_id=1547774175]
+script = ExtResource("1_t35xr")
+
+[node name="GameUI" type="CanvasLayer" parent="." unique_id=999235674]
+
+[node name="MarginContainer" type="MarginContainer" parent="GameUI" unique_id=869220962]
+offset_left = 46.0
+offset_top = 54.0
+offset_right = 1024.0
+offset_bottom = 344.0
+theme_override_constants/margin_left = 30
+theme_override_constants/margin_top = 30
+theme_override_constants/margin_right = 30
+theme_override_constants/margin_bottom = 30
+
+[node name="VBoxContainer" type="VBoxContainer" parent="GameUI/MarginContainer" unique_id=2003496276]
+layout_mode = 2
+theme_override_constants/separation = 15
+
+[node name="TopBar" type="HBoxContainer" parent="GameUI/MarginContainer/VBoxContainer" unique_id=1157185802]
+layout_mode = 2
+theme_override_constants/separation = 20
+
+[node name="ArticleLabel" type="Label" parent="GameUI/MarginContainer/VBoxContainer/TopBar" unique_id=1394137633]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.21960784, 0.5921569, 0.9411765, 1)
+theme_override_font_sizes/font_size = 60
+text = "Article 1: Flappy Guy"
+
+[node name="Spacer" type="Control" parent="GameUI/MarginContainer/VBoxContainer/TopBar" unique_id=630233421]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="TimerLabel" type="Label" parent="GameUI/MarginContainer/VBoxContainer/TopBar" unique_id=1053945353]
+layout_mode = 2
+theme_override_font_sizes/font_size = 60
+text = "30.0"
+
+[node name="ScoreLabel" type="Label" parent="GameUI/MarginContainer/VBoxContainer/TopBar" unique_id=707634814]
+layout_mode = 2
+theme_override_font_sizes/font_size = 60
+text = "0/15"
+
+[node name="SmallSpacer" type="Control" parent="GameUI/MarginContainer/VBoxContainer" unique_id=1772931924]
+custom_minimum_size = Vector2(0, 20)
+layout_mode = 2
+
+[node name="InstructionsLabel" type="Label" parent="GameUI/MarginContainer/VBoxContainer" unique_id=1679269945]
+custom_minimum_size = Vector2(20, 20)
+layout_mode = 2
+theme_override_font_sizes/font_size = 40
+text = "Instructions goes here"
+horizontal_alignment = 1
+autowrap_mode = 2
+
+[node name="GameContent" type="Node2D" parent="." unique_id=1692499069]
+
+[node name="Timer" type="Timer" parent="." unique_id=2094399087]
+
+[node name="FailScreen" type="CanvasLayer" parent="." unique_id=1817765568]
+visible = false
+
+[node name="ColorRect" type="ColorRect" parent="FailScreen" unique_id=511079949]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 52.0
+offset_top = 608.0
+offset_right = -44.0
+offset_bottom = -620.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="CenterContainer" type="CenterContainer" parent="FailScreen" unique_id=1884068023]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="FailScreen/CenterContainer" unique_id=1994758249]
+layout_mode = 2
+theme_override_constants/separation = 50
+
+[node name="FailIcon" type="Label" parent="FailScreen/CenterContainer/VBoxContainer" unique_id=1957727648]
+layout_mode = 2
+theme_override_font_sizes/font_size = 100
+text = "💀"
+horizontal_alignment = 1
+
+[node name="FailLabel" type="Label" parent="FailScreen/CenterContainer/VBoxContainer" unique_id=1948663790]
+layout_mode = 2
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_font_sizes/font_size = 40
+text = "Challenge Failed!!!"
+
+[node name="FailureReasonLabel" type="Label" parent="FailScreen/CenterContainer/VBoxContainer" unique_id=274833916]
+layout_mode = 2
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_font_sizes/font_size = 32
+text = "You Failed cause you suck. "
+
+[node name="RestartButton" type="Button" parent="FailScreen/CenterContainer/VBoxContainer" unique_id=2014704375]
+custom_minimum_size = Vector2(450, 100)
+layout_mode = 2
+theme_override_font_sizes/font_size = 32
+text = "Restart Game"
+
+[node name="VictoryScreen" type="CanvasLayer" parent="." unique_id=648206288]
+visible = false
+
+[node name="ColorRect" type="ColorRect" parent="VictoryScreen" unique_id=1553832741]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 52.0
+offset_top = 608.0
+offset_right = -44.0
+offset_bottom = -620.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="CenterContainer" type="CenterContainer" parent="VictoryScreen" unique_id=717599894]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="VictoryScreen/CenterContainer" unique_id=992569384]
+layout_mode = 2
+theme_override_constants/separation = 50
+
+[node name="VictoryIcon" type="Label" parent="VictoryScreen/CenterContainer/VBoxContainer" unique_id=709144990]
+layout_mode = 2
+theme_override_font_sizes/font_size = 100
+text = "🎯"
+horizontal_alignment = 1
+
+[node name="VictoryLabel" type="Label" parent="VictoryScreen/CenterContainer/VBoxContainer" unique_id=1646109003]
+layout_mode = 2
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_font_sizes/font_size = 40
+text = "Challenge Success!!!"
+
+[node name="NextButton" type="Button" parent="VictoryScreen/CenterContainer/VBoxContainer" unique_id=1879816526]
+custom_minimum_size = Vector2(450, 100)
+layout_mode = 2
+theme_override_font_sizes/font_size = 32
+text = "Continue to next article. "

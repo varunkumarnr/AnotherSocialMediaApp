@@ -1,0 +1,19 @@
+[gd_scene format=3 uid="uid://d0bhoqpy88sgm"]
+
+[ext_resource type="PackedScene" uid="uid://cuhtntfp55rmo" path="res://scenes/core/postCard.tscn" id="1_7x4jf"]
+
+[node name="ScrollContainer" type="ScrollContainer" unique_id=1189934886]
+anchors_preset = -1
+anchor_left = 0.019000001
+anchor_right = 0.019000001
+offset_left = -22.52
+offset_top = 188.0
+offset_right = 1059.48
+offset_bottom = 1728.0
+
+[node name="PostFeed" type="VBoxContainer" parent="." unique_id=622414403]
+layout_mode = 2
+
+[node name="PostCard" parent="PostFeed" unique_id=722488970 instance=ExtResource("1_7x4jf")]
+layout_mode = 2
+script = null
