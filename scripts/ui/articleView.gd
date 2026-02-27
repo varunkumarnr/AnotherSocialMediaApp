@@ -1,10 +1,10 @@
 extends Control
 
-@onready var article_number_label = $VBoxContainer/HeaderBar/MarginContainer/HBoxContainer/ArticleNumberLabel
-@onready var progress_label = $VBoxContainer/HeaderBar/MarginContainer/HBoxContainer/ProgressLabel
-@onready var article_title_label = $VBoxContainer/ArticleTitleBar/MarginContainer/ArticleTitleLabel
-@onready var description_label = $VBoxContainer/Description/ScrollContainer/MarginContainer/DescriptionLabel
-@onready var accept_button = $VBoxContainer/BottomBar/MarginContainer/AcceptButton
+@onready var article_number_label = $MarginContainer/VBoxContainer/HeaderBar/MarginContainer/HBoxContainer/ArticleNumberLabel
+@onready var progress_label = $MarginContainer/VBoxContainer/HeaderBar/MarginContainer/HBoxContainer/ProgressLabel
+@onready var article_title_label = $MarginContainer/VBoxContainer/ArticleTitleBar/MarginContainer/ArticleTitleLabel
+@onready var description_label = $MarginContainer/VBoxContainer/Description/ScrollContainer/MarginContainer/DescriptionLabel
+@onready var accept_button = $MarginContainer/VBoxContainer/BottomBar/MarginContainer/AcceptButton
 
 
 var article_data = [

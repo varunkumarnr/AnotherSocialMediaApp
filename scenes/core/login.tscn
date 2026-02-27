@@ -4,24 +4,27 @@
 [ext_resource type="Script" uid="uid://c5nyo1o7shhm4" path="res://scripts/ui/login.gd" id="1_luhhu"]
 
 [node name="Login" type="PopupPanel" unique_id=2065468010]
-oversampling_override = 1.0
 initial_position = 1
 size = Vector2i(800, 1400)
 visible = true
 script = ExtResource("1_luhhu")
 
 [node name="ColorRect" type="ColorRect" parent="." unique_id=1630500216]
-offset_left = 4.0
-offset_top = 4.0
-offset_right = 796.0
-offset_bottom = 1396.0
-color = Color(0, 0, 0, 0.08627451)
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.98039216, 0.98039216, 0.98039216, 1)
 
 [node name="MarginContainer" type="MarginContainer" parent="." unique_id=2066883570]
-offset_left = 4.0
-offset_top = 4.0
-offset_right = 796.0
-offset_bottom = 1396.0
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
 theme_override_constants/margin_left = 20
 theme_override_constants/margin_top = 20
 theme_override_constants/margin_right = 20
@@ -29,6 +32,8 @@ theme_override_constants/margin_bottom = 20
 
 [node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer" unique_id=2042305956]
 layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
 theme_override_constants/separation = 15
 
 [node name="CloseButton" type="Button" parent="MarginContainer/VBoxContainer" unique_id=773614717]
@@ -49,12 +54,14 @@ stretch_mode = 5
 
 [node name="Gametitle" type="Label" parent="MarginContainer/VBoxContainer" unique_id=856775954]
 layout_mode = 2
+theme_override_colors/font_color = Color(0, 0, 0, 1)
 theme_override_font_sizes/font_size = 48
 text = "Another Social Media"
 horizontal_alignment = 1
 
 [node name="Subtitle" type="Label" parent="MarginContainer/VBoxContainer" unique_id=661824862]
 layout_mode = 2
+theme_override_colors/font_color = Color(0, 0, 0, 1)
 theme_override_font_sizes/font_size = 32
 text = "Sign in to continue"
 horizontal_alignment = 1
@@ -91,7 +98,7 @@ theme_override_font_sizes/font_size = 48
 [node name="TOCLinkButton" type="Button" parent="MarginContainer/VBoxContainer/TOCContainer" unique_id=290737880]
 layout_mode = 2
 theme_override_font_sizes/font_size = 32
-text = "I agree to the terms & Conditions. "
+text = "I agree to the terms & Conditions."
 flat = true
 
 [node name="VSeparator4" type="VSeparator" parent="MarginContainer/VBoxContainer" unique_id=1461706737]
@@ -100,8 +107,7 @@ layout_mode = 2
 
 [node name="LoginButton" type="Button" parent="MarginContainer/VBoxContainer" unique_id=2072462473]
 layout_mode = 2
-theme_override_constants/h_separation = 10
-theme_override_constants/line_spacing = 10
+size_flags_horizontal = 3
 theme_override_font_sizes/font_size = 48
 disabled = true
-text = "Log In "
+text = "Log In"
