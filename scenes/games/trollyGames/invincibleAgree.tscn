@@ -1,0 +1,7 @@
+[gd_scene format=3 uid="uid://d3lavk1v5bysk"]
+
+[ext_resource type="PackedScene" uid="uid://bb66y5nbliqn0" path="res://scenes/games/mini_game_template.tscn" id="1_0tr61"]
+[ext_resource type="Script" uid="uid://bgvso01dm0bp7" path="res://scripts/minigames/invincibleagree/invincibleAgree.gd" id="2_apot8"]
+
+[node name="MiniGameTemplate" unique_id=1547774175 instance=ExtResource("1_0tr61")]
+script = ExtResource("2_apot8")

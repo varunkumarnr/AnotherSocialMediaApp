@@ -1,0 +1,7 @@
+[gd_scene format=3 uid="uid://cpmsagh54oe2a"]
+
+[ext_resource type="PackedScene" uid="uid://bb66y5nbliqn0" path="res://scenes/games/mini_game_template.tscn" id="1_gqs44"]
+[ext_resource type="Script" uid="uid://bbv4p81u5yxa0" path="res://scripts/minigames/wackAMole/wack_A_Mole.gd" id="2_371vx"]
+
+[node name="MiniGameTemplate" unique_id=1547774175 instance=ExtResource("1_gqs44")]
+script = ExtResource("2_371vx")

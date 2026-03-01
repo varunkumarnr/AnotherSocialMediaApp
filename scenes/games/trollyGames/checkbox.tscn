@@ -1,0 +1,7 @@
+[gd_scene format=3 uid="uid://dh7hp0bniajjc"]
+
+[ext_resource type="PackedScene" uid="uid://bb66y5nbliqn0" path="res://scenes/games/mini_game_template.tscn" id="1_ces2g"]
+[ext_resource type="Script" uid="uid://cm4uuxwnh6shm" path="res://scripts/minigames/checkbox/checkbox.gd" id="2_5b2mc"]
+
+[node name="MiniGameTemplate" unique_id=1547774175 instance=ExtResource("1_ces2g")]
+script = ExtResource("2_5b2mc")

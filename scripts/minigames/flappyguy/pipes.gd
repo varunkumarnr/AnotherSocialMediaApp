@@ -1,10 +1,8 @@
 extends Node2D
 
-# Configuration
 var speed: float = 200.0
 var gap_size: float = 400.0
 
-# Vertical movement (VERY_HARD)
 var is_moving_vertical: bool = false
 var move_direction: float = 1.0
 var start_y: float = 0.0
@@ -30,7 +28,6 @@ func _ready():
 		gap_size = 500.0
 	
 	if is_moving_vertical:
-		# Randomly pick up or down, 50/50
 		move_direction = 1.0 if randf() > 0.5 else -1.0
 	
 	if is_inside_tree() and get_parent() != null:
@@ -63,7 +60,6 @@ func _process(delta):
 	if not is_built:
 		return
 
-	# Capture start_y on the first frame after everything is positioned
 	if is_moving_vertical and not vertical_initialized:
 		start_y = position.y
 		vertical_initialized = true
@@ -71,11 +67,9 @@ func _process(delta):
 	if is_moving_vertical and vertical_initialized:
 		position.y += VERTICAL_SPEED * move_direction * delta
 		
-		# Hit the bottom limit, force back up
 		if position.y >= start_y + VERTICAL_LIMIT:
 			position.y = start_y + VERTICAL_LIMIT
 			move_direction = -1.0
-		# Hit the top limit, force back down
 		elif position.y <= start_y - VERTICAL_LIMIT:
 			position.y = start_y - VERTICAL_LIMIT
 			move_direction = 1.0

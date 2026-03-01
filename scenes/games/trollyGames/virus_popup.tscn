@@ -1,0 +1,14 @@
+[gd_scene format=3 uid="uid://cxd1d8f3g5prp"]
+
+[ext_resource type="PackedScene" uid="uid://bb66y5nbliqn0" path="res://scenes/games/mini_game_template.tscn" id="1_3n8a3"]
+[ext_resource type="Script" uid="uid://4om0vatqd5y" path="res://scripts/minigames/virusGame/virus_game.gd" id="2_ojog6"]
+
+[node name="VirusPopUps" unique_id=1547774175 instance=ExtResource("1_3n8a3")]
+script = ExtResource("2_ojog6")
+
+[node name="ColorRect" type="ColorRect" parent="GameContent" parent_id_path=PackedInt32Array(1692499069) index="0" unique_id=1299782113]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2

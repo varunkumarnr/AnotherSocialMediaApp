@@ -19,36 +19,22 @@ const SETTINGS_PATH = "user://audio_settings.save"
 
 enum MUSICTRACK { 
 	NONE, 
-	MENU, 
-	SOCIAL_FEED, 
-	ARTICLE_READING, 
-	GAME_TENSION, 
-	VICTORY,
-	DEFEAT, 
-	FLAPPY_GUY, 
-	SNAKE, 
-	PAC_MAN, 
-	MINESWEEPER, 
+	TIME_TICKING
 }
 
 var music_library: Dictionary = { 
-	# add all the songs here with their enum keys when I have them, TODO: please remeber 
+	# add all the songs here with their enum keys when I have them, TODO: please remeber
+	MUSICTRACK.TIME_TICKING: "res://sounds/music/time_ticking.ogg" 
 }
 
 enum SFX { 
-	UI_CLICK, 
-	UI_HOVER, 
-	UI_ACCEPT, 
-	UI_BACK, 
-	PLAYER_JUMP, 
-	PLAYER_DEATH, 
-	PLAYER_FLAP, 
-	GAME_WIN,
-	GAME_FAIL, 
-	TIMER_WARNING, 
 	FLAPPY_GUY_POINT,
 	FLAPPY_GUY_HIT, 
 	FLAPPY_GUY_FLAP,  
+	ERORR, 
+	CORRECT, 
+	WRONG, 
+	CLICK
 }
 
 var sfx_library: Dictionary = {
@@ -56,7 +42,11 @@ var sfx_library: Dictionary = {
 	# is life depressing or is it just me... I am going schizo fuck. 
 	SFX.FLAPPY_GUY_POINT: "res://sounds/sfx/point_sound.ogg", 
 	SFX.FLAPPY_GUY_HIT: "res://sounds/sfx/died_flappy_guy.ogg", 
-	SFX.FLAPPY_GUY_FLAP: "res://sounds/sfx/bubble.ogg"
+	SFX.FLAPPY_GUY_FLAP: "res://sounds/sfx/bubble.ogg",
+	SFX.ERORR: "res://sounds/sfx/windows-error.ogg", 
+	SFX.CORRECT: "res://sounds/sfx/correct.ogg",
+	SFX.WRONG: "res://sounds/sfx/wrong.ogg", 
+	SFX.CLICK: "res://sounds/sfx/click.ogg"
 } 
 
 
@@ -113,10 +103,10 @@ func play_music(track: MUSICTRACK, fade_duration: float =1.0 , loop: bool = true
 	next_music_player.stream = music_stream 
 	next_music_player.volume_db = linear_to_db(0.0) # start silent for fade in
 
-	if music_stream is AudioStreamOggVorbis: 
-		next_music_player.loop  = loop 
-	elif music_stream is AudioStreamMP3: 
-		next_music_player.loop = loop
+	if music_stream is AudioStreamOggVorbis:
+		music_stream.loop = loop
+	elif music_stream is AudioStreamMP3:
+		music_stream.loop = loop
 
 	next_music_player.play() 
 

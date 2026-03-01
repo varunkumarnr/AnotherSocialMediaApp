@@ -1,0 +1,7 @@
+[gd_scene format=3 uid="uid://cka3v3nubsmfu"]
+
+[ext_resource type="PackedScene" uid="uid://bb66y5nbliqn0" path="res://scenes/games/mini_game_template.tscn" id="1_m8rgf"]
+[ext_resource type="Script" uid="uid://4vre0jktb8kj" path="res://scripts/minigames/reactiontime/reaction_time.gd" id="2_tjmah"]
+
+[node name="MiniGameTemplate" unique_id=1547774175 instance=ExtResource("1_m8rgf")]
+script = ExtResource("2_tjmah")

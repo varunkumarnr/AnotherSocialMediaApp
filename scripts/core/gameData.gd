@@ -1,10 +1,6 @@
 extends Node 
 
-# enum that stores all the win condtions 
-# POINTS_IN_TIME: score enough to clear challange within the time  failing allowed
-# NO_FAIL: complete challange without failing 
-# NO_FAIL_TIME_LIMIT: complete challange within time without failing
-# COMPLETE: Just complere the challange 
+
 enum WINFACTOR { POINTS_IN_TIME, NO_FAIL, TIME_LIMIT, NO_FAIL_TIME_TIMIT , COMPLETE }
 
 enum DIFFICULTY {EASY, MEDIUM, HARD, VERY_HARD, EXTREMLY_HARD, IMPOSSIBLE}
@@ -45,25 +41,25 @@ func _ready() -> void:
 
 func register_all_games():
     register_game(MiniGameConfig.new(
-        "flappy_guy_normal",
-        "res://scenes/games/flappyGuy/flappy_guy.tscn", 
-        "Flappy Guy", 
-        90.0,
-        true, 
-        WINFACTOR.POINTS_IN_TIME, 
-        7.0, 
+        "virus_game",
+        "res://scenes/games/trollyGames/virus_popup.tscn", 
+        "Virus Game", 
+        120.0,
+        false, 
+        WINFACTOR.NO_FAIL, 
+        0.0, 
         DIFFICULTY.EASY, 
-        CATEGORY.PLATFORMER, 
+        CATEGORY.TROLLY, 
         10.0,
         -1
     ))
     register_game(MiniGameConfig.new(
-        "flappy_guy_normal_1",
-        "res://scenes/games/flappyGuy/flappy_guy_reverse.tscn", 
-        "Flappy Guy", 
-        90.0,
+        "checkbox",
+        "res://scenes/games/trollyGames/checkbox.tscn", 
+        "CheckBox", 
+        60.0,
         true, 
-        WINFACTOR.POINTS_IN_TIME, 
+        WINFACTOR.TIME_LIMIT, 
         5.0, 
         DIFFICULTY.HARD, 
         CATEGORY.PLATFORMER, 
@@ -71,48 +67,49 @@ func register_all_games():
         -1
     ))
     register_game(MiniGameConfig.new(
-        "flappy_guy_normal_2",
-        "res://scenes/games/flappyGuy/flappy_guy.tscn", 
-        "Flappy Guy", 
-        90.0,
+        "shellgame",
+        "res://scenes/games/trollyGames/shellgame.tscn", 
+        "Shell Game", 
+        60.0,
         true, 
-        WINFACTOR.POINTS_IN_TIME, 
+        WINFACTOR.NO_FAIL_TIME_TIMIT, 
         10.0, 
         DIFFICULTY.EASY, 
         CATEGORY.PLATFORMER, 
         10.0
     ))
     register_game(MiniGameConfig.new(
-        "flappy_guy_normal_3",
-        "res://scenes/games/flappyGuy/flappy_guy_reverse.tscn", 
-        "Flappy Guy", 
-        90.0,
+        "whack_a_mole",
+        "res://scenes/games/trollyGames/wack_a_mole.tscn", 
+        "Whack a Mole", 
+        60.0,
         true, 
-        WINFACTOR.POINTS_IN_TIME, 
+        WINFACTOR.NO_FAIL_TIME_TIMIT, 
         8.0, 
         DIFFICULTY.HARD, 
         CATEGORY.PLATFORMER, 
         10.0
     ))
     register_game(MiniGameConfig.new(
-        "flappy_guy_normal_4",
-        "res://scenes/games/flappyGuy/flappy_guy.tscn", 
-        "Flappy Guy", 
-        90.0,
-        true, 
-        WINFACTOR.POINTS_IN_TIME, 
+        "invincible_agree",
+        "res://scenes/games/trollyGames/invincibleAgree.tscn", 
+        "Invinsible Agree", 
+        00.0,
+        false, 
+        WINFACTOR.NO_FAIL, 
         8.0, 
         DIFFICULTY.VERY_HARD, 
         CATEGORY.PLATFORMER, 
-        10.0
+        10.0, 
+        AudioManager.MUSICTRACK.TIME_TICKING
     ))
     register_game(MiniGameConfig.new(
-        "flappy_guy_normal_5",
-        "res://scenes/games/flappyGuy/flappy_guy_reverse.tscn", 
-        "Flappy Guy", 
+        "reaction_time",
+        "res://scenes/games/skillGames/reaction_time.tscn", 
+        "Reaction Time", 
         90.0,
         true, 
-        WINFACTOR.POINTS_IN_TIME, 
+        WINFACTOR.TIME_LIMIT, 
         5.0, 
         DIFFICULTY.EXTREMLY_HARD, 
         CATEGORY.PLATFORMER, 
