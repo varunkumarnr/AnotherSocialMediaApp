@@ -1,24 +1,20 @@
 extends MiniGamesTemplate
 class_name  checkBox
 
-# ── CONFIG ────────────────────────────────────────────────────────────────────
 const ROW_SPEED_SLOW := 140.0
-const ROW_SPEED_SLOW_2: float = 500.0
-const ROW_SPEED_FAST := 600.0
-const ROW_SPEED_FAST_2 := 800
+const ROW_SPEED_SLOW_2: float = 300.0
+const ROW_SPEED_FAST := 400.0
+const ROW_SPEED_FAST_2 := 600
 const CB_SIZE        := 48.0
 
-# ── STATE ─────────────────────────────────────────────────────────────────────
 var checked_state : Array[bool] = []
 
-# Each moving row: {cb: TextureButton, direction, speed, min_x, max_x}
 var moving_rows : Array = []
 
 var popup        : GamePopup
 var agree_btn    : Button
 var ui_canvas    : CanvasLayer
 
-# ── ENTRY POINT ───────────────────────────────────────────────────────────────
 func on_game_started() -> void:
 	play_game_music()
 	add_child(TCBackground.new()) 
@@ -26,15 +22,10 @@ func on_game_started() -> void:
 		checked_state.append(false)
 	_build_popup()
 
-# ── BUILD THE SINGLE POPUP ────────────────────────────────────────────────────
 func _build_popup() -> void:
 	ui_canvas = CanvasLayer.new()
 	ui_canvas.layer = 2
 	add_child(ui_canvas)
-
-	# Config: checkbox_list for row 1, placeholder text rows for rows 2-5
-	# (we'll inject the moving checkboxes manually after configure())
-	# Size the popup to fill most of the viewport width
 	var vp2 : Vector2 = get_viewport().get_visible_rect().size
 	var popup_w : float = clamp(vp2.x - 80.0, 400.0, 900.0)
 
@@ -84,14 +75,7 @@ func _build_popup() -> void:
 	await get_tree().process_frame
 	await get_tree().process_frame
 
-	# ── Inject moving checkboxes into the text rows ───────────────────────────
-	# The content_container children are:
-	#  0 = GridContainer (row1 checkboxes)
-	#  1 = spacer (separator)
-	#  2 = Label "Allow background..."   ← replace with moving CB row
-	#  3 = Label "Enable crash..."
-	#  4 = Label "Share analytics..."
-	#  5 = Label "Opt in..."
+
 	var cc : VBoxContainer = popup.get_node(
 		"Control/CenterContainer/Panel/VBoxContainer/ContentMargin/ContentContainer"
 	)
@@ -103,7 +87,6 @@ func _build_popup() -> void:
 		{idx=8, speed=ROW_SPEED_FAST_2, dir=-1.0},
 	]
 
-	# Replace the 4 placeholder labels (children 2,3,4,5) with moving CB rows
 	for i in range(4):
 		var child_idx : int = 2 + i   # offset past grid + separator
 		var cfg = moving_configs[i]
@@ -144,8 +127,6 @@ func _build_popup() -> void:
 			_refresh_agree()
 		)
 
-		# Store for _process movement
-		# min/max x are relative to the hbox — cb moves within the hbox width
 		moving_rows.append({
 			"cb":        cb,
 			"hbox":      hbox,
@@ -154,7 +135,6 @@ func _build_popup() -> void:
 			"direction": cfg.dir,
 		})
 
-	# Cache agree button reference for styling
 	var bb : HBoxContainer = popup.get_node(
 		"Control/CenterContainer/Panel/VBoxContainer/ButtonMargin/ButtonBar"
 	)
@@ -163,7 +143,6 @@ func _build_popup() -> void:
 			agree_btn = child
 			break
 
-# ── MOVING CHECKBOXES ─────────────────────────────────────────────────────────
 func _process(delta: float) -> void:
 	if not is_game_active or is_game_over:
 		return
@@ -175,7 +154,6 @@ func _process(delta: float) -> void:
 		var cb   : TextureButton  = row["cb"]
 		var hbox : HBoxContainer  = row["hbox"]
 
-		# Travel range = full hbox width minus the checkbox size
 		var hbox_w : float = hbox.size.x
 		var max_x  : float = maxf(0.0, hbox_w - CB_SIZE)
 
@@ -188,13 +166,66 @@ func _process(delta: float) -> void:
 			cb.position.x  = max_x
 			row["direction"] = -1.0
 
-# ── AGREE REFRESH ─────────────────────────────────────────────────────────────
+func _input(event: InputEvent) -> void:
+	var press_pos : Vector2
+	var is_press  : bool = false
+
+	var checked_moving : Array = []
+
+	var all_done := checked_state.all(func(v): return v == true)
+
+	if all_done: return
+	
+
+	if event is InputEventMouseButton:
+		var mb := event as InputEventMouseButton
+		if mb.pressed and mb.button_index == MOUSE_BUTTON_LEFT:
+			press_pos = mb.global_position
+			is_press  = true
+	elif event is InputEventScreenTouch:
+		var st := event as InputEventScreenTouch
+		if st.pressed:
+			press_pos = st.position
+			is_press  = true
+
+	if not is_press: return
+	if is_game_over or not is_game_active: return
+
+
+	for row in moving_rows:
+		var cb : TextureButton = row["cb"]
+		var global_rect        = Rect2(cb.global_position, cb.size)
+		if global_rect.has_point(press_pos):
+			return   
+
+	if get_viewport().is_input_handled():
+		return
+
+	
+	for row in moving_rows:
+		if checked_state[row["index"]]:
+			checked_moving.append(row)
+
+	if checked_moving.is_empty():
+		return 
+
+	var victim = checked_moving.back()
+	var v_idx  : int           = victim["index"]
+	var v_cb   : TextureButton = victim["cb"]
+
+	checked_state[v_idx]  = false
+	v_cb.button_pressed   = false
+	v_cb.texture_normal   = _load_cb_tex(false)
+	v_cb.texture_hover    = _load_cb_tex(false)
+	_refresh_agree()
+
+	
+
 func _refresh_agree() -> void:
 	if agree_btn == null:
 		return
 	var all_done := checked_state.all(func(v): return v == true)
 	agree_btn.disabled = not all_done
-	# Restyle
 	var c : Color = Color(0.18, 0.62, 0.37) if all_done else Color(0.45, 0.45, 0.45)
 	for state in ["normal", "hover", "pressed", "disabled"]:
 		var style := StyleBoxFlat.new()
@@ -213,7 +244,6 @@ func _refresh_agree() -> void:
 	agree_btn.add_theme_color_override("font_disabled_color", Color(0.8, 0.8, 0.8, 0.4))
 	agree_btn.add_theme_font_size_override("font_size", 24)
 
-# ── TEXTURE HELPER ────────────────────────────────────────────────────────────
 func _load_cb_tex(checked: bool) -> Texture2D:
 	var path := "res://assets/ui/Green/Double/check_square_color.png" if checked \
 			else "res://assets/ui/Grey/Double/check_square_color.png"

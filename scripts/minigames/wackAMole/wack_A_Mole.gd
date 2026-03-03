@@ -6,20 +6,19 @@ const GRID_COLS     := 3
 const GRID_ROWS     := 4
 const BUTTON_COUNT  := GRID_COLS * GRID_ROWS  # 12
 
-const SHOW_DURATION := 0.8  # how long agree/disagree buttons stay lit
-const HIDE_DURATION := 0.1   # grey pause between rounds
+const SHOW_DURATION := 0.8 
+const HIDE_DURATION := 0.1  
 const ROUNDS_TO_WIN := 8     
 
 var rng := RandomNumberGenerator.new()
 
-# ── STATE ─────────────────────────────────────────────────────────────────────
 var popup          : GamePopup
 var btn_nodes      : Array = []
 var agrees_clicked : int   = 0
 var round_active   : bool  = false
 var game_running   : bool  = false
+var player_clicked : bool = false
 
-# ── ENTRY POINT ───────────────────────────────────────────────────────────────
 func on_game_started() -> void:
 	rng.randomize()
 	play_game_music()
@@ -28,7 +27,6 @@ func on_game_started() -> void:
 	game_running = true
 	_run_loop()
 
-# ── BUILD POPUP ───────────────────────────────────────────────────────────────
 func _build_popup() -> void:
 	var btn_list : Array = []
 	for i in range(BUTTON_COUNT):
@@ -64,10 +62,9 @@ func _build_popup() -> void:
 	for i in range(BUTTON_COUNT):
 		btn_nodes.append(popup.get_grid_button("slot_%d" % i))
 
-# ── MAIN LOOP ─────────────────────────────────────────────────────────────────
 func _run_loop() -> void:
 	while game_running and not is_game_over:
-		# Pick 3 unique slots: 1 agree + 2 disagree
+		player_clicked = false  
 		var slots : Array = _pick_unique(3)
 
 		_set_slot(slots[0], "AGREE",    "green")
@@ -80,16 +77,18 @@ func _run_loop() -> void:
 		if not game_running or is_game_over:
 			return
 
-		# Player didn't click — hide and go again
 		round_active = false
+		if not player_clicked and agrees_clicked > 0: 
+			agrees_clicked  = agrees_clicked - 1
+			var left : int = ROUNDS_TO_WIN - agrees_clicked
+			popup.title_label.text = "Click AGREE — %d to go!" % left
 		_reset_all()
 		await get_tree().create_timer(HIDE_DURATION).timeout
 
-# ── BUTTON PRESS ──────────────────────────────────────────────────────────────
 func _on_button_pressed(bid: String) -> void:
 	if not round_active or is_game_over:
 		return
-
+	player_clicked = true
 	var slot : int   = int(bid.replace("slot_", ""))
 	var btn  : Button = btn_nodes[slot]
 
