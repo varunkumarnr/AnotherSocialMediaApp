@@ -36,7 +36,6 @@ func _build_popup() -> void:
 	config.show_close_button = false
 	config.popup_margin_top = 0
 	config.content_rows      = [
-		# Row 1: 5 static checkboxes side by side
 		{type = "text", value = "You have to know how to press checkboxs"},
 		{type = "checkbox_list", items = ["", "", "", "", ""], index_offset = 0, columns = 5},
 	]
@@ -47,25 +46,20 @@ func _build_popup() -> void:
 	popup = POPUP_SCENE.instantiate()
 	ui_canvas.add_child(popup)
 
-	# Strip dark overlay — we want the popup visible but not blocking
 	popup.get_node("Control/Overlay").visible = false
 
-	# Apply dynamic width to panel BEFORE configure so layout is correct from start
 	await get_tree().process_frame
 	var pre_panel : Panel = popup.get_node("Control/CenterContainer/Panel")
 	pre_panel.custom_minimum_size = Vector2(popup_w, 100)
 
-	# Keep centered (don't strip the CenterContainer anchors)
 	popup.configure(config)
 
-	# Connect the agree button
 	popup.button_pressed.connect(func(id: String):
 		AudioManager.play_sfx(AudioManager.SFX.CORRECT)
 		if id == "agree":
 			win_game()
 	)
 
-	# Connect static checkbox signals (indices 0-4)
 	popup.checkbox_changed.connect(func(index: int, val: bool):
 		AudioManager.play_sfx(AudioManager.SFX.CLICK)
 		checked_state[index] = val
@@ -88,18 +82,15 @@ func _build_popup() -> void:
 	]
 
 	for i in range(4):
-		var child_idx : int = 2 + i   # offset past grid + separator
+		var child_idx : int = 2 + i  
 		var cfg = moving_configs[i]
 
-		# Remove the placeholder label
 		var old_label : Node = cc.get_child(child_idx)
 		if old_label: 
 			old_label.queue_free()
 
-		# Build a row: HBox with [moving TextureButton] + [label]
 		var hbox := HBoxContainer.new()
 		hbox.add_theme_constant_override("separation", 12)
-		# Height = CB size. Width fills popup panel — gives the CB room to travel
 		hbox.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 		hbox.custom_minimum_size   = Vector2(0, CB_SIZE + 16)
 
@@ -149,7 +140,7 @@ func _process(delta: float) -> void:
 
 	for row in moving_rows:
 		if checked_state[row["index"]]:
-			continue  # freeze once ticked
+			continue
 
 		var cb   : TextureButton  = row["cb"]
 		var hbox : HBoxContainer  = row["hbox"]

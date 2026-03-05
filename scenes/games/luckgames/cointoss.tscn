@@ -1,0 +1,7 @@
+[gd_scene format=3 uid="uid://b7oxtn1a33jqi"]
+
+[ext_resource type="PackedScene" uid="uid://bb66y5nbliqn0" path="res://scenes/games/mini_game_template.tscn" id="1_g3quk"]
+[ext_resource type="Script" uid="uid://ghv6x2ke7til" path="res://scripts/minigames/cointoss/cointoss.gd" id="2_028g0"]
+
+[node name="MiniGameTemplate" unique_id=1547774175 instance=ExtResource("1_g3quk")]
+script = ExtResource("2_028g0")

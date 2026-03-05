@@ -3,7 +3,7 @@ extends CanvasLayer
 
 signal button_pressed(button_id: String)
 signal checkbox_changed(index: int, checked: bool)
-signal grid_button_pressed(button_id: String)       # emitted by button_list buttons
+signal grid_button_pressed(button_id: String) 
 signal closed
 
 const ASSET_PATH = "res://assets/ui/"
@@ -169,7 +169,7 @@ func _add_content_row(row: Dictionary) -> void:
 		"checkbox_list":
 			var items        : Array  = row.get("items", [])
 			var index_offset : int    = row.get("index_offset", 0)
-			var columns      : int    = row.get("columns", items.size())  # optional column wrap
+			var columns      : int    = row.get("columns", items.size()) 
 
 			var grid := GridContainer.new()
 			grid.columns = max(1, columns)
@@ -185,10 +185,9 @@ func _add_content_row(row: Dictionary) -> void:
 				hbox.add_theme_constant_override("separation", 8)
 				hbox.alignment = BoxContainer.ALIGNMENT_CENTER
 
-				# TextureButton as the checkbox
 				var cb := TextureButton.new()
 				cb.toggle_mode         = true
-				cb.button_pressed      = false   # explicitly unchecked on spawn
+				cb.button_pressed      = false  
 				cb.texture_normal      = _load_checkbox_tex(false)
 				cb.texture_pressed     = _load_checkbox_tex(true)
 				cb.texture_hover       = _load_checkbox_tex(false)
@@ -197,7 +196,6 @@ func _add_content_row(row: Dictionary) -> void:
 				cb.stretch_mode        = TextureButton.STRETCH_KEEP_ASPECT_CENTERED
 				cb.ignore_texture_size = true
 
-				# Only add label if text is non-empty
 				if items[i] != "":
 					var lbl := Label.new()
 					lbl.text = items[i]
@@ -212,7 +210,6 @@ func _add_content_row(row: Dictionary) -> void:
 				hbox.add_child(cb)
 				grid.add_child(hbox)
 
-				# Wire up toggle — captures global_idx and cb by value via closure
 				cb.toggled.connect(func(pressed: bool):
 					checkbox_states[global_idx] = pressed
 					cb.texture_normal = _load_checkbox_tex(pressed)
@@ -232,9 +229,106 @@ func _add_content_row(row: Dictionary) -> void:
 			timer_lbl.add_theme_font_size_override("font_size", fsize)
 			timer_lbl.add_theme_color_override("font_color", Color(0.2, 0.2, 0.2))
 			content_container.add_child(timer_lbl)
+			
+		"coin_display":
+			var coin_size : int = row.get("size", 160)
+			var r         : float = coin_size / 2.0
+
+			var wrapper := CenterContainer.new()
+			wrapper.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+			wrapper.custom_minimum_size   = Vector2(0, coin_size + 24)
+			content_container.add_child(wrapper)
+
+			# Use a custom draw Control so we can draw a true circle
+			var coin := Control.new()
+			coin.name                = "CoinFace"
+			coin.custom_minimum_size = Vector2(coin_size, coin_size)
+			coin.set_meta("coin_color", Color(0.94, 0.78, 0.22))
+			coin.set_meta("coin_radius", r)
+
+			# Draw circle via _draw
+			# Instead of scaling the node (which clips), we draw an ellipse
+			# by scaling x-radius only — gives the spinning perspective effect
+			coin.draw.connect(func():
+				var col    : Color = coin.get_meta("coin_color")
+				var rx     : float = coin.get_meta("coin_radius") * coin.get_meta("coin_spin_x", 1.0)
+				var ry     : float = coin.get_meta("coin_radius")
+				var center : Vector2 = Vector2(r, r)
+				# Draw ellipse as polyline fill
+				var pts    : PackedVector2Array = PackedVector2Array()
+				var steps  : int = 48
+				for s in range(steps + 1):
+					var a : float = s * TAU / steps
+					pts.append(center + Vector2(cos(a) * rx, sin(a) * ry))
+				# Outer ring
+				coin.draw_colored_polygon(pts, col.darkened(0.25))
+				# Shrink for inner face
+				var pts2 : PackedVector2Array = PackedVector2Array()
+				for s in range(steps + 1):
+					var a : float = s * TAU / steps
+					pts2.append(center + Vector2(cos(a) * rx * 0.88, sin(a) * ry * 0.88))
+				coin.draw_colored_polygon(pts2, col)
+				# Shine
+				if rx > 4.0:
+					coin.draw_arc(center, min(rx, ry) * 0.65,
+						deg_to_rad(200), deg_to_rad(280), 24,
+						Color(1, 1, 1, 0.28), min(rx, ry) * 0.10)
+			)
+			wrapper.add_child(coin)
+
+			var lbl := Label.new()
+			lbl.name                 = "CoinLabel"
+			lbl.size                 = Vector2(coin_size, coin_size)
+			lbl.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+			lbl.vertical_alignment   = VERTICAL_ALIGNMENT_CENTER
+			lbl.mouse_filter         = Control.MOUSE_FILTER_IGNORE
+			lbl.add_theme_font_override("font", custom_font)
+			lbl.add_theme_font_size_override("font_size", 28)
+			lbl.add_theme_color_override("font_color", Color(0.25, 0.18, 0.02))
+			lbl.text = "TOSS?"
+			coin.add_child(lbl)
+		
+		"progress_icons":
+			var count      : int    = row.get("count", 3)
+			var check_path : String = row.get("check_path", "")
+			var cross_path : String = row.get("cross_path", "")
+			var icon_size  : int    = row.get("icon_size", 72)
+
+			var hbox := HBoxContainer.new()
+			hbox.name                   = "ProgressIconRow"
+			hbox.alignment              = BoxContainer.ALIGNMENT_CENTER
+			hbox.size_flags_horizontal  = Control.SIZE_EXPAND_FILL
+			hbox.add_theme_constant_override("separation", 20)
+			content_container.add_child(hbox)
+
+			for i in range(count):
+				var slot := Control.new()
+				slot.name                = "ProgSlot_%d" % i
+				slot.custom_minimum_size = Vector2(icon_size, icon_size)
+
+				var bg := ColorRect.new()
+				bg.name     = "SlotBG"
+				bg.color    = Color(0.78, 0.78, 0.78, 0.4)
+				bg.size     = Vector2(icon_size, icon_size)
+				slot.add_child(bg)
+
+				var lbl := Label.new()
+				lbl.name                 = "SlotLabel"
+				lbl.size                 = Vector2(icon_size, icon_size)
+				lbl.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+				lbl.vertical_alignment   = VERTICAL_ALIGNMENT_CENTER
+				lbl.add_theme_font_size_override("font_size", int(icon_size * 0.5))
+				lbl.add_theme_color_override("font_color", Color(0.5, 0.5, 0.5))
+				var path : String = "res://assets/ui/Red/Double/star_outline.png"
+				if path != "" and ResourceLoader.exists(path): 
+					_set_slot_texture(slot, path, icon_size)
+
+				slot.set_meta("check_path", check_path)
+				slot.set_meta("cross_path", cross_path)
+				slot.set_meta("icon_size",  icon_size)
+				hbox.add_child(slot)
 
 
-# ── CHECKBOX TEXTURE HELPER ───────────────────────────────────────────────────
 func _load_checkbox_tex(checked: bool) -> Texture2D:
 	var path : String
 	if checked:
@@ -245,10 +339,8 @@ func _load_checkbox_tex(checked: bool) -> Texture2D:
 	if ResourceLoader.exists(path):
 		return load(path)
 
-	# Fallback: coloured square so it never crashes without assets
 	var img := Image.create(40, 40, false, Image.FORMAT_RGBA8)
 	img.fill(Color(0.2, 0.7, 0.3) if checked else Color(0.6, 0.6, 0.6))
-	# Draw a simple border
 	for x in range(40):
 		for y in range(40):
 			if x == 0 or x == 39 or y == 0 or y == 39:
@@ -366,7 +458,6 @@ func _style_grid_button_with_asset(btn: Button, color: String) -> void:
 		btn.add_theme_font_override("font", custom_font)
 		btn.add_theme_font_size_override("font_size", 22)
 	else:
-		# Fallback to flat colour — asset not found
 		_style_button_enabled(btn, color, true)
 
 func _style_button_enabled(btn: Button, color: String, enabled: bool) -> void:
@@ -386,7 +477,6 @@ func _style_button_enabled(btn: Button, color: String, enabled: bool) -> void:
 			"normal":   style.bg_color = display_c
 			"hover":    style.bg_color = display_c.lightened(0.2)
 			"pressed":  style.bg_color = display_c.darkened(0.2)
-			# disabled state uses the ACTUAL colour so it shows even when btn.disabled=true
 			"disabled": style.bg_color = c
 		style.set_corner_radius_all(6)
 		style.content_margin_left   = 16
@@ -431,3 +521,84 @@ func set_bottom_button_disabled(idx: int, disabled: bool) -> void:
 
 func _capitalize(s: String) -> String:
 	return s.substr(0, 1).to_upper() + s.substr(1)
+
+
+func get_coin_face() -> ColorRect:
+	return find_child("CoinFace", true, false) as ColorRect
+
+func get_coin_label() -> Label:
+	return find_child("CoinLabel", true, false) as Label
+
+func set_coin_color(color: Color) -> void:
+	var c := get_coin_face()
+	if c:
+		c.set_meta("coin_color", color)
+		c.queue_redraw()
+
+func set_coin_text(text: String) -> void:
+	var l := get_coin_label()
+	if l: l.text = text
+
+func set_coin_scale(sx: float) -> void:
+	var c := get_coin_face()
+	var l := get_coin_label()
+	if c:
+		c.set_meta("coin_spin_x", sx)
+		c.queue_redraw()
+	if l:
+		l.pivot_offset = l.size / 2.0
+		l.scale        = Vector2(sx, 1.0)
+
+
+func set_progress_icon(idx: int, state: String) -> void:
+	var row := find_child("ProgressIconRow", true, false)
+	if row == null: return
+	var slot := row.get_node_or_null("ProgSlot_%d" % idx) as Control
+	if slot == null: return
+
+	var bg  : ColorRect = slot.get_node_or_null("SlotBG")  as ColorRect
+	var lbl : Label     = slot.get_node_or_null("SlotLabel") as Label
+	var icon_size : int = int(slot.get_meta("icon_size", 72))
+
+	match state:
+		"pass":
+			var path : String = slot.get_meta("check_path", "")
+			if path != "" and ResourceLoader.exists(path):
+				_set_slot_texture(slot, path, icon_size)
+			else:
+				if bg:  bg.color  = Color(0.18, 0.65, 0.35)
+				if lbl: lbl.text  = "✓"
+				if lbl: lbl.add_theme_color_override("font_color", Color(1, 1, 1))
+		"fail":
+			var path : String = slot.get_meta("cross_path", "")
+			if path != "" and ResourceLoader.exists(path):
+				_set_slot_texture(slot, path, icon_size)
+			else:
+				if bg:  bg.color  = Color(0.75, 0.18, 0.18)
+				if lbl: lbl.text  = "✗"
+				if lbl: lbl.add_theme_color_override("font_color", Color(1, 1, 1))
+		_: 
+			var path : String = "res://assets/ui/Red/Double/star_outline.png"
+			if path != "" and ResourceLoader.exists(path): 
+				_set_slot_texture(slot, path, icon_size)
+			else: 
+				if bg:  bg.color  = Color(0.78, 0.78, 0.78, 0.4)
+				if lbl: lbl.text  = "?"
+				if lbl: lbl.add_theme_color_override("font_color", Color(0.5, 0.5, 0.5))
+
+func _set_slot_texture(slot: Control, path: String, icon_size: int) -> void:
+	# Remove old texture if any
+	var old := slot.get_node_or_null("SlotTex")
+	if old: old.queue_free()
+	var tex_rect           := TextureRect.new()
+	tex_rect.name          = "SlotTex"
+	tex_rect.texture       = load(path)
+	tex_rect.size          = Vector2(icon_size, icon_size)
+	tex_rect.expand_mode   = TextureRect.EXPAND_FIT_WIDTH_PROPORTIONAL
+	tex_rect.stretch_mode  = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
+	slot.add_child(tex_rect)
+	# Hide bg/label when texture is shown
+	var bg  := slot.get_node_or_null("SlotBG")   as ColorRect
+	var lbl := slot.get_node_or_null("SlotLabel") as Label
+	if bg:  bg.visible  = false
+	if lbl: lbl.visible = false

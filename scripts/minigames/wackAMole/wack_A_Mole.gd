@@ -1,7 +1,6 @@
 extends MiniGamesTemplate
 class_name WhackGame
 
-# ── CONFIG ────────────────────────────────────────────────────────────────────
 const GRID_COLS     := 3
 const GRID_ROWS     := 4
 const BUTTON_COUNT  := GRID_COLS * GRID_ROWS  # 12
@@ -113,7 +112,6 @@ func _on_button_pressed(bid: String) -> void:
 			await get_tree().create_timer(0.3).timeout
 			fail_game("You clicked DISAGREE!")
 
-# ── HELPERS ───────────────────────────────────────────────────────────────────
 func _set_slot(slot: int, label: String, color: String) -> void:
 	var btn : Button = btn_nodes[slot]
 	btn.text     = label
