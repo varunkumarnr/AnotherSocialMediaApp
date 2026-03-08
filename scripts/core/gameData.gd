@@ -42,12 +42,12 @@ func _ready() -> void:
 func register_all_games():
     register_game(MiniGameConfig.new(
         "virus_game",
-        "res://scenes/games/luckgames/cointoss.tscn", 
+        "res://scenes/games/skillGames/numbersequence.tscn", 
         "Virus Game", 
         120.0,
-        false, 
-        WINFACTOR.NO_FAIL, 
-        0.0, 
+        true, 
+        WINFACTOR.POINTS_IN_TIME, 
+        10.0, 
         DIFFICULTY.EASY, 
         CATEGORY.TROLLY, 
         10.0,
@@ -128,20 +128,20 @@ func register_all_games():
         10.0
     ))
     register_game(MiniGameConfig.new(
-        "flappy_guy_normal_7",
-        "res://scenes/games/flappyGuy/flappy_guy.tscn", 
-        "Flappy Guy", 
-        180.0,
-        true, 
-        WINFACTOR.POINTS_IN_TIME, 
-        15.0, 
-        DIFFICULTY.EASY, 
+        "simon_says",
+        "res://scenes/games/skillGames/simonsays.tscn", 
+        "Simon Says", 
+        0.0,
+        false, 
+        WINFACTOR.NO_FAIL, 
+        0.0, 
+        DIFFICULTY.HARD, 
         CATEGORY.PLATFORMER, 
         10.0
     ))
     register_game(MiniGameConfig.new(
         "flappy_guy_normal_8",
-        "res://scenes/games/flappyGuy/flappy_guy_reverse.tscn", 
+        "res://scenes/games/quizGames/popular_opinon.tscn", 
         "Flappy Guy", 
         120.0,
         true, 
@@ -177,7 +177,7 @@ func register_all_games():
     ))
     register_game(MiniGameConfig.new(
         "flappy_guy_normal_11",
-        "res://scenes/games/flappyGuy/flappy_guy_reverse.tscn", 
+        "res://scenes/games/trollyGames/checkbox.tscn", 
         "Flappy Guy", 
         120.0,
         true, 

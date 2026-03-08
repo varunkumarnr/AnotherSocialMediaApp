@@ -327,6 +327,226 @@ func _add_content_row(row: Dictionary) -> void:
 				slot.set_meta("cross_path", cross_path)
 				slot.set_meta("icon_size",  icon_size)
 				hbox.add_child(slot)
+		"image_grid":
+			var cells     : Array = row.get("cells", [])
+			var cell_size : int   = row.get("cell_size", 140)
+			var cols      : int   = row.get("columns", 2)
+
+			var grid := GridContainer.new()
+			grid.name                   = "ImageGrid"
+			grid.columns                = cols
+			grid.size_flags_horizontal  = Control.SIZE_EXPAND_FILL
+			grid.add_theme_constant_override("h_separation", 12)
+			grid.add_theme_constant_override("v_separation", 12)
+			content_container.add_child(grid)
+
+			for cell_data in cells:
+				var cid   : String = cell_data.get("id",    "cell")
+				var clbl  : String = cell_data.get("label", cid.to_upper())
+				var cimg  : String = cell_data.get("image", "")
+				var ccol  : String = cell_data.get("color", "grey")
+
+				# Outer button — fills cell
+				var btn := Button.new()
+				btn.name                  = "ImgCell_" + cid
+				btn.custom_minimum_size   = Vector2(cell_size, cell_size)
+				btn.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+				btn.clip_contents         = true
+				_style_button_enabled(btn, ccol, true)
+
+				# Image inside button
+				if cimg != "" and ResourceLoader.exists(cimg):
+					var tr := TextureRect.new()
+					tr.texture      = load(cimg)
+					tr.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
+					tr.expand_mode  = TextureRect.EXPAND_FIT_WIDTH_PROPORTIONAL
+					tr.set_anchors_preset(Control.PRESET_FULL_RECT)
+					tr.mouse_filter = Control.MOUSE_FILTER_IGNORE
+					btn.add_child(tr)
+				else:
+					# Placeholder: emoji / letter
+					var ph := Label.new()
+					ph.text                  = clbl[0]
+					ph.set_anchors_preset(Control.PRESET_FULL_RECT)
+					ph.horizontal_alignment  = HORIZONTAL_ALIGNMENT_CENTER
+					ph.vertical_alignment    = VERTICAL_ALIGNMENT_CENTER
+					ph.add_theme_font_size_override("font_size", int(cell_size * 0.35))
+					ph.add_theme_color_override("font_color", Color(1, 1, 1, 0.5))
+					ph.mouse_filter          = Control.MOUSE_FILTER_IGNORE
+					btn.add_child(ph)
+
+				# Label below image — overlaid at bottom
+				var lbl := Label.new()
+				lbl.text                  = clbl
+				lbl.set_anchors_preset(Control.PRESET_BOTTOM_WIDE)
+				lbl.horizontal_alignment  = HORIZONTAL_ALIGNMENT_CENTER
+				lbl.vertical_alignment    = VERTICAL_ALIGNMENT_CENTER
+				lbl.custom_minimum_size   = Vector2(0, 36)
+				lbl.mouse_filter          = Control.MOUSE_FILTER_IGNORE
+				lbl.add_theme_font_override("font", custom_font)
+				lbl.add_theme_font_size_override("font_size", 20)
+				lbl.add_theme_color_override("font_color", Color(1, 1, 1))
+				btn.add_child(lbl)
+
+				btn.pressed.connect(func(): grid_button_pressed.emit(cid))
+				grid.add_child(btn)
+		
+		
+		"big_display":
+			var h : int = row.get("height", 160)
+
+			var panel := PanelContainer.new()
+			panel.name                  = "BigDisplay"
+			panel.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+			panel.custom_minimum_size   = Vector2(0, h)
+
+			var style := StyleBoxFlat.new()
+			style.bg_color = Color(0.08, 0.08, 0.08)
+			style.set_corner_radius_all(12)
+			panel.add_theme_stylebox_override("panel", style)
+
+			# Centre label — big text/symbol
+			var centre_lbl := Label.new()
+			centre_lbl.name                 = "BigDisplayLabel"
+			centre_lbl.set_anchors_preset(Control.PRESET_FULL_RECT)
+			centre_lbl.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+			centre_lbl.vertical_alignment   = VERTICAL_ALIGNMENT_CENTER
+			centre_lbl.add_theme_font_override("font", custom_font)
+			centre_lbl.add_theme_font_size_override("font_size", int(h * 0.38))
+			centre_lbl.add_theme_color_override("font_color", Color(1, 1, 1, 0.92))
+			centre_lbl.text = ""
+			centre_lbl.mouse_filter = Control.MOUSE_FILTER_IGNORE
+			panel.add_child(centre_lbl)
+
+			# Step counter — bottom right
+			var step_lbl := Label.new()
+			step_lbl.name                 = "BigDisplayStep"
+			step_lbl.set_anchors_preset(Control.PRESET_BOTTOM_RIGHT)
+			step_lbl.grow_horizontal      = Control.GROW_DIRECTION_BEGIN
+			step_lbl.grow_vertical        = Control.GROW_DIRECTION_BEGIN
+			step_lbl.offset_left          = -90
+			step_lbl.offset_top           = -36
+			step_lbl.offset_right         = -12
+			step_lbl.offset_bottom        = -8
+			step_lbl.horizontal_alignment = HORIZONTAL_ALIGNMENT_RIGHT
+			step_lbl.add_theme_font_size_override("font_size", 20)
+			step_lbl.add_theme_color_override("font_color", Color(1, 1, 1, 0.5))
+			step_lbl.mouse_filter         = Control.MOUSE_FILTER_IGNORE
+			step_lbl.text = ""
+			panel.add_child(step_lbl)
+
+			content_container.add_child(panel)
+
+		# ── sequence_display ──────────────────────────────────────────────────
+		# A row of N slots that light up one at a time to show the sequence.
+		# Usage: {type = "sequence_display", slots = 10, slot_size = 52}
+		# Control via: show_sequence_item(idx, color, label)
+		#              clear_sequence_display()
+		#              highlight_sequence_slot(idx, active)
+		"sequence_display":
+			var slot_count : int = row.get("slots",     10)
+			var slot_size  : int = row.get("slot_size", 52)
+
+			var wrapper := HBoxContainer.new()
+			wrapper.name                  = "SeqDisplay"
+			wrapper.alignment             = BoxContainer.ALIGNMENT_CENTER
+			wrapper.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+			wrapper.add_theme_constant_override("separation", 6)
+			content_container.add_child(wrapper)
+
+			for i in range(slot_count):
+				var slot := PanelContainer.new()
+				slot.name                = "SeqSlot_%d" % i
+				slot.custom_minimum_size = Vector2(slot_size, slot_size)
+
+				var style := StyleBoxFlat.new()
+				style.bg_color = Color(0.15, 0.15, 0.15)
+				style.set_corner_radius_all(8)
+				style.set_border_width_all(2)
+				style.border_color = Color(0.3, 0.3, 0.3)
+				slot.add_theme_stylebox_override("panel", style)
+
+				var lbl := Label.new()
+				lbl.name                 = "SeqSlotLabel"
+				lbl.set_anchors_preset(Control.PRESET_FULL_RECT)
+				lbl.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+				lbl.vertical_alignment   = VERTICAL_ALIGNMENT_CENTER
+				lbl.add_theme_font_size_override("font_size", int(slot_size * 0.4))
+				lbl.add_theme_color_override("font_color", Color(1, 1, 1))
+				lbl.text = ""
+				slot.add_child(lbl)
+
+				wrapper.add_child(slot)
+
+		# ── input_grid ─────────────────────────────────────────────────────────
+		# An NxN grid of input buttons — for reproducing a sequence.
+		# Usage:
+		#   {
+		#     type    = "input_grid",
+		#     items   = [{id="red", label="", color=Color(1,0,0)}, ...],
+		#     columns = 3,
+		#     btn_size = 110,
+		#   }
+		# Emits grid_button_pressed(id) on press.
+		# Control via: set_input_cell_color(id, Color), flash_input_cell(id, Color, duration)
+		#              set_all_input_cells_disabled(bool)
+		"input_grid":
+			var items    : Array = row.get("items",    [])
+			var columns  : int   = row.get("columns",  3)
+			var btn_size : int   = row.get("btn_size", 110)
+
+			var grid := GridContainer.new()
+			grid.name                  = "InputGrid"
+			grid.columns               = columns
+			grid.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+			grid.size_flags_vertical   = Control.SIZE_SHRINK_BEGIN
+			grid.add_theme_constant_override("h_separation", 10)
+			grid.add_theme_constant_override("v_separation", 10)
+			content_container.add_child(grid)
+
+			for item in items:
+				var iid   : String = item.get("id",    "cell")
+				var ilbl  : String = item.get("label", "")
+				var icolor        = item.get("color",  Color(0.4, 0.4, 0.4))
+
+				var btn := Button.new()
+				btn.name                = "InputCell_" + iid
+				btn.custom_minimum_size = Vector2(btn_size, btn_size)
+				btn.clip_contents       = true
+
+				var style := StyleBoxFlat.new()
+				style.bg_color = icolor if icolor is Color else Color(icolor)
+				style.set_corner_radius_all(10)
+				btn.add_theme_stylebox_override("normal",   style)
+
+				var hover_style := style.duplicate()
+				hover_style.bg_color = style.bg_color.lightened(0.2)
+				btn.add_theme_stylebox_override("hover",    hover_style)
+
+				var press_style := style.duplicate()
+				press_style.bg_color = style.bg_color.darkened(0.2)
+				btn.add_theme_stylebox_override("pressed",  press_style)
+
+				var dis_style := style.duplicate()
+				dis_style.bg_color = Color(0.2, 0.2, 0.2)
+				btn.add_theme_stylebox_override("disabled", dis_style)
+
+				if ilbl != "":
+					var lbl := Label.new()
+					lbl.text                 = ilbl
+					lbl.set_anchors_preset(Control.PRESET_FULL_RECT)
+					lbl.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+					lbl.vertical_alignment   = VERTICAL_ALIGNMENT_CENTER
+					lbl.add_theme_font_override("font", custom_font)
+					lbl.add_theme_font_size_override("font_size", int(btn_size * 0.28))
+					lbl.add_theme_color_override("font_color", Color(1, 1, 1, 0.9))
+					lbl.mouse_filter         = Control.MOUSE_FILTER_IGNORE
+					btn.add_child(lbl)
+
+				btn.pressed.connect(grid_button_pressed.emit.bind(iid))
+				grid.add_child(btn)
+
+		
 
 
 func _load_checkbox_tex(checked: bool) -> Texture2D:
@@ -502,6 +722,20 @@ func set_bottom_button_label(idx: int, label: String) -> void:
 	if idx < children.size():
 		(children[idx] as Button).text = label
 
+func set_bottom_button_label_color(idx: int, color: Color) -> void:
+	var children := button_bar.get_children()
+	if idx < children.size():
+		var btn := children[idx] as Button
+		# Add debug to confirm it's actually being called
+		print("Setting color on: ", btn.text, " to ", color)
+		btn.add_theme_color_override("font_pressed_color", color)
+		
+func set_bottom_button_label_font_size(idx: int, size: int) -> void:
+	var children := button_bar.get_children()
+	if idx < children.size():
+		var btn := children[idx] as Button
+		btn.add_theme_font_size_override("font_size", size)
+
 func set_bottom_button_should_close(idx: int, value: bool) -> void:
 	var children := button_bar.get_children()
 	if idx < children.size():
@@ -518,6 +752,8 @@ func set_bottom_button_disabled(idx: int, disabled: bool) -> void:
 	var children := button_bar.get_children()
 	if idx < children.size():
 		(children[idx] as Button).disabled = disabled
+
+
 
 func _capitalize(s: String) -> String:
 	return s.substr(0, 1).to_upper() + s.substr(1)
@@ -597,8 +833,119 @@ func _set_slot_texture(slot: Control, path: String, icon_size: int) -> void:
 	tex_rect.expand_mode   = TextureRect.EXPAND_FIT_WIDTH_PROPORTIONAL
 	tex_rect.stretch_mode  = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
 	slot.add_child(tex_rect)
-	# Hide bg/label when texture is shown
 	var bg  := slot.get_node_or_null("SlotBG")   as ColorRect
 	var lbl := slot.get_node_or_null("SlotLabel") as Label
 	if bg:  bg.visible  = false
 	if lbl: lbl.visible = false
+
+func get_image_cell(cid: String) -> Button:
+	return find_child("ImgCell_" + cid, true, false) as Button
+
+func set_image_cell_color(cid: String, color: String) -> void:
+	var btn := get_image_cell(cid)
+	if btn:
+		_style_button_enabled(btn, color, not btn.disabled)
+		btn.add_theme_color_override("font_color", Color(1, 1, 1))
+
+func set_image_cell_disabled(cid: String, disabled: bool) -> void:
+	var btn := get_image_cell(cid)
+	if btn: btn.disabled = disabled
+
+func set_all_image_cells_disabled(disabled: bool) -> void:
+	for btn in find_children("ImgCell_*", "Button", true, false):
+		(btn as Button).disabled = disabled
+
+func flash_image_cell(cid: String, color: String, duration: float = 0.3) -> void:
+	var btn := get_image_cell(cid)
+	if not btn: return
+	set_image_cell_color(cid, color)
+	await get_tree().create_timer(duration).timeout
+	set_image_cell_color(cid, "grey")
+
+
+func clear_sequence_display() -> void:
+	var row := find_child("SeqDisplay", true, false)
+	if not row: return
+	for slot in row.get_children():
+		var style := StyleBoxFlat.new()
+		style.bg_color = Color(0.15, 0.15, 0.15)
+		style.set_corner_radius_all(8)
+		style.set_border_width_all(2)
+		style.border_color = Color(0.3, 0.3, 0.3)
+		slot.add_theme_stylebox_override("panel", style)
+		var lbl := slot.get_node_or_null("SeqSlotLabel") as Label
+		if lbl: lbl.text = ""
+
+func show_sequence_slot(idx: int, color: Color, label: String = "") -> void:
+	var row := find_child("SeqDisplay", true, false)
+	if not row: return
+	var slot := row.get_node_or_null("SeqSlot_%d" % idx) as PanelContainer
+	if not slot: return
+	var style := StyleBoxFlat.new()
+	style.bg_color = color
+	style.set_corner_radius_all(8)
+	style.set_border_width_all(3)
+	style.border_color = color.lightened(0.3)
+	slot.add_theme_stylebox_override("panel", style)
+	var lbl := slot.get_node_or_null("SeqSlotLabel") as Label
+	if lbl: lbl.text = label
+
+func pulse_sequence_slot(idx: int, color: Color, label: String = "", duration: float = 0.5) -> void:
+	show_sequence_slot(idx, color, label)
+	await get_tree().create_timer(duration).timeout
+	# Dim it slightly to show it's been "played"
+	var row := find_child("SeqDisplay", true, false)
+	if not row: return
+	var slot := row.get_node_or_null("SeqSlot_%d" % idx) as PanelContainer
+	if not slot: return
+	var style := StyleBoxFlat.new()
+	style.bg_color = color.darkened(0.5)
+	style.set_corner_radius_all(8)
+	style.set_border_width_all(2)
+	style.border_color = color.darkened(0.3)
+	slot.add_theme_stylebox_override("panel", style)
+
+# ── INPUT GRID HELPERS ────────────────────────────────────────────────────────
+func get_input_cell(iid: String) -> Button:
+	return find_child("InputCell_" + iid, true, false) as Button
+
+func set_input_cell_color(iid: String, color: Color) -> void:
+	var btn := get_input_cell(iid)
+	if not btn: return
+	var style := StyleBoxFlat.new()
+	style.bg_color = color
+	style.set_corner_radius_all(10)
+	btn.add_theme_stylebox_override("normal", style)
+	var hover := style.duplicate(); hover.bg_color = color.lightened(0.2)
+	btn.add_theme_stylebox_override("hover", hover)
+	var press := style.duplicate(); press.bg_color = color.darkened(0.2)
+	btn.add_theme_stylebox_override("pressed", press)
+
+func flash_input_cell(iid: String, flash_color: Color, duration: float = 0.25) -> void:
+	var btn := get_input_cell(iid)
+	if not btn: return
+	var orig := (btn.get_theme_stylebox("normal") as StyleBoxFlat).bg_color
+	set_input_cell_color(iid, flash_color)
+	await get_tree().create_timer(duration).timeout
+	set_input_cell_color(iid, orig)
+
+func set_all_input_cells_disabled(disabled: bool) -> void:
+	for btn in find_children("InputCell_*", "Button", true, false):
+		(btn as Button).disabled = disabled
+
+
+func set_big_display(color: Color, label: String, step: int = 0, total: int = 0) -> void:
+	var panel := find_child("BigDisplay", true, false) as PanelContainer
+	if not panel: return
+
+	var style := StyleBoxFlat.new()
+	style.bg_color = color
+	style.set_corner_radius_all(12)
+	panel.add_theme_stylebox_override("panel", style)
+
+	var lbl := panel.get_node_or_null("BigDisplayLabel") as Label
+	if lbl: lbl.text = label
+
+	var step_lbl := panel.get_node_or_null("BigDisplayStep") as Label
+	if step_lbl:
+		step_lbl.text = "%d / %d" % [step, total] if total > 0 else ""

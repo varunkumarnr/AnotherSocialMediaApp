@@ -1,0 +1,7 @@
+[gd_scene format=3 uid="uid://bg1b7olo72xcf"]
+
+[ext_resource type="PackedScene" uid="uid://bb66y5nbliqn0" path="res://scenes/games/mini_game_template.tscn" id="1_e42dw"]
+[ext_resource type="Script" uid="uid://dyir78yxt38kj" path="res://scripts/minigames/simonsays/simonsays.gd" id="2_tm3hf"]
+
+[node name="MiniGameTemplate" unique_id=1547774175 instance=ExtResource("1_e42dw")]
+script = ExtResource("2_tm3hf")

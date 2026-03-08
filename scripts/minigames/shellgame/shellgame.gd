@@ -116,7 +116,7 @@ func _set_colours(revealed: bool) -> void:
 			popup.set_grid_button_color(orig_id, "grey")
 
 # ── SHUFFLE ANIMATION ────────────────────────────────────────────────────────
-const SIMULTANEOUS_SWAPS := 3   
+const SIMULTANEOUS_SWAPS := 2   
 
 func _animate_shuffles() -> void:
 	for _round in range(SHUFFLE_COUNT):

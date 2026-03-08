@@ -7,7 +7,6 @@ extends MiniGamesTemplate
 func _ready():
 	super._ready()
 	
-	# Add a static camera that shows the full world
 	var cam = Camera2D.new()
 	cam.position = Vector2(540, 960)  
 	cam.limit_left = 0

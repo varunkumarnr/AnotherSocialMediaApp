@@ -1,0 +1,412 @@
+[
+    {
+        "question": "Is it called GIF or JIF?",
+        "choices": ["GIF", "JIF"],
+        "percentage": [84, 16]
+    },
+    {
+        "question": "Which came first, chicken or egg?",
+        "choices": ["Chicken", "Egg"],
+        "percentage": [49, 51]
+    },
+    {
+        "question": "Is pineapple on pizza acceptable?",
+        "choices": ["Yes", "No"],
+        "percentage": [35, 65]
+    },
+    {
+        "question": "Pepsi or Coke?",
+        "choices": ["Pepsi", "Coke"],
+        "percentage": [35, 65]
+    },
+    {
+        "question": "Should sandwiches be cut diagonally or straight?",
+        "choices": ["Diagonally", "Straight"],
+        "percentage": [79, 21]
+    },
+    {
+        "question": "Marvel or DC?",
+        "choices": ["Marvel", "DC"],
+        "percentage": [82, 18]
+    },
+    {
+        "question": "Xbox or PlayStation?",
+        "choices": ["Xbox", "PlayStation"],
+        "percentage": [36, 64]
+    },
+    {
+        "question": "Dogs or cats?",
+        "choices": ["Dogs", "Cats"],
+        "percentage": [57, 43]
+    },
+    {
+        "question": "Toilet paper: over or under the roll?",
+        "choices": ["Over", "Under"],
+        "percentage": [57, 43]
+    },
+    {
+        "question": "iPhone or Android?",
+        "choices": ["iPhone", "Android"],
+        "percentage": [65, 35]
+    },
+    {
+        "question": "Coffee or tea?",
+        "choices": ["Coffee", "Tea"],
+        "percentage": [56, 44]
+    },
+    {
+        "question": "Are you a morning person or a night owl?",
+        "choices": ["Morning person", "Night owl"],
+        "percentage": [53, 47]
+    },
+    {
+        "question": "Do you check your phone within 10 minutes of waking up?",
+        "choices": ["Yes", "No"],
+        "percentage": [44, 56]
+    },
+    {
+        "question": "Summer or winter?",
+        "choices": ["Summer", "Winter"],
+        "percentage": [69, 31]
+    },
+    {
+        "question": "Starbucks or Dunkin'?",
+        "choices": ["Starbucks", "Dunkin'"],
+        "percentage": [54, 46]
+    },
+    {
+        "question": "Do you prefer movies or TV shows?",
+        "choices": ["Movies", "TV shows"],
+        "percentage": [40, 60]
+    },
+    {
+        "question": "Beach or mountains?",
+        "choices": ["Beach", "Mountains"],
+        "percentage": [57, 43]
+    },
+    {
+        "question": "Do you prefer texting or calling?",
+        "choices": ["Texting", "Calling"],
+        "percentage": [75, 25]
+    },
+    {
+        "question": "Do you sleep with socks on or off?",
+        "choices": ["Socks on", "Socks off"],
+        "percentage": [44, 56]
+    },
+    {
+        "question": "Is a hot dog a sandwich?",
+        "choices": ["Yes", "No"],
+        "percentage": [31, 69]
+    },
+    {
+        "question": "Do you prefer baths or showers?",
+        "choices": ["Baths", "Showers"],
+        "percentage": [22, 78]
+    },
+    {
+        "question": "Ketchup or mustard?",
+        "choices": ["Ketchup", "Mustard"],
+        "percentage": [67, 33]
+    },
+    {
+        "question": "Do you believe in ghosts?",
+        "choices": ["Yes", "No"],
+        "percentage": [41, 59]
+    },
+    {
+        "question": "Windows or Mac?",
+        "choices": ["Windows", "Mac"],
+        "percentage": [63, 37]
+    },
+    {
+        "question": "Cereal first or milk first?",
+        "choices": ["Cereal first", "Milk first"],
+        "percentage": [83, 17]
+    },
+    {
+        "question": "Night shower or morning shower?",
+        "choices": ["Night", "Morning"],
+        "percentage": [49, 51]
+    },
+    {
+        "question": "Spring or fall?",
+        "choices": ["Spring", "Fall"],
+        "percentage": [36, 64]
+    },
+    {
+        "question": "Do you prefer sweet or salty snacks?",
+        "choices": ["Sweet", "Salty"],
+        "percentage": [38, 62]
+    },
+    {
+        "question": "Do you fold or scrunch toilet paper?",
+        "choices": ["Fold", "Scrunch"],
+        "percentage": [64, 36]
+    },
+    {
+        "question": "Harry Potter or Lord of the Rings?",
+        "choices": ["Harry Potter", "Lord of the Rings"],
+        "percentage": [52, 48]
+    },
+    {
+        "question": "Work from home or in the office?",
+        "choices": ["From home", "In office"],
+        "percentage": [61, 39]
+    },
+    {
+        "question": "Netflix or YouTube?",
+        "choices": ["Netflix", "YouTube"],
+        "percentage": [46, 54]
+    },
+    {
+        "question": "Do you recline your seat on a plane?",
+        "choices": ["Yes", "No"],
+        "percentage": [41, 59]
+    },
+    {
+        "question": "Burgers or pizza?",
+        "choices": ["Burgers", "Pizza"],
+        "percentage": [43, 57]
+    },
+    {
+        "question": "Books or films?",
+        "choices": ["Books", "Films"],
+        "percentage": [37, 63]
+    },
+    {
+        "question": "Do you believe aliens exist?",
+        "choices": ["Yes", "No"],
+        "percentage": [65, 35]
+    },
+    {
+        "question": "Sneakers or boots?",
+        "choices": ["Sneakers", "Boots"],
+        "percentage": [68, 32]
+    },
+    {
+        "question": "City life or country life?",
+        "choices": ["City", "Country"],
+        "percentage": [35, 65]
+    },
+    {
+        "question": "Cooking at home or eating out?",
+        "choices": ["Cooking at home", "Eating out"],
+        "percentage": [55, 45]
+    },
+    {
+        "question": "Cats are smarter than dogs?",
+        "choices": ["Agree", "Disagree"],
+        "percentage": [30, 70]
+    },
+    {
+        "question": "Cold or hot weather?",
+        "choices": ["Cold", "Hot"],
+        "percentage": [42, 58]
+    },
+    {
+        "question": "Physical books or e-books?",
+        "choices": ["Physical books", "E-books"],
+        "percentage": [65, 35]
+    },
+    {
+        "question": "Have you ever peed in a swimming pool?",
+        "choices": ["Yes", "No"],
+        "percentage": [51, 49]
+    },
+    {
+        "question": "Space exploration: worth the money?",
+        "choices": ["Yes", "No"],
+        "percentage": [59, 41]
+    },
+    {
+        "question": "Do you think you're above average intelligence?",
+        "choices": ["Yes", "No"],
+        "percentage": [65, 35]
+    },
+    {
+        "question": "Introvert or extrovert?",
+        "choices": ["Introvert", "Extrovert"],
+        "percentage": [57, 43]
+    },
+    {
+        "question": "Chunky or smooth peanut butter?",
+        "choices": ["Chunky", "Smooth"],
+        "percentage": [37, 63]
+    },
+    {
+        "question": "Could you survive a zombie apocalypse?",
+        "choices": ["Yes", "No"],
+        "percentage": [54, 46]
+    },
+    {
+        "question": "Do you wash your legs in the shower?",
+        "choices": ["Yes", "No"],
+        "percentage": [80, 20]
+    },
+    {
+        "question": "Cake or pie?",
+        "choices": ["Cake", "Pie"],
+        "percentage": [52, 48]
+    },
+    {
+        "question": "Do you believe in God?",
+        "choices": ["Yes", "No"],
+        "percentage": [74, 26]
+    },
+    {
+        "question": "Do you like spicy food?",
+        "choices": ["Yes", "No"],
+        "percentage": [67, 33]
+    },
+    {
+        "question": "Home workout or gym?",
+        "choices": ["Home", "Gym"],
+        "percentage": [53, 47]
+    },
+    {
+        "question": "Do you make your bed every morning?",
+        "choices": ["Yes", "No"],
+        "percentage": [59, 41]
+    },
+    {
+        "question": "Star Wars or Star Trek?",
+        "choices": ["Star Wars", "Star Trek"],
+        "percentage": [74, 26]
+    },
+    {
+        "question": "Do you tip at restaurants?",
+        "choices": ["Yes", "No"],
+        "percentage": [78, 22]
+    },
+    {
+        "question": "Pancakes or waffles?",
+        "choices": ["Pancakes", "Waffles"],
+        "percentage": [48, 52]
+    },
+    {
+        "question": "Do you talk to strangers in an elevator?",
+        "choices": ["Yes", "No"],
+        "percentage": [33, 67]
+    },
+    {
+        "question": "Online shopping or in-store shopping?",
+        "choices": ["Online", "In-store"],
+        "percentage": [62, 38]
+    },
+    {
+        "question": "Do you think you could win a fight against a bear?",
+        "choices": ["Yes", "No"],
+        "percentage": [6, 94]
+    },
+    {
+        "question": "Do you put your phone face down on the table?",
+        "choices": ["Yes", "No"],
+        "percentage": [54, 46]
+    },
+    {
+        "question": "Spotify or Apple Music?",
+        "choices": ["Spotify", "Apple Music"],
+        "percentage": [56, 44]
+    },
+    {
+        "question": "Do you skip the intro on Netflix?",
+        "choices": ["Yes", "No"],
+        "percentage": [72, 28]
+    },
+    {
+        "question": "Breakfast: sweet or savoury?",
+        "choices": ["Sweet", "Savoury"],
+        "percentage": [44, 56]
+    },
+    {
+        "question": "Do you sing in the shower?",
+        "choices": ["Yes", "No"],
+        "percentage": [55, 45]
+    },
+    {
+        "question": "Bottled water or tap water?",
+        "choices": ["Bottled", "Tap"],
+        "percentage": [46, 54]
+    },
+    {
+        "question": "Do you like going to the dentist?",
+        "choices": ["Yes", "No"],
+        "percentage": [19, 81]
+    },
+    {
+        "question": "Crunchy or soft tacos?",
+        "choices": ["Crunchy", "Soft"],
+        "percentage": [38, 62]
+    },
+    {
+        "question": "Do you think you're a good driver?",
+        "choices": ["Yes", "No"],
+        "percentage": [73, 27]
+    },
+    {
+        "question": "Ketchup on scrambled eggs: yes or no?",
+        "choices": ["Yes", "No"],
+        "percentage": [36, 64]
+    },
+    {
+        "question": "Netflix and chill or a night out?",
+        "choices": ["Netflix and chill", "Night out"],
+        "percentage": [58, 42]
+    },
+    {
+        "question": "Do you prefer buying or renting a home?",
+        "choices": ["Buying", "Renting"],
+        "percentage": [72, 28]
+    },
+    {
+        "question": "Cats or dogs: which make better internet content?",
+        "choices": ["Cats", "Dogs"],
+        "percentage": [54, 46]
+    },
+    {
+        "question": "Do you check the comments section?",
+        "choices": ["Yes", "No"],
+        "percentage": [61, 39]
+    },
+    {
+        "question": "Do you prefer dark mode?",
+        "choices": ["Yes", "No"],
+        "percentage": [65, 35]
+    },
+    {
+        "question": "Do you believe in luck?",
+        "choices": ["Yes", "No"],
+        "percentage": [57, 43]
+    },
+    {
+        "question": "Do you prefer silence or background noise when working?",
+        "choices": ["Silence", "Background noise"],
+        "percentage": [44, 56]
+    },
+    {
+        "question": "Would you eat a bug for $1000?",
+        "choices": ["Yes", "No"],
+        "percentage": [63, 37]
+    },
+    {
+        "question": "Chips in your sandwich: yes or no?",
+        "choices": ["Yes", "No"],
+        "percentage": [42, 58]
+    },
+    {
+        "question": "Do you prefer mountains or the sea for a holiday?",
+        "choices": ["Mountains", "Sea"],
+        "percentage": [40, 60]
+    },
+    {
+        "question": "Is cereal a soup?",
+        "choices": ["Yes", "No"],
+        "percentage": [18, 82]
+    },
+    {
+        "question": "Do you think social media has done more harm than good?",
+        "choices": ["Yes", "No"],
+        "percentage": [64, 36]
+    }
+]

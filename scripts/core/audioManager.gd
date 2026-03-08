@@ -34,7 +34,12 @@ enum SFX {
 	ERORR, 
 	CORRECT, 
 	WRONG, 
-	CLICK
+	CLICK,
+	simon_says_up, 
+	simon_says_down,
+	simon_says_jump, 
+	simon_says_sit, 
+	up, down, sit, jump
 }
 
 var sfx_library: Dictionary = {
@@ -46,13 +51,20 @@ var sfx_library: Dictionary = {
 	SFX.ERORR: "res://sounds/sfx/windows-error.ogg", 
 	SFX.CORRECT: "res://sounds/sfx/correct.ogg",
 	SFX.WRONG: "res://sounds/sfx/wrong.ogg", 
-	SFX.CLICK: "res://sounds/sfx/click.ogg"
+	SFX.CLICK: "res://sounds/sfx/click.ogg", 
+	SFX.simon_says_up: "res://sounds/minigames/simonsays/simonsaysup.mp3", 
+	SFX.simon_says_down: "res://sounds/minigames/simonsays/simonsaysdown.mp3",
+	SFX.simon_says_sit: "res://sounds/minigames/simonsays/simonsayssit.mp3",
+	SFX.simon_says_jump: "res://sounds/minigames/simonsays/simonsaysjump.mp3", 
+	SFX.up: "res://sounds/minigames/simonsays/up.mp3", 
+	SFX.down: "res://sounds/minigames/simonsays/down.mp3",
+	SFX.jump: "res://sounds/minigames/simonsays/jump.mp3", 
+	SFX.sit: "res://sounds/minigames/simonsays/sit.mp3"
 } 
 
 
 
 
-# Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	music_player_a = AudioStreamPlayer.new() 
 	music_player_a.name = "MusicPlayerA" 
