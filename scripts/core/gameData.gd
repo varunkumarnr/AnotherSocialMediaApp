@@ -41,8 +41,8 @@ func _ready() -> void:
 
 func register_all_games():
     register_game(MiniGameConfig.new(
-        "flappy_guy_normal_9",
-        "res://scenes/games/skillGames/slots.tscn", 
+        "music_sequence",
+        "res://scenes/games/skillGames/numbersequence.tscn", 
         "Flappy Guy", 
         90.0,
         true, 

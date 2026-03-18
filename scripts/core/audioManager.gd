@@ -40,7 +40,8 @@ enum SFX {
 	simon_says_jump, 
 	simon_says_sit, 
 	up, down, sit, jump, 
-	GUN_SHOT
+	GUN_SHOT, 
+	note_sa, note_re, note_ga, note_ma, note_pa, note_dha, note_ni, note_sa2
 }
 
 var sfx_library: Dictionary = {
@@ -61,7 +62,15 @@ var sfx_library: Dictionary = {
 	SFX.down: "res://sounds/minigames/simonsays/down.mp3",
 	SFX.jump: "res://sounds/minigames/simonsays/jump.mp3", 
 	SFX.sit: "res://sounds/minigames/simonsays/sit.mp3", 
-	SFX.GUN_SHOT: "res://sounds/sfx/gun_shot.mp3"
+	SFX.GUN_SHOT: "res://sounds/sfx/gun_shot.mp3",
+	SFX.note_sa: "res://sounds/sfx/sa.ogg", 
+	SFX.note_re: "res://sounds/sfx/re.ogg",
+	SFX.note_ga: "res://sounds/sfx/ga.ogg",
+	SFX.note_ma: "res://sounds/sfx/ma.ogg", 
+	SFX.note_pa: "res://sounds/sfx/pa.ogg",
+	SFX.note_dha: "res://sounds/sfx/dah.ogg",
+	SFX.note_ni: "res://sounds/sfx/mi.ogg",
+	SFX.note_sa2: "res://sounds/sfx/sa2.ogg"
 } 
 
 

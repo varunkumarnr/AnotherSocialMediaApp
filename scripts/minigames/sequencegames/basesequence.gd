@@ -1,13 +1,13 @@
 extends MiniGamesTemplate
 class_name SequenceGame
 
-const MAX_ROUNDS    := 5   # sequence grows from 1 to this
+var MAX_ROUNDS    := 5   # sequence grows from 1 to this
 const SHOW_SPEED    := 0.6 # seconds per item when showing
-const SHOW_GAP      := 0 # gap between items
-const INPUT_TIMEOUT := 4.0  # seconds player has per item to input (resets each press)
+const SHOW_GAP      := 0 
+const INPUT_TIMEOUT := 4.0  
 
 var popup           : GamePopup
-var sequence        : Array  = []   # full sequence built up over rounds
+var sequence        : Array  = []   
 var input_pos       : int    = 0    
 var accepting_input : bool   = false
 var round_num       : int    = 0
@@ -16,20 +16,18 @@ signal input_received(id: String)
 
 var rng := RandomNumberGenerator.new()
 
-# ── ENTRY ─────────────────────────────────────────────────────────────────────
 func on_game_started() -> void:
 	rng.randomize()
 	play_game_music()
 	add_child(TCBackground.new())
 	await _build_popup()
 	_run_game()
+	MAX_ROUNDS = get_max_rounds()
 
-# ── BUILD POPUP ───────────────────────────────────────────────────────────────
 func _build_popup() -> void:
 	var vp     : Vector2 = get_viewport().get_visible_rect().size
-	# Popup fills almost the full content area
 	var pw : float = vp.x - 60.0
-	var ph : float = vp.y - 160.0   # leave room for top bar
+	var ph : float = vp.y - 160.0  
 
 	var config               := PopupConfig.new()
 	config.title             = "Round 1 — Watch!"
@@ -60,14 +58,12 @@ func _build_popup() -> void:
 	await get_tree().process_frame
 	await get_tree().process_frame
 
-# ── GAME LOOP ─────────────────────────────────────────────────────────────────
 func _run_game() -> void:
 	await get_tree().create_timer(0.8).timeout
 
 	while not is_game_over:
 		round_num += 1
 
-		# Build a completely fresh random sequence of length round_num
 		var items := get_items()
 		sequence.clear()
 		for _i in range(round_num):
@@ -77,32 +73,26 @@ func _run_game() -> void:
 		popup.set_all_input_cells_disabled(true)
 		popup.set_big_display(Color(0.08, 0.08, 0.08), "...", 0, sequence.size())
 
-		# Show the sequence — flash each color on the big display
 		for i in range(sequence.size()):
 			var sid   : String = sequence[i]
 			var col   : Color  = get_item_color(sid)
 			var lbl   : String = get_item_label(sid)
-			# Flash big display
 			popup.set_big_display(col, lbl, i + 1, sequence.size())
-			# Also flash the corresponding input button
 			popup.flash_input_cell(sid, col.lightened(0.3), SHOW_SPEED * 0.8)
 			await get_tree().create_timer(SHOW_SPEED).timeout
 			if is_game_over: return
-			# Brief dark gap between items
 			popup.set_big_display(Color(0.08, 0.08, 0.08), "", i + 1, sequence.size())
 			await get_tree().create_timer(SHOW_GAP).timeout
 			if is_game_over: return
 
 		await on_sequence_shown()
 
-		# Open input
 		popup.title_label.text = "Your turn! %d steps" % sequence.size()
 		popup.set_big_display(Color(0.08, 0.08, 0.08), "?", 0, sequence.size())
 		popup.set_all_input_cells_disabled(false)
 		accepting_input = true
 		input_pos       = 0
 
-		# Wait for player to complete or fail — driven by _on_input via signal
 		var result : String = await _wait_for_round_complete()
 		accepting_input = false
 		popup.set_all_input_cells_disabled(true)
@@ -110,7 +100,6 @@ func _run_game() -> void:
 		if result == "fail":
 			return
 
-		# Round complete
 		if round_num >= MAX_ROUNDS:
 			popup.title_label.text = "Perfect! You completed all %d rounds!" % MAX_ROUNDS
 			await get_tree().create_timer(0.8).timeout
@@ -120,13 +109,11 @@ func _run_game() -> void:
 		popup.title_label.text = "✓ Correct! Get ready for round %d…" % (round_num + 1)
 		await get_tree().create_timer(1.0).timeout
 
-# ── WAIT FOR ROUND ────────────────────────────────────────────────────────────
 signal _round_done(result: String)
 
 func _wait_for_round_complete() -> String:
 	return await _round_done
 
-# ── INPUT HANDLER ─────────────────────────────────────────────────────────────
 func _on_input(bid: String) -> void:
 	if not accepting_input or is_game_over:
 		return
@@ -157,10 +144,6 @@ func _on_input(bid: String) -> void:
 		fail_game("Wrong sequence at step %d!" % (input_pos + 1))
 		_round_done.emit("fail")
 
-# ── OVERRIDABLE INTERFACE ─────────────────────────────────────────────────────
-# Subclasses MUST override get_items() and get_item_color()
-# Everything else is optional.
-
 func get_display_height() -> int:
 	return 160
 
@@ -182,3 +165,6 @@ func get_item_label(_id: String) -> String:
 
 func on_sequence_shown() -> void:
 	pass   # subclass can await audio here
+
+func get_max_rounds() -> int:
+	return 5
