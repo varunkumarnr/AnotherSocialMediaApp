@@ -5,7 +5,7 @@ enum WINFACTOR { POINTS_IN_TIME, NO_FAIL, TIME_LIMIT, NO_FAIL_TIME_TIMIT , COMPL
 
 enum DIFFICULTY {EASY, MEDIUM, HARD, VERY_HARD, EXTREMLY_HARD, IMPOSSIBLE}
 
-enum CATEGORY {PUZZLE, PLATFORMER, LUCK, TROLLY}
+enum CATEGORY {PUZZLE, PLATFORMER, LUCK, TROLLY, SKILL, QUIZ}
 
 class MiniGameConfig: 
     var id: String
@@ -41,27 +41,27 @@ func _ready() -> void:
 
 func register_all_games():
     register_game(MiniGameConfig.new(
-        "music_sequence",
+        "number_sequence",
         "res://scenes/games/skillGames/numbersequence.tscn", 
-        "Flappy Guy", 
+        "Number Sequence", 
         90.0,
-        true, 
-        WINFACTOR.TIME_LIMIT, 
+        false, 
+        WINFACTOR.NO_FAIL, 
         12.0, 
-        DIFFICULTY.VERY_HARD, 
-        CATEGORY.PLATFORMER, 
+        DIFFICULTY.HARD, 
+        CATEGORY.SKILL, 
         10.0
     ))
     register_game(MiniGameConfig.new(
         "checkbox",
-        "res://scenes/games/trollyGames/checkbox.tscn", 
+        "res://scenes/games/skillGames/slots.tscn", 
         "CheckBox", 
         60.0,
         true, 
-        WINFACTOR.TIME_LIMIT, 
+        WINFACTOR.NO_FAIL_TIME_TIMIT, 
         5.0, 
         DIFFICULTY.HARD, 
-        CATEGORY.PLATFORMER, 
+        CATEGORY.SKILL, 
         10.0,
         -1
     ))
@@ -70,12 +70,12 @@ func register_all_games():
         "virus_game",
         "res://scenes/games/shooting/pulsingShooter.tscn", 
         "Virus Game", 
-        1000.0,
-        true, 
-        WINFACTOR.TIME_LIMIT, 
+        120.0,
+        false, 
+        WINFACTOR.NO_FAIL, 
         10.0, 
-        DIFFICULTY.EASY, 
-        CATEGORY.TROLLY, 
+        DIFFICULTY.HARD, 
+        CATEGORY.SKILL, 
         10.0,
         -1
     ))
@@ -89,7 +89,7 @@ func register_all_games():
         WINFACTOR.TIME_LIMIT, 
         5.0, 
         DIFFICULTY.HARD, 
-        CATEGORY.PLATFORMER, 
+        CATEGORY.TROLLY, 
         10.0,
         -1
     ))
@@ -102,7 +102,7 @@ func register_all_games():
         WINFACTOR.NO_FAIL_TIME_TIMIT, 
         10.0, 
         DIFFICULTY.EASY, 
-        CATEGORY.PLATFORMER, 
+        CATEGORY.TROLLY, 
         10.0
     ))
     register_game(MiniGameConfig.new(
@@ -114,7 +114,7 @@ func register_all_games():
         WINFACTOR.NO_FAIL_TIME_TIMIT, 
         8.0, 
         DIFFICULTY.HARD, 
-        CATEGORY.PLATFORMER, 
+        CATEGORY.TROLLY, 
         10.0
     ))
     register_game(MiniGameConfig.new(
@@ -126,7 +126,7 @@ func register_all_games():
         WINFACTOR.NO_FAIL, 
         8.0, 
         DIFFICULTY.VERY_HARD, 
-        CATEGORY.PLATFORMER, 
+        CATEGORY.TROLLY, 
         10.0, 
         AudioManager.MUSICTRACK.TIME_TICKING
     ))
@@ -138,8 +138,8 @@ func register_all_games():
         true, 
         WINFACTOR.TIME_LIMIT, 
         5.0, 
-        DIFFICULTY.EXTREMLY_HARD, 
-        CATEGORY.PLATFORMER, 
+        DIFFICULTY.HARD, 
+        CATEGORY.SKILL, 
         10.0
     ))
     register_game(MiniGameConfig.new(
@@ -150,7 +150,7 @@ func register_all_games():
         false, 
         WINFACTOR.NO_FAIL, 
         12.0, 
-        DIFFICULTY.VERY_HARD, 
+        DIFFICULTY.HARD, 
         CATEGORY.LUCK, 
         10.0
     ))
@@ -163,7 +163,7 @@ func register_all_games():
         WINFACTOR.NO_FAIL, 
         0.0, 
         DIFFICULTY.HARD, 
-        CATEGORY.PLATFORMER, 
+        CATEGORY.SKILL, 
         10.0
     ))
     register_game(MiniGameConfig.new(
@@ -175,19 +175,55 @@ func register_all_games():
         WINFACTOR.POINTS_IN_TIME, 
         12.0, 
         DIFFICULTY.HARD, 
-        CATEGORY.PLATFORMER, 
+        CATEGORY.QUIZ, 
         10.0
     ))
     register_game(MiniGameConfig.new(
-        "flappy_guy_normal_9",
-        "res://scenes/games/skillGames/slots.tscn", 
+        "flappy_guy_normal_8",
+        "res://scenes/games/shooting/shooting.tscn", 
         "Flappy Guy", 
-        90.0,
-        true, 
-        WINFACTOR.TIME_LIMIT, 
+        120.0,
+        false, 
+        WINFACTOR.NO_FAIL, 
         12.0, 
-        DIFFICULTY.VERY_HARD, 
-        CATEGORY.PLATFORMER, 
+        DIFFICULTY.HARD, 
+        CATEGORY.SKILL, 
+        10.0
+    ))
+    register_game(MiniGameConfig.new(
+        "flappy_guy_normal_8",
+        "res://scenes/games/skillGames/musicsequence.tscn", 
+        "Flappy Guy", 
+        120.0,
+        false, 
+        WINFACTOR.NO_FAIL, 
+        12.0, 
+        DIFFICULTY.HARD, 
+        CATEGORY.SKILL, 
+        10.0
+    ))
+    register_game(MiniGameConfig.new(
+        "flappy_guy_normal_8",
+        "res://scenes/games/skillGames/colorsequence.tscn", 
+        "Flappy Guy", 
+        120.0,
+        false, 
+        WINFACTOR.NO_FAIL, 
+        12.0, 
+        DIFFICULTY.HARD, 
+        CATEGORY.SKILL,
+        10.0
+    ))
+    register_game(MiniGameConfig.new(
+        "flappy_guy_normal_8",
+        "res://scenes/games/trollyGames/virus_popup.tscn", 
+        "Flappy Guy", 
+        120.0,
+        false, 
+        WINFACTOR.NO_FAIL, 
+        12.0, 
+        DIFFICULTY.EASY, 
+        CATEGORY.TROLLY, 
         10.0
     ))
     register_game(MiniGameConfig.new(
@@ -197,20 +233,8 @@ func register_all_games():
         120.0,
         true, 
         WINFACTOR.POINTS_IN_TIME, 
-        15.0, 
-        DIFFICULTY.VERY_HARD, 
-        CATEGORY.PLATFORMER, 
-        10.0
-    ))
-    register_game(MiniGameConfig.new(
-        "flappy_guy_normal_11",
-        "res://scenes/games/trollyGames/checkbox.tscn", 
-        "Flappy Guy", 
-        120.0,
-        true, 
-        WINFACTOR.POINTS_IN_TIME, 
         10.0, 
-        DIFFICULTY.EXTREMLY_HARD, 
+        DIFFICULTY.EASY, 
         CATEGORY.PLATFORMER, 
         10.0
     ))
@@ -221,7 +245,7 @@ func register_all_games():
         120.0,
         true, 
         WINFACTOR.POINTS_IN_TIME, 
-        20.0, 
+        10.0, 
         DIFFICULTY.VERY_HARD, 
         CATEGORY.PLATFORMER, 
         10.0
@@ -230,23 +254,11 @@ func register_all_games():
         "flappy_guy_normal_13",
         "res://scenes/games/flappyGuy/flappy_guy_reverse.tscn", 
         "Flappy Guy", 
-        180.0,
+        120.0,
         true, 
         WINFACTOR.POINTS_IN_TIME, 
-        15.0, 
-        DIFFICULTY.EXTREMLY_HARD, 
-        CATEGORY.PLATFORMER, 
-        10.0
-    ))
-    register_game(MiniGameConfig.new(
-        "flappy_guy_normal_14",
-        "res://scenes/games/flappyGuy/flappy_guy.tscn", 
-        "Flappy Guy", 
-        300.0,
-        true, 
-        WINFACTOR.POINTS_IN_TIME, 
-        30.0, 
-        DIFFICULTY.EASY, 
+        8.0, 
+        DIFFICULTY.HARD, 
         CATEGORY.PLATFORMER, 
         10.0
     ))
@@ -254,11 +266,11 @@ func register_all_games():
         "flappy_guy_normal_15",
         "res://scenes/games/flappyGuy/flappy_guy_reverse.tscn", 
         "Flappy Guy", 
-        500.0,
+        120.0,
         true, 
         WINFACTOR.POINTS_IN_TIME, 
-        30.0, 
-        DIFFICULTY.HARD, 
+        10.0, 
+        DIFFICULTY.EXTREMLY_HARD, 
         CATEGORY.PLATFORMER, 
         10.0
     ))
@@ -286,6 +298,6 @@ func get_random_games(count: int, exclude: Array =[]) -> Array:
     for game_id in mini_games: 
         if not exclude.has(game_id):
             available.append(game_id)
-    # available.shuffle()
-    return available.slice(0, min(count,available.size()))
+    available.shuffle()
+    return available.slice(0, 15)
 

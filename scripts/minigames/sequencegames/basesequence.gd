@@ -1,8 +1,8 @@
 extends MiniGamesTemplate
 class_name SequenceGame
 
-var MAX_ROUNDS    := 5   # sequence grows from 1 to this
-const SHOW_SPEED    := 0.6 # seconds per item when showing
+var MAX_ROUNDS    := 5 
+const SHOW_SPEED    := 0.6 
 const SHOW_GAP      := 0 
 const INPUT_TIMEOUT := 4.0  
 
@@ -36,10 +36,8 @@ func _build_popup() -> void:
 	config.popup_width       = 700
 	config.popup_height      = 1200
 	config.content_rows      = [
-		# Big single-color display screen
 		{type = "big_display",   height = get_display_height()},
 		{type = "separator"},
-		# 3x3 grid of square buttons
 		{
 			type     = "input_grid",
 			items    = get_items(),
@@ -122,7 +120,6 @@ func _on_input(bid: String) -> void:
 	var col      : Color  = get_item_color(bid)
 
 	if bid == expected:
-		# Correct
 		popup.flash_input_cell(bid, col.lightened(0.4), 0.15)
 		popup.set_big_display(col, get_item_label(bid), input_pos + 1, sequence.size())
 		AudioManager.play_sfx(AudioManager.SFX.CLICK)
@@ -134,7 +131,6 @@ func _on_input(bid: String) -> void:
 			await get_tree().create_timer(0.4).timeout
 			_round_done.emit("ok")
 	else:
-		# Wrong
 		accepting_input = false
 		popup.flash_input_cell(bid, Color(1, 0.1, 0.1), 0.4)
 		popup.set_big_display(Color(0.85, 0.15, 0.15), "END", input_pos + 1, sequence.size())
@@ -148,7 +144,6 @@ func get_display_height() -> int:
 	return 160
 
 func get_items() -> Array:
-	# Return array of {id, label, color (Color)} dicts
 	return []
 
 func get_columns() -> int:
@@ -164,7 +159,7 @@ func get_item_label(_id: String) -> String:
 	return ""
 
 func on_sequence_shown() -> void:
-	pass   # subclass can await audio here
+	pass   
 
 func get_max_rounds() -> int:
 	return 5
