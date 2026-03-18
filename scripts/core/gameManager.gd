@@ -34,7 +34,6 @@ func generate_game_sequence():
 	print("random_ids",random_ids)
 	for id in random_ids: 
 		game_sequence.append(id)
-		print(id)
 		game_config.append(GameData.get_game_config(id))
 
 func get_current_game_config(): 

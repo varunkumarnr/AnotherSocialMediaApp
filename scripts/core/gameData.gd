@@ -18,7 +18,7 @@ class MiniGameConfig:
     var difficulty: DIFFICULTY
     var category: CATEGORY
     var hidden_weight: float
-    var music_track: int = -1  # Optional music track index for this mini-game
+    var music_track: int = -1
 
     func _init(_id:String, _scene_path: String, _display_name: String, _time_limit: float, _is_timed: bool, _win_factor: WINFACTOR, _success_condition: float, _difficulty: DIFFICULTY, _category: CATEGORY, _hidden_weight: float, _music_track: int = -1):
         id= _id
@@ -42,11 +42,11 @@ func _ready() -> void:
 func register_all_games():
     register_game(MiniGameConfig.new(
         "virus_game",
-        "res://scenes/games/skillGames/numbersequence.tscn", 
+        "res://scenes/games/shooting/shooting.tscn", 
         "Virus Game", 
-        120.0,
+        1000.0,
         true, 
-        WINFACTOR.POINTS_IN_TIME, 
+        WINFACTOR.TIME_LIMIT, 
         10.0, 
         DIFFICULTY.EASY, 
         CATEGORY.TROLLY, 
@@ -153,11 +153,11 @@ func register_all_games():
     ))
     register_game(MiniGameConfig.new(
         "flappy_guy_normal_9",
-        "res://scenes/games/flappyGuy/flappy_guy.tscn", 
+        "res://scenes/games/skillGames/slots.tscn", 
         "Flappy Guy", 
         90.0,
         true, 
-        WINFACTOR.POINTS_IN_TIME, 
+        WINFACTOR.TIME_LIMIT, 
         12.0, 
         DIFFICULTY.VERY_HARD, 
         CATEGORY.PLATFORMER, 

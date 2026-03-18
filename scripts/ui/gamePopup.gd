@@ -546,8 +546,86 @@ func _add_content_row(row: Dictionary) -> void:
 				btn.pressed.connect(grid_button_pressed.emit.bind(iid))
 				grid.add_child(btn)
 
-		
-
+		"slot_reels":
+			var col_count    : int   = row.get("col_count",    3)
+			var symbol_size  : float = row.get("symbol_size",  90.0)
+			var visible_rows : int   = row.get("visible_rows", 3)
+			var window_h     : float = symbol_size * visible_rows
+			var gap          : float = 6.0
+ 
+			var hbox := HBoxContainer.new()
+			hbox.name                  = "ReelContainer"
+			hbox.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+			hbox.add_theme_constant_override("separation", int(gap))
+			content_container.add_child(hbox)
+ 
+			for i in range(col_count):
+				var clip := SubViewportContainer.new()
+				var window := Control.new()
+				window.name              = "Reel_%d" % i
+				window.custom_minimum_size = Vector2(symbol_size, window_h)
+				window.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+				window.clip_contents     = true
+ 
+				var border_rect := ColorRect.new()
+				border_rect.color    = Color(0.92, 0.72, 0.0)
+				border_rect.size     = Vector2(symbol_size, window_h)
+				border_rect.position = Vector2.ZERO
+				border_rect.z_index  = -1
+				window.add_child(border_rect)
+ 
+				var mid_bar := ColorRect.new()
+				mid_bar.name    = "MidBar_%d" % i
+				mid_bar.color   = Color(1.0, 0.92, 0.1, 0.18)
+				mid_bar.size    = Vector2(symbol_size, symbol_size)
+				mid_bar.position = Vector2(0, symbol_size)
+				mid_bar.z_index  = 10
+				mid_bar.mouse_filter = Control.MOUSE_FILTER_IGNORE
+				window.add_child(mid_bar)
+ 
+				hbox.add_child(window)
+	
+		"slot_stops":
+			var col_count : int = row.get("col_count", 3)
+ 
+			var hbox := HBoxContainer.new()
+			hbox.name                  = "StopBtnRow"
+			hbox.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+			hbox.add_theme_constant_override("separation", 6)
+			content_container.add_child(hbox)
+ 
+			var result_lbl := Label.new()
+			result_lbl.name                 = "SlotResultLabel"
+			result_lbl.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+			result_lbl.horizontal_alignment  = HORIZONTAL_ALIGNMENT_CENTER
+			result_lbl.add_theme_font_override("font", custom_font)
+			result_lbl.add_theme_font_size_override("font_size", 22)
+			result_lbl.add_theme_color_override("font_color", Color(0.3, 0.3, 0.3))
+			result_lbl.text = ""
+ 
+			var vbox := VBoxContainer.new()
+			vbox.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+ 
+			var btn_row := HBoxContainer.new()
+			btn_row.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+			btn_row.add_theme_constant_override("separation", 6)
+ 
+			for i in range(col_count):
+				var btn := Button.new()
+				btn.name                  = "StopBtn_%d" % i
+				btn.text                  = "STOP"
+				btn.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+				btn.custom_minimum_size   = Vector2(0, 60)
+				_style_button_enabled(btn, "red", true)
+				btn.add_theme_color_override("font_color", Color(1, 1, 1))
+				btn.add_theme_font_override("font", custom_font)
+				btn.add_theme_font_size_override("font_size", 22)
+				btn_row.add_child(btn)
+ 
+			vbox.add_child(btn_row)
+			vbox.add_child(result_lbl)
+			hbox.add_child(vbox)
+ 
 
 func _load_checkbox_tex(checked: bool) -> Texture2D:
 	var path : String

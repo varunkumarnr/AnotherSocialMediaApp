@@ -12,7 +12,7 @@ const IMG := {
 
 const WINDOW_START  := 2.5
 const WINDOW_END    := 1.8
-const GAME_DURATION := 10.0
+const GAME_DURATION := 60.0
 
 # Emitted by _process when window expires, or by _on_action_pressed immediately
 signal round_done(outcome: String)  # "timeout" | "correct" | "wrong" | "fake_press"

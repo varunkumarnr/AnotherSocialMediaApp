@@ -2,13 +2,13 @@ extends "res://scripts/core/miniGamesTemplate.gd"
 class_name SequenceGame
 
 const MAX_ROUNDS    := 5   # sequence grows from 1 to this
-const SHOW_SPEED    := 1 # seconds per item when showing
-const SHOW_GAP      := 0.1 # gap between items
+const SHOW_SPEED    := 0.6 # seconds per item when showing
+const SHOW_GAP      := 0 # gap between items
 const INPUT_TIMEOUT := 4.0  # seconds player has per item to input (resets each press)
 
 var popup           : GamePopup
 var sequence        : Array  = []   # full sequence built up over rounds
-var input_pos       : int    = 0    # how far through the sequence the player is
+var input_pos       : int    = 0    
 var accepting_input : bool   = false
 var round_num       : int    = 0
 

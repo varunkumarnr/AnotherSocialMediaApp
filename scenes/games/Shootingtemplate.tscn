@@ -1,0 +1,7 @@
+[gd_scene format=3 uid="uid://jiwox5kmgi21"]
+
+[ext_resource type="PackedScene" uid="uid://bb66y5nbliqn0" path="res://scenes/games/mini_game_template.tscn" id="1_b82xx"]
+[ext_resource type="Script" uid="uid://d1pxgvutuef30" path="res://scripts/minigames/shooters/Shootingtemplate.gd" id="2_34cad"]
+
+[node name="MiniGameTemplate" unique_id=1547774175 instance=ExtResource("1_b82xx")]
+script = ExtResource("2_34cad")
