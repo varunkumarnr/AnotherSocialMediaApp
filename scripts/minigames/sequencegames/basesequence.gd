@@ -1,4 +1,4 @@
-extends "res://scripts/core/miniGamesTemplate.gd"
+extends MiniGamesTemplate
 class_name SequenceGame
 
 const MAX_ROUNDS    := 5   # sequence grows from 1 to this

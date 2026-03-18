@@ -41,8 +41,34 @@ func _ready() -> void:
 
 func register_all_games():
     register_game(MiniGameConfig.new(
+        "flappy_guy_normal_9",
+        "res://scenes/games/skillGames/slots.tscn", 
+        "Flappy Guy", 
+        90.0,
+        true, 
+        WINFACTOR.TIME_LIMIT, 
+        12.0, 
+        DIFFICULTY.VERY_HARD, 
+        CATEGORY.PLATFORMER, 
+        10.0
+    ))
+    register_game(MiniGameConfig.new(
+        "checkbox",
+        "res://scenes/games/trollyGames/checkbox.tscn", 
+        "CheckBox", 
+        60.0,
+        true, 
+        WINFACTOR.TIME_LIMIT, 
+        5.0, 
+        DIFFICULTY.HARD, 
+        CATEGORY.PLATFORMER, 
+        10.0,
+        -1
+    ))
+    
+    register_game(MiniGameConfig.new(
         "virus_game",
-        "res://scenes/games/shooting/shooting.tscn", 
+        "res://scenes/games/shooting/pulsingShooter.tscn", 
         "Virus Game", 
         1000.0,
         true, 
@@ -53,6 +79,7 @@ func register_all_games():
         10.0,
         -1
     ))
+    
     register_game(MiniGameConfig.new(
         "checkbox",
         "res://scenes/games/trollyGames/checkbox.tscn", 

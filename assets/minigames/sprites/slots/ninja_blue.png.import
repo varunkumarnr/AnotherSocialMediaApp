@@ -3,15 +3,15 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://djmx3a835uwch"
-path="res://.godot/imported/tileBlue_08.png-6026d189499be333e5a0c1f8345f3e2c.ctex"
+path="res://.godot/imported/ninja_blue.png-664c16ff152dc7313d1c58d4ef2e1d7a.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/minigames/sprites/slots/tileBlue_08.png"
-dest_files=["res://.godot/imported/tileBlue_08.png-6026d189499be333e5a0c1f8345f3e2c.ctex"]
+source_file="res://assets/minigames/sprites/slots/ninja_blue.png"
+dest_files=["res://.godot/imported/ninja_blue.png-664c16ff152dc7313d1c58d4ef2e1d7a.ctex"]
 
 [params]
 

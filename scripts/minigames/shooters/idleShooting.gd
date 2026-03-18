@@ -12,8 +12,8 @@ const MAX_MISSES           := 3
 const DUCK_SIZE            := 160.0
 const TARGET_SIZE          := 150.0
 const DUCK_SPEED_MIN       := 70.0
-const DUCK_SPEED_MAX       := 140.0
-const TARGET_LIFETIME      := 4.0
+const DUCK_SPEED_MAX       := 100.0
+const TARGET_LIFETIME      := 5.0
 const SPAWN_INTERVAL_START := 1.6
 const SPAWN_INTERVAL_MIN   := 0.7
 
@@ -152,8 +152,6 @@ func _build_gun() -> void:
 	)
 	control_layer.add_child(gun_base)
 
-	# ── Rotating barrel ───────────────────────────────────────────────────────
-	# pivot_offset = bottom-centre of barrel node = sits on gun_pivot
 	gun_barrel = Control.new()
 	gun_barrel.size         = Vector2(RW, RH)
 	gun_barrel.position     = Vector2(_gun_pivot.x - RW / 2.0, _gun_pivot.y - RH)
@@ -177,7 +175,6 @@ func _build_gun() -> void:
 	)
 	control_layer.add_child(gun_barrel)
 
-# ── TARGET SPAWNING ───────────────────────────────────────────────────────────
 func _spawn_target() -> void:
 	var is_duck    : bool  = rng.randf() > 0.35
 	var sz         : float = DUCK_SIZE if is_duck else TARGET_SIZE
@@ -337,9 +334,8 @@ func _spawn_shot_fx(pos: Vector2, hit: bool) -> void:
 	tw.tween_method(func(v: float): t = v; fx.queue_redraw(), 0.0, 1.0, 0.35)
 	tw.tween_callback(fx.queue_free)
 
-# ── PROCESS ───────────────────────────────────────────────────────────────────
 func _process(delta: float) -> void:
-	super._process(delta)   # moves crosshair via joystick
+	super._process(delta)   
 	if not game_active or is_game_over: return
 
 	if gun_barrel:
@@ -371,15 +367,12 @@ func _process(delta: float) -> void:
 				alive_list.append(td)
 			continue
 
-		# Move duck
 		if td["is_duck"] and td["vel_x"] != 0.0:
 			td["pos"].x += td["vel_x"] * delta
 			var half : float = td["size"] / 2.0
-			# Keep scale neutral — direction handled in draw via "facing" meta
 			td["node"].scale        = Vector2(1, 1)
 			td["node"].pivot_offset = Vector2.ZERO
 			td["node"].position     = td["pos"] - Vector2(half, half)
-			# Store facing so draw callback can flip texture horizontally
 			td["node"].set_meta("facing", -1 if td["vel_x"] < 0 else 1)
 			td["node"].queue_redraw()
 

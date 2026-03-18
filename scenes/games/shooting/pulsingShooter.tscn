@@ -1,0 +1,7 @@
+[gd_scene format=3 uid="uid://cpaw8fb4533r6"]
+
+[ext_resource type="PackedScene" uid="uid://hvbclgstb5mv" path="res://scenes/games/shooting/shooting.tscn" id="1_ekxd8"]
+[ext_resource type="Script" uid="uid://cbc414iyl7wfo" path="res://scripts/minigames/shooters/pulsingShooter.gd" id="2_oh7ia"]
+
+[node name="MiniGameTemplate" unique_id=1547774175 instance=ExtResource("1_ekxd8")]
+script = ExtResource("2_oh7ia")

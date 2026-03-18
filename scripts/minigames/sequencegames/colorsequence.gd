@@ -1,4 +1,4 @@
-extends "res://scripts/minigames/sequencegames/basesequence.gd"
+extends SequenceGame
 class_name ColorSequenceGame
 
 const COLOR_ITEMS := [

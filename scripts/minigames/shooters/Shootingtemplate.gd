@@ -16,16 +16,14 @@ signal action_fired(position: Vector2)
 signal joystick_moved(direction: Vector2)
 
 # ── CONFIG — override in subclass if needed ───────────────────────────────────
-const CROSSHAIR_SPEED  := 500.0
+const CROSSHAIR_SPEED  := 400.0
 const CROSSHAIR_SIZE   := 90.0
 const JOYSTICK_RADIUS  := 140.0
 const JOYSTICK_KNOB_R  := 50.0
 const ACTION_BTN_SIZE  := 180.0
 
-var game_layer    : CanvasLayer   # subclass adds content here
-var control_layer : CanvasLayer   # crosshair + joystick + action btn
-
-# ── NODES ─────────────────────────────────────────────────────────────────────
+var game_layer    : CanvasLayer   
+var control_layer : CanvasLayer 
 var crosshair_node  : Control
 var joystick_base   : Control
 var joystick_knob   : Control
@@ -50,27 +48,17 @@ func on_game_started() -> void:
 
 	add_child(TCBackground.new()) 
 
-	# Background
-	# var bg := ColorRect.new()
-	# bg.color    = get_background_color()
-	# bg.position = _content_rect.position
-	# bg.size     = _content_rect.size
-	# game_layer.add_child(bg)
-
-	# Controls layer — same space as game, drawn on top
 	control_layer       = CanvasLayer.new()
 	control_layer.layer = 2
 	add_child(control_layer)
 
-	# Let subclass add its content first
 	await build_game_content()
 
-	# Then place controls on top
 	_build_joystick()
 	_build_action_button()
 	_build_crosshair()
 
-	crosshair_pos = _content_rect.get_center()   # stored as centre point
+	crosshair_pos = _content_rect.get_center()  
 
 func _measure_content() -> void:
 	var vp      : Vector2 = get_viewport().get_visible_rect().size
