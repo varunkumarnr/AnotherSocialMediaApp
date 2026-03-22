@@ -30,8 +30,7 @@ func generate_game_sequence():
 	game_sequence.clear()
 	game_config.clear()
 
-	var random_ids = GameData.get_random_games(15)
-	print("random_ids",random_ids)
+	var random_ids = GameData.get_random_games()
 	for id in random_ids: 
 		game_sequence.append(id)
 		game_config.append(GameData.get_game_config(id))

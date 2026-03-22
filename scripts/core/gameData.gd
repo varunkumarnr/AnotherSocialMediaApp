@@ -275,8 +275,6 @@ func register_all_games():
         10.0
     ))
 
-    # TODO: ADD remaning
-
 
 
 func register_game(gameConfig: MiniGameConfig):
@@ -293,7 +291,7 @@ func get_game_config(id: String) -> MiniGameConfig:
 #         available.append(game_id)
 #     return available.slice(0, min(count , available.size()))
 
-func get_random_games(count: int, exclude: Array =[]) -> Array: 
+func get_random_games(exclude: Array =[]) -> Array: 
     var available = []
     for game_id in mini_games: 
         if not exclude.has(game_id):

@@ -2,13 +2,21 @@ extends Node
 class_name MiniGamesTemplate
 
 
-@onready var article_label = $GameUI/MarginContainer/VBoxContainer/TopBar/ArticleLabel
-@onready var timer_label = $GameUI/MarginContainer/VBoxContainer/TopBar/TimerLabel
-@onready var score_label = $GameUI/MarginContainer/VBoxContainer/TopBar/ScoreLabel
-@onready var instructions_label = $GameUI/MarginContainer/VBoxContainer/InstructionsLabel 
-@onready var gameTimer = $Timer 
+@onready var article_label      = $GameUI/TopBar/TopMargin/TopVBox/ArticleLabel
+@onready var timer_label        = $GameUI/BottomBar/BottomMargin/BottomHBox/TimerPanel/TimerMargin/TimerVBox/TimerLabel
+@onready var score_label        = $GameUI/BottomBar/BottomMargin/BottomHBox/ScorePanel/ScoreMargin/ScoreVBox/ScoreLabel
+@onready var instructions_label = $GameUI/InstructionsBar/InstructionsMargin/InstructionsLabel
+@onready var gameTimer          = $Timer
+@onready var vignette_rect      = $GameUI/VignetteRect
+@onready var timer_panel        = $GameUI/BottomBar/BottomMargin/BottomHBox/TimerPanel
+@onready var timer_caption      = $GameUI/BottomBar/BottomMargin/BottomHBox/TimerPanel/TimerMargin/TimerVBox/TimerCaption
+@onready var score_panel        = $GameUI/BottomBar/BottomMargin/BottomHBox/ScorePanel
+@onready var module_caption     = $GameUI/TopBar/TopMargin/TopVBox/ModuleCaption
 
 const POPUP_SCENE = preload("res://scenes/core/gamePopup.tscn")
+const RESULT_SCREEN = preload("res://scenes/core/result_screen.tscn")
+
+const FONT_PATH := "res://assets/fonts/JetBrainsMono-Regular.ttf"
 
 var game_config : GameData.MiniGameConfig = null 
 
@@ -45,16 +53,43 @@ func play_game_music():
 		AudioManager.play_music(game_config.music_track, 1.5, true)
 
 func setup_ui():
-	var article_num = GameManager.current_article_index + 1
-	article_label.text = "Article %d: %s" % [article_num, game_config.display_name]
+	var mono_font: FontFile = null
+	if ResourceLoader.exists("res://assets/fonts/JetBrainsMono-Regular.ttf"):
+		mono_font = load("res://assets/fonts/JetBrainsMono-Regular.ttf")
+
+	var article_num := GameManager.current_article_index + 1
+	module_caption.text = "SUBROUTINE DEPLOYMENT  //  MODULE %02d" % article_num
+	article_label.text  = "MODULE %02d — %s" % [article_num, game_config.display_name.to_upper()]
 	instructions_label.text = get_instructions()
-	
-	var needs_score = game_config.win_factor in [GameData.WINFACTOR.POINTS_IN_TIME]
+
+	if mono_font:
+		for node in [article_label, timer_label, score_label,
+					 instructions_label, module_caption, timer_caption]:
+			if node:
+				node.add_theme_font_override("font", mono_font)
+		var score_caption = score_panel.get_node_or_null(
+			"ScoreMargin/ScoreVBox/ScoreCaption")
+		if score_caption:
+			score_caption.add_theme_font_override("font", mono_font)
+
+	var needs_score := game_config.win_factor in [GameData.WINFACTOR.POINTS_IN_TIME]
+	score_panel.visible = needs_score
 	score_label.visible = needs_score
 	if needs_score:
 		update_score_display()
-	
+
+	timer_panel.visible = game_config.is_timed
 	timer_label.visible = game_config.is_timed
+
+func _find_node_by_name(root: Node, target: String) -> Node:
+	if root.name == target:
+		return root
+	for child in root.get_children():
+		var result = _find_node_by_name(child, target)
+		if result != null:
+			return result
+	return null
+
 
 func get_instructions() -> String: 
 	match game_config.win_factor:
@@ -100,23 +135,53 @@ func _on_timer_tick():
 				fail_game("Times up!")
 
 func update_timer_display():
-	var seconds = int(time_remaining)
-	var deciseconds = int((time_remaining - seconds) * 10)
-	timer_label.text = "⏱️ %d.%d" % [seconds, deciseconds]
-	
-	if time_remaining <= 5.0:
-		timer_label.add_theme_color_override("font_color", Color(1, 0, 0))
-		if int(time_remaining * 2) % 2 == 0:
-			timer_label.scale = Vector2(1.15, 1.15)
-		else:
-			timer_label.scale = Vector2(1.0, 1.0)
-	elif time_remaining <= 10.0:
-		timer_label.add_theme_color_override("font_color", Color(1, 0.6, 0))
-		timer_label.scale = Vector2(1.0, 1.0)
-	else:
-		timer_label.add_theme_color_override("font_color", Color(1, 1, 1))
-		timer_label.scale = Vector2(1.0, 1.0)
+	var s  := int(time_remaining)
+	var ds := int((time_remaining - s) * 10)
+	# Format like mock: 00:44:02
+	var minutes := s / 60
+	var seconds := s % 60
+	timer_label.text = "%02d:%02d:%d" % [minutes, seconds, ds]
 
+	if time_remaining <= 5.0:
+		timer_label.add_theme_color_override("font_color", Color(1.0, 0.1, 0.1))
+		timer_caption.add_theme_color_override("font_color", Color(1.0, 0.1, 0.1))
+		if int(time_remaining * 2) % 2 == 0:
+			timer_label.add_theme_font_size_override("font_size", 86)
+		else:
+			timer_label.add_theme_font_size_override("font_size", 72)
+		var alpha := 0.2 + 0.15 * sin(Time.get_ticks_msec() * 0.006)
+		vignette_rect.color = Color(0.7, 0.0, 0.0, alpha)
+		var sb := StyleBoxFlat.new()
+		sb.bg_color = Color(0.22, 0.02, 0.02, 1)
+		sb.border_color = Color(1, 0.1, 0.1, 1)
+		sb.set_border_width_all(2)
+		sb.set_corner_radius_all(8)
+		timer_panel.add_theme_stylebox_override("panel", sb)
+
+	elif time_remaining <= 10.0:
+		timer_label.add_theme_color_override("font_color", Color(1.0, 0.6, 0.0))
+		timer_caption.add_theme_color_override("font_color", Color(1.0, 0.6, 0.0))
+		timer_label.add_theme_font_size_override("font_size", 72)
+		vignette_rect.color = Color(0.4, 0.2, 0.0, 0.1)
+		var sb := StyleBoxFlat.new()
+		sb.bg_color = Color(0.12, 0.07, 0.0, 1)
+		sb.border_color = Color(1, 0.6, 0, 1)
+		sb.set_border_width_all(2)
+		sb.set_corner_radius_all(8)
+		timer_panel.add_theme_stylebox_override("panel", sb)
+
+	else:
+		timer_label.add_theme_color_override("font_color", Color(0.784, 0.831, 0.910, 1))
+		timer_caption.add_theme_color_override("font_color", Color(0.29, 0.353, 0.439, 1))
+		timer_label.add_theme_font_size_override("font_size", 72)
+		vignette_rect.color = Color(0, 0, 0, 0)
+		var sb := StyleBoxFlat.new()
+		sb.bg_color = Color(0.039, 0.047, 0.063, 1)
+		sb.border_color = Color(0.0, 0.831, 1.0, 1)
+		sb.set_border_width_all(2)
+		sb.set_corner_radius_all(8)
+		timer_panel.add_theme_stylebox_override("panel", sb)
+		
 func add_score(points: float = 1.0):
 	current_score += points
 	update_score_display()
@@ -138,11 +203,16 @@ func register_failure():
 
 # ── POPUP HELPERS ──────────────────────────────────────────────────────────────
 
-func _show_popup(config: PopupConfig) -> void:
-	var popup: GamePopup = POPUP_SCENE.instantiate()
-	add_child(popup)
-	popup.configure(config)
-	popup.button_pressed.connect(_on_popup_button)
+func _show_result_screen(is_win: bool, reason: String = "") -> void:
+	var screen = RESULT_SCREEN.instantiate()
+	add_child(screen)
+	var article_num := GameManager.current_article_index + 1
+	var game_name   := game_config.display_name
+	if is_win:
+		screen.setup_win(article_num, game_name, current_score if game_config.win_factor == GameData.WINFACTOR.POINTS_IN_TIME else -1.0)
+	else:
+		screen.setup_fail(reason, article_num, game_name)
+	screen.button_pressed.connect(_on_popup_button)
 
 func _on_popup_button(button_id: String) -> void:
 	match button_id:
@@ -193,31 +263,26 @@ func _build_win_config() -> PopupConfig:
 
 # ── WIN / FAIL ─────────────────────────────────────────────────────────────────
 
-func win_game(): 
-	if is_game_over: 
-		return 
-
-	is_game_over = true
-	is_game_active = false 
-	gameTimer.stop()
-	on_game_ended()
-
-	await get_tree().create_timer(0.5).timeout
-	_show_popup(_build_win_config())
-
-func fail_game(reason: String = "Failed"):
+func win_game():
 	if is_game_over:
-		return 
-	
+		return
 	is_game_over = true
 	is_game_active = false
 	gameTimer.stop()
 	on_game_ended()
-
-	print("Game failed! Reason: ", reason)
-
 	await get_tree().create_timer(0.5).timeout
-	_show_popup(_build_fail_config(reason))
+	_show_result_screen(true)
+
+func fail_game(reason: String = "Failed"):
+	if is_game_over:
+		return
+	is_game_over = true
+	is_game_active = false
+	gameTimer.stop()
+	on_game_ended()
+	print("Game failed! Reason: ", reason)
+	await get_tree().create_timer(0.5).timeout
+	_show_result_screen(false, reason)
 
 func restart_level(): 
 	get_tree().reload_current_scene()

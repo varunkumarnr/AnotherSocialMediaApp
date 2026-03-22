@@ -1,7 +1,74 @@
 [gd_scene format=3 uid="uid://bqimjxrq237q0"]
 
-[ext_resource type="Texture2D" uid="uid://krb7g2loj53a" path="res://assets/SocialMedia/boy.png" id="1_bjd72"]
 [ext_resource type="Script" uid="uid://c5nyo1o7shhm4" path="res://scripts/ui/login.gd" id="1_luhhu"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_bg"]
+bg_color = Color(0.047, 0.059, 0.078, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_header"]
+bg_color = Color(0.027, 0.035, 0.051, 1)
+border_color = Color(0.0, 0.831, 1.0, 1)
+border_width_bottom = 2
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_field"]
+bg_color = Color(0.082, 0.102, 0.133, 1)
+border_color = Color(0.118, 0.137, 0.176, 1)
+border_width_left = 2
+border_width_right = 2
+border_width_top = 2
+border_width_bottom = 2
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_left = 4
+corner_radius_bottom_right = 4
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_field_focus"]
+bg_color = Color(0.082, 0.102, 0.133, 1)
+border_color = Color(0.0, 0.831, 1.0, 1)
+border_width_left = 2
+border_width_right = 2
+border_width_top = 2
+border_width_bottom = 2
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_left = 4
+corner_radius_bottom_right = 4
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_btn_active"]
+bg_color = Color(0.0, 0.6, 0.9, 1)
+border_color = Color(0.0, 0.831, 1.0, 1)
+border_width_left = 0
+border_width_right = 0
+border_width_top = 0
+border_width_bottom = 0
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_left = 4
+corner_radius_bottom_right = 4
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_btn_disabled"]
+bg_color = Color(0.082, 0.102, 0.133, 1)
+border_color = Color(0.118, 0.137, 0.176, 1)
+border_width_left = 2
+border_width_right = 2
+border_width_top = 2
+border_width_bottom = 2
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_left = 4
+corner_radius_bottom_right = 4
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_warning"]
+bg_color = Color(0.3, 0.04, 0.04, 1)
+border_color = Color(0.8, 0.1, 0.1, 1)
+border_width_left = 4
+border_width_right = 0
+border_width_top = 0
+border_width_bottom = 0
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_left = 4
+corner_radius_bottom_right = 4
 
 [node name="Login" type="PopupPanel" unique_id=2065468010]
 initial_position = 1
@@ -9,105 +76,224 @@ size = Vector2i(800, 1400)
 visible = true
 script = ExtResource("1_luhhu")
 
-[node name="ColorRect" type="ColorRect" parent="." unique_id=1630500216]
+[node name="BgRect" type="ColorRect" parent="." unique_id=1630500216]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-color = Color(0.98039216, 0.98039216, 0.98039216, 1)
+color = Color(0.047, 0.059, 0.078, 1)
 
-[node name="MarginContainer" type="MarginContainer" parent="." unique_id=2066883570]
+[node name="MainVBox" type="VBoxContainer" parent="." unique_id=2042305956]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-theme_override_constants/margin_left = 20
+theme_override_constants/separation = 0
+
+[node name="HeaderPanel" type="Panel" parent="MainVBox" unique_id=3001000001]
+custom_minimum_size = Vector2(0, 120)
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_styles/panel = SubResource("StyleBoxFlat_header")
+
+[node name="HeaderHBox" type="HBoxContainer" parent="MainVBox/HeaderPanel" unique_id=3001000002]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="HeaderMargin" type="MarginContainer" parent="MainVBox/HeaderPanel/HeaderHBox" unique_id=3001000003]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/margin_left = 40
+theme_override_constants/margin_right = 40
 theme_override_constants/margin_top = 20
-theme_override_constants/margin_right = 20
 theme_override_constants/margin_bottom = 20
 
-[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer" unique_id=2042305956]
+[node name="HeaderInner" type="HBoxContainer" parent="MainVBox/HeaderPanel/HeaderHBox/HeaderMargin" unique_id=3001000004]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 16
+
+[node name="ShieldLabel" type="Label" parent="MainVBox/HeaderPanel/HeaderHBox/HeaderMargin/HeaderInner" unique_id=3001000005]
+layout_mode = 2
+size_flags_vertical = 0
+theme_override_colors/font_color = Color(0.0, 0.831, 1.0, 1)
+theme_override_font_sizes/font_size = 48
+text = "🛡"
+
+[node name="StatusVBox" type="VBoxContainer" parent="MainVBox/HeaderPanel/HeaderHBox/HeaderMargin/HeaderInner" unique_id=3001000006]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 0
+theme_override_constants/separation = 4
+
+[node name="SystemStatus" type="Label" parent="MainVBox/HeaderPanel/HeaderHBox/HeaderMargin/HeaderInner/StatusVBox" unique_id=3001000007]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.0, 0.831, 1.0, 1)
+theme_override_font_sizes/font_size = 28
+text = "[SYSTEM_STATUS: NOMINAL]"
+
+[node name="EncryptedLink" type="Label" parent="MainVBox/HeaderPanel/HeaderHBox/HeaderMargin/HeaderInner/StatusVBox" unique_id=3001000008]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.29, 0.353, 0.439, 1)
+theme_override_font_sizes/font_size = 22
+text = "ENCRYPTED_LINK_ESTABLISHED"
+
+[node name="WifiLabel" type="Label" parent="MainVBox/HeaderPanel/HeaderHBox/HeaderMargin/HeaderInner" unique_id=3001000009]
+layout_mode = 2
+size_flags_vertical = 0
+theme_override_colors/font_color = Color(0.0, 0.831, 1.0, 1)
+theme_override_font_sizes/font_size = 36
+text = "((·))"
+
+[node name="ContentMargin" type="MarginContainer" parent="MainVBox" unique_id=3001000010]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
-theme_override_constants/separation = 15
+theme_override_constants/margin_left = 50
+theme_override_constants/margin_right = 50
+theme_override_constants/margin_top = 50
+theme_override_constants/margin_bottom = 50
 
-[node name="CloseButton" type="Button" parent="MarginContainer/VBoxContainer" unique_id=773614717]
-layout_mode = 2
-theme_override_font_sizes/font_size = 50
-text = "LOGIN"
-
-[node name="VSeparator" type="VSeparator" parent="MarginContainer/VBoxContainer" unique_id=616939851]
-custom_minimum_size = Vector2(20, 20)
-layout_mode = 2
-
-[node name="AppLogo" type="TextureRect" parent="MarginContainer/VBoxContainer" unique_id=1156600053]
-custom_minimum_size = Vector2(200, 200)
-layout_mode = 2
-texture = ExtResource("1_bjd72")
-expand_mode = 1
-stretch_mode = 5
-
-[node name="Gametitle" type="Label" parent="MarginContainer/VBoxContainer" unique_id=856775954]
-layout_mode = 2
-theme_override_colors/font_color = Color(0, 0, 0, 1)
-theme_override_font_sizes/font_size = 48
-text = "Another Social Media"
-horizontal_alignment = 1
-
-[node name="Subtitle" type="Label" parent="MarginContainer/VBoxContainer" unique_id=661824862]
-layout_mode = 2
-theme_override_colors/font_color = Color(0, 0, 0, 1)
-theme_override_font_sizes/font_size = 32
-text = "Sign in to continue"
-horizontal_alignment = 1
-
-[node name="VSeparator2" type="VSeparator" parent="MarginContainer/VBoxContainer" unique_id=994840935]
-custom_minimum_size = Vector2(20, 20)
-layout_mode = 2
-
-[node name="UsernameField" type="LineEdit" parent="MarginContainer/VBoxContainer" unique_id=1734653154]
-custom_minimum_size = Vector2(100, 100)
-layout_mode = 2
-theme_override_font_sizes/font_size = 32
-placeholder_text = "Username or email"
-
-[node name="PasswordField" type="LineEdit" parent="MarginContainer/VBoxContainer" unique_id=1091154038]
-custom_minimum_size = Vector2(100, 100)
-layout_mode = 2
-theme_override_font_sizes/font_size = 32
-placeholder_text = "password"
-secret = true
-
-[node name="VSeparator3" type="VSeparator" parent="MarginContainer/VBoxContainer" unique_id=2028334002]
-custom_minimum_size = Vector2(20, 20)
-layout_mode = 2
-
-[node name="TOCContainer" type="HBoxContainer" parent="MarginContainer/VBoxContainer" unique_id=1925402757]
-layout_mode = 2
-
-[node name="TOCCheckbox" type="CheckBox" parent="MarginContainer/VBoxContainer/TOCContainer" unique_id=338661334]
-custom_minimum_size = Vector2(100, 100)
-layout_mode = 2
-theme_override_font_sizes/font_size = 48
-
-[node name="TOCLinkButton" type="Button" parent="MarginContainer/VBoxContainer/TOCContainer" unique_id=290737880]
-layout_mode = 2
-theme_override_font_sizes/font_size = 32
-text = "I agree to the terms & Conditions."
-flat = true
-
-[node name="VSeparator4" type="VSeparator" parent="MarginContainer/VBoxContainer" unique_id=1461706737]
-custom_minimum_size = Vector2(20, 20)
-layout_mode = 2
-
-[node name="LoginButton" type="Button" parent="MarginContainer/VBoxContainer" unique_id=2072462473]
+[node name="ContentVBox" type="VBoxContainer" parent="MainVBox/ContentMargin" unique_id=3001000011]
 layout_mode = 2
 size_flags_horizontal = 3
-theme_override_font_sizes/font_size = 48
+theme_override_constants/separation = 32
+
+[node name="ClearanceLabel" type="Label" parent="MainVBox/ContentMargin/ContentVBox" unique_id=3001000012]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.29, 0.353, 0.439, 1)
+theme_override_font_sizes/font_size = 26
+text = "SECURITY CLEARANCE LEVEL 4"
+
+[node name="TitleLabel" type="Label" parent="MainVBox/ContentMargin/ContentVBox" unique_id=3001000013]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.9, 0.9, 1.0, 1)
+theme_override_font_sizes/font_size = 64
+text = "IDENTITY VERIFICATION REQUIRED"
+autowrap_mode = 2
+
+[node name="ProtocolLabel" type="Label" parent="MainVBox/ContentMargin/ContentVBox" unique_id=3001000014]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.9, 0.2, 0.1, 1)
+theme_override_font_sizes/font_size = 28
+text = "PROTOCOL 09-B: ACCESS DENIED"
+
+[node name="FieldsVBox" type="VBoxContainer" parent="MainVBox/ContentMargin/ContentVBox" unique_id=3001000015]
+layout_mode = 2
+theme_override_constants/separation = 24
+
+[node name="UserIdLabel" type="Label" parent="MainVBox/ContentMargin/ContentVBox/FieldsVBox" unique_id=3001000016]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.478, 0.561, 0.659, 1)
+theme_override_font_sizes/font_size = 26
+text = "USER_ID"
+
+[node name="UsernameField" type="LineEdit" parent="MainVBox/ContentMargin/ContentVBox/FieldsVBox" unique_id=1734653154]
+custom_minimum_size = Vector2(0, 100)
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 32
+theme_override_styles/normal = SubResource("StyleBoxFlat_field")
+theme_override_styles/focus = SubResource("StyleBoxFlat_field_focus")
+theme_override_colors/font_color = Color(0.784, 0.831, 0.910, 1)
+theme_override_colors/font_placeholder_color = Color(0.29, 0.353, 0.439, 1)
+placeholder_text = "ENTER IDENTIFIER"
+
+[node name="SecurityKeyLabel" type="Label" parent="MainVBox/ContentMargin/ContentVBox/FieldsVBox" unique_id=3001000017]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.478, 0.561, 0.659, 1)
+theme_override_font_sizes/font_size = 26
+text = "SECURITY_KEY"
+
+[node name="PasswordField" type="LineEdit" parent="MainVBox/ContentMargin/ContentVBox/FieldsVBox" unique_id=1091154038]
+custom_minimum_size = Vector2(0, 100)
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 32
+theme_override_styles/normal = SubResource("StyleBoxFlat_field")
+theme_override_styles/focus = SubResource("StyleBoxFlat_field_focus")
+theme_override_colors/font_color = Color(0.784, 0.831, 0.910, 1)
+theme_override_colors/font_placeholder_color = Color(0.29, 0.353, 0.439, 1)
+placeholder_text = "••••••••••••"
+secret = true
+secret_character = "•"
+
+[node name="LoginButton" type="Button" parent="MainVBox/ContentMargin/ContentVBox" unique_id=2072462473]
+custom_minimum_size = Vector2(0, 110)
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 40
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_disabled_color = Color(0.29, 0.353, 0.439, 1)
+theme_override_styles/normal = SubResource("StyleBoxFlat_btn_active")
+theme_override_styles/disabled = SubResource("StyleBoxFlat_btn_disabled")
 disabled = true
-text = "Log In"
+text = "INITIATE LOGIN"
+
+[node name="TOCContainer" type="HBoxContainer" parent="MainVBox/ContentMargin/ContentVBox" unique_id=1925402757]
+layout_mode = 2
+theme_override_constants/separation = 16
+
+[node name="TOCCheckbox" type="CheckBox" parent="MainVBox/ContentMargin/ContentVBox/TOCContainer" unique_id=338661334]
+custom_minimum_size = Vector2(60, 60)
+layout_mode = 2
+size_flags_vertical = 0
+theme_override_font_sizes/font_size = 32
+
+[node name="TOCLinkButton" type="Button" parent="MainVBox/ContentMargin/ContentVBox/TOCContainer" unique_id=290737880]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 28
+theme_override_colors/font_color = Color(0.478, 0.561, 0.659, 1)
+text = "I agree to the Terms & Conditions"
+flat = true
+
+[node name="WarningPanel" type="Panel" parent="MainVBox/ContentMargin/ContentVBox" unique_id=3001000018]
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_warning")
+
+[node name="WarningMargin" type="MarginContainer" parent="MainVBox/ContentMargin/ContentVBox/WarningPanel" unique_id=3001000019]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 28
+theme_override_constants/margin_right = 28
+theme_override_constants/margin_top = 24
+theme_override_constants/margin_bottom = 24
+
+[node name="WarningVBox" type="VBoxContainer" parent="MainVBox/ContentMargin/ContentVBox/WarningPanel/WarningMargin" unique_id=3001000020]
+layout_mode = 2
+theme_override_constants/separation = 12
+
+
+[node name="FooterMargin" type="MarginContainer" parent="MainVBox/ContentMargin/ContentVBox" unique_id=3001000023]
+layout_mode = 2
+theme_override_constants/margin_top = 20
+
+[node name="FooterHBox" type="HBoxContainer" parent="MainVBox/ContentMargin/ContentVBox/FooterMargin" unique_id=3001000024]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="NodeLabel" type="Label" parent="MainVBox/ContentMargin/ContentVBox/FooterMargin/FooterHBox" unique_id=3001000025]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_colors/font_color = Color(0.2, 0.25, 0.35, 1)
+theme_override_font_sizes/font_size = 22
+text = "NODE: DX-092-ALPHA"
+
+[node name="TimeLabel" type="Label" parent="MainVBox/ContentMargin/ContentVBox/FooterMargin/FooterHBox" unique_id=3001000026]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.2, 0.25, 0.35, 1)
+theme_override_font_sizes/font_size = 22
+text = "TIME: 00:00:00:000"

@@ -2,185 +2,173 @@ extends PopupPanel
 
 signal popup_closed
 
-@onready var username_field = $MarginContainer/VBoxContainer/UsernameField
-@onready var password_field = $MarginContainer/VBoxContainer/PasswordField
-@onready var toc_checkbox = $MarginContainer/VBoxContainer/TOCContainer/TOCCheckbox
-@onready var toc_link_button = $MarginContainer/VBoxContainer/TOCContainer/TOCLinkButton
-@onready var login_button = $MarginContainer/VBoxContainer/LoginButton
+const FONT_PATH := "res://assets/fonts/JetBrainsMono-Regular.ttf"
+var mono_font: FontFile = null
+
+@onready var username_field  = $MainVBox/ContentMargin/ContentVBox/FieldsVBox/UsernameField
+@onready var password_field  = $MainVBox/ContentMargin/ContentVBox/FieldsVBox/PasswordField
+@onready var toc_checkbox    = $MainVBox/ContentMargin/ContentVBox/TOCContainer/TOCCheckbox
+@onready var toc_link_button = $MainVBox/ContentMargin/ContentVBox/TOCContainer/TOCLinkButton
+@onready var login_button    = $MainVBox/ContentMargin/ContentVBox/LoginButton
+@onready var time_label      = $MainVBox/ContentMargin/ContentVBox/FooterMargin/FooterHBox/TimeLabel
+@onready var protocol_label  = $MainVBox/ContentMargin/ContentVBox/ProtocolLabel
 
 func _ready() -> void:
+	_load_font()
 	setup_popup()
 	setup_ui()
 	setup_checkbox_icons()
 	connect_signals()
-	
 	popup_centered()
-	
 	await get_tree().process_frame
 	username_field.grab_focus()
 
-func setup_popup():
-	borderless = false
-	transient = false  
-	exclusive = true
-	unresizable = true  
-	size = Vector2(800, 800)
-	min_size = Vector2(800, 800)
-	
-	close_requested.connect(_on_close_attempt)  
-	popup_hide.connect(_on_hide_attempt)  
-func setup_ui():
-	
-	username_field.placeholder_text = "Username or email"
-	username_field.custom_minimum_size.y = 100
-	username_field.clear_button_enabled = true
+func _load_font() -> void:
+	if ResourceLoader.exists(FONT_PATH):
+		mono_font = load(FONT_PATH)
+	_apply_font_recursive(self)
 
-	password_field.placeholder_text = "Password"
+func _apply_font_recursive(node: Node) -> void:
+	if mono_font == null:
+		return
+	if node is Label or node is LineEdit or node is Button or node is CheckBox:
+		node.add_theme_font_override("font", mono_font)
+	for child in node.get_children():
+		_apply_font_recursive(child)
+
+func _process(_delta: float) -> void:
+	if time_label:
+		var t := Time.get_time_dict_from_system()
+		var ms := Time.get_ticks_msec() % 1000
+		time_label.text = "TIME: %02d:%02d:%02d:%03d" % [t.hour, t.minute, t.second, ms]
+
+func setup_popup() -> void:
+	borderless = false
+	transient = false
+	exclusive = true
+	unresizable = true
+	size = Vector2(800, 1400)
+	min_size = Vector2(800, 1400)
+	close_requested.connect(_on_close_attempt)
+	popup_hide.connect(_on_hide_attempt)
+
+func setup_ui() -> void:
+	username_field.placeholder_text = "ENTER IDENTIFIER"
+	password_field.placeholder_text = "••••••••••••"
 	password_field.secret = true
 	password_field.secret_character = "•"
-	password_field.custom_minimum_size.y = 100
-
 	toc_link_button.flat = true
-	toc_link_button.text = "I agree to the Terms & Conditions"
-	toc_link_button.alignment = HORIZONTAL_ALIGNMENT_LEFT
-
 	login_button.disabled = true
-	login_button.text = "Log In"
-	login_button.custom_minimum_size.y = 100
+	login_button.text = "INITIATE LOGIN"
 
-func setup_checkbox_icons():
-	toc_checkbox.custom_minimum_size = Vector2(100, 100)
-	
-	var unchecked_icon = create_unchecked_icon()
-	var checked_icon = create_checked_icon()
-	
+func setup_checkbox_icons() -> void:
+	toc_checkbox.custom_minimum_size = Vector2(60, 60)
+	var unchecked_icon = _create_unchecked_icon()
+	var checked_icon   = _create_checked_icon()
 	toc_checkbox.add_theme_icon_override("checked", checked_icon)
 	toc_checkbox.add_theme_icon_override("unchecked", unchecked_icon)
 	toc_checkbox.add_theme_constant_override("h_separation", 12)
-	toc_checkbox.add_theme_font_size_override("font_size", 48)
+	toc_checkbox.add_theme_font_size_override("font_size", 28)
 
-func create_unchecked_icon() -> ImageTexture:
-	var c_size = 100
-	var img = Image.create(c_size, c_size, false, Image.FORMAT_RGBA8)
+func _create_unchecked_icon() -> ImageTexture:
+	var sz = 60
+	var img = Image.create(sz, sz, false, Image.FORMAT_RGBA8)
 	img.fill(Color(0, 0, 0, 0))
-	
-	var border_color = Color(0.4, 0.4, 0.4, 1)
-	var border_width = 6
-	
-	for x in range(c_size):
-		for y in range(c_size):
-			if (x < border_width or x >= c_size - border_width or 
-				y < border_width or y >= c_size - border_width):
+	var border_color = Color(0.29, 0.353, 0.439, 1)
+	var bw = 4
+	for x in range(sz):
+		for y in range(sz):
+			if x < bw or x >= sz - bw or y < bw or y >= sz - bw:
 				img.set_pixel(x, y, border_color)
-	
 	return ImageTexture.create_from_image(img)
 
-func create_checked_icon() -> ImageTexture:
-	var c_size = 100  
-	var img = Image.create(c_size, c_size, false, Image.FORMAT_RGBA8)
-	
-	var fill_color = Color(0.22, 0.59, 0.94, 1)  
-	img.fill(fill_color)
-	
+func _create_checked_icon() -> ImageTexture:
+	var sz = 60
+	var img = Image.create(sz, sz, false, Image.FORMAT_RGBA8)
+	img.fill(Color(0.0, 0.6, 0.9, 1))
 	var check_color = Color(1, 1, 1, 1)
-	
-	for i in range(25):
-		var x = 25 + i
-		var y = 50 + i
-		if x < c_size and y < c_size:
-			for offset in range(-3, 4):
-				if x + offset >= 0 and x + offset < c_size:
-					img.set_pixel(x + offset, y, check_color)
-	
-	for i in range(35):
-		var x = 50 + i
-		var y = 75 - i
-		if x < c_size and y < c_size and y >= 0:
-			for offset in range(-3, 4):
-				if x + offset >= 0 and x + offset < c_size:
-					img.set_pixel(x + offset, y, check_color)
-	
+	for i in range(15):
+		var x = 15 + i
+		var y = 30 + i
+		if x < sz and y < sz:
+			for o in range(-2, 3):
+				if x + o >= 0 and x + o < sz:
+					img.set_pixel(x + o, y, check_color)
+	for i in range(20):
+		var x = 30 + i
+		var y = 45 - i
+		if x < sz and y < sz and y >= 0:
+			for o in range(-2, 3):
+				if x + o >= 0 and x + o < sz:
+					img.set_pixel(x + o, y, check_color)
 	return ImageTexture.create_from_image(img)
 
-func connect_signals():
+func connect_signals() -> void:
 	login_button.pressed.connect(_on_login_pressed)
 	toc_link_button.pressed.connect(_on_toc_link_pressed)
 	toc_checkbox.toggled.connect(_on_toc_toggled)
 	username_field.text_submitted.connect(_try_submit)
 	password_field.text_submitted.connect(_try_submit)
 
-func _on_toc_toggled(is_checked: bool):
+func _on_toc_toggled(is_checked: bool) -> void:
 	login_button.disabled = not is_checked
-	_navigate_to_articles()
-	if is_checked:
-		login_button.modulate = Color(1, 1, 1, 1)
-	else:
-		login_button.modulate = Color(0.6, 0.6, 0.6, 1)
 
-func _on_toc_link_pressed():
+func _on_toc_link_pressed() -> void:
 	_navigate_to_articles()
 
-func _on_login_pressed():
+func _on_login_pressed() -> void:
 	if username_field.text.strip_edges().is_empty():
 		shake_popup()
-		show_error("Please enter a username")
+		_flash_protocol("ERROR: NO IDENTIFIER PROVIDED")
 		username_field.grab_focus()
 		return
-	
 	if password_field.text.is_empty():
 		shake_popup()
-		show_error("Please enter a password")
+		_flash_protocol("ERROR: SECURITY KEY REQUIRED")
 		password_field.grab_focus()
 		return
-	
 	if not toc_checkbox.button_pressed:
 		shake_popup()
-		show_error("Please accept Terms & Conditions")
+		_flash_protocol("ERROR: TERMS NOT ACCEPTED")
 		return
-	
-	login_button.text = "Logging in..."
+	login_button.text = "AUTHENTICATING..."
 	login_button.disabled = true
-	
 	await get_tree().create_timer(0.8).timeout
-	
 	_navigate_to_articles()
 
-func _navigate_to_articles():
+func _flash_protocol(msg: String) -> void:
+	if protocol_label:
+		protocol_label.text = msg
+		protocol_label.add_theme_color_override("font_color", Color(1.0, 0.2, 0.1, 1))
+
+func _navigate_to_articles() -> void:
 	emit_signal("popup_closed")
 	queue_free()
 	get_tree().change_scene_to_file("res://scenes/core/ArticleProgress.tscn")
 
-func _try_submit(_text: String = ""):
+func _try_submit(_text: String = "") -> void:
 	if not login_button.disabled:
 		_on_login_pressed()
 
-func _on_close_attempt():
+func _on_close_attempt() -> void:
 	shake_popup()
-	show_error("You must log in to continue")
+	_flash_protocol("PROTOCOL 09-B: ACCESS DENIED")
 
-func _on_hide_attempt():
+func _on_hide_attempt() -> void:
 	show()
 
-func _input(event: InputEvent):
-	if event.is_action_pressed("ui_cancel"):  
+func _input(event: InputEvent) -> void:
+	if event.is_action_pressed("ui_cancel"):
 		shake_popup()
-		show_error("Nice try! You must log in")
+		_flash_protocol("NICE TRY — ACCESS DENIED")
 		get_viewport().set_input_as_handled()
 
-func shake_popup():
+func shake_popup() -> void:
 	var original_pos = Vector2(position)
-	var shake_amount = 15
-	var shake_duration = 0.05
-	
 	var tween = create_tween()
 	tween.set_ease(Tween.EASE_IN_OUT)
 	tween.set_trans(Tween.TRANS_SINE)
-	
 	for i in range(3):
-		tween.tween_property(self, "position:x", original_pos.x + shake_amount, shake_duration)
-		tween.tween_property(self, "position:x", original_pos.x - shake_amount, shake_duration)
-	
-	tween.tween_property(self, "position", original_pos, shake_duration)
-
-func show_error(message: String):
-	print("Error: ", message)
+		tween.tween_property(self, "position:x", original_pos.x + 15, 0.05)
+		tween.tween_property(self, "position:x", original_pos.x - 15, 0.05)
+	tween.tween_property(self, "position", original_pos, 0.05)

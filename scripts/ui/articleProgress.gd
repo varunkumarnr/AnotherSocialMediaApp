@@ -1,247 +1,263 @@
 extends Control
 
-# References
-@onready var progress_label = $MarginContainer/VBoxContainer/HeaderPanel/VBoxContainer/ProgressLabel
-@onready var article_list = $MarginContainer/VBoxContainer/ArticleScrollContainer/ArticleListContainer
+const COLOR_BG     := Color(0.039, 0.047, 0.063, 1)
+const COLOR_BG2    := Color(0.059, 0.071, 0.094, 1)
+const COLOR_BG3    := Color(0.082, 0.102, 0.133, 1)
+const COLOR_BORDER := Color(0.118, 0.137, 0.176, 1)
+const COLOR_CYAN   := Color(0.0,   0.831, 1.0,   1)
+const COLOR_GREEN  := Color(0.0,   1.0,   0.533, 1)
+const COLOR_RED    := Color(0.9,   0.2,   0.1,   1)
+const COLOR_AMBER  := Color(1.0,   0.67,  0.0,   1)
+const COLOR_MUTED  := Color(0.29,  0.353, 0.439, 1)
+const COLOR_TEXT   := Color(0.784, 0.831, 0.910, 1)
+const COLOR_GHOST  := Color(0.2,   0.25,  0.32,  1)
 
-# Article data (titles and previews)
+const FONT_PATH := "res://assets/fonts/JetBrainsMono-Regular.ttf"
+var mono_font: FontFile = null
+
+@onready var progress_label    = $MainVBox/HeaderPanel/HeaderMargin/HeaderVBox/ProgressHBox/ProgressVBox/ProgressLabel
+@onready var validated_label   = $MainVBox/HeaderPanel/HeaderMargin/HeaderVBox/StatusHBox/ValidatedLabel
+@onready var progress_bar_fill = $MainVBox/HeaderPanel/HeaderMargin/HeaderVBox/ProgressBarBg/ProgressBarFill
+@onready var article_list      = $MainVBox/ArticleScrollContainer/ArticleListContainer
+
 var article_data = [
-	{
-		"number": "1.1",
-		"title": "Data Privacy & Collection",
-		"preview": "By accepting these terms, you acknowledge that we may collect, process, and share your personal information..."
-	},
-	{
-		"number": "2.3",
-		"title": "Cookie Usage Policy",
-		"preview": "We use cookies and similar tracking technologies to enhance your experience and analyze usage patterns..."
-	},
-	{
-		"number": "3.7",
-		"title": "Third-Party Information Sharing",
-		"preview": "Your information may be shared with third-party advertisers, data brokers, and analytics providers..."
-	},
-	{
-		"number": "4.2",
-		"title": "Account Termination Rights",
-		"preview": "We reserve the right to suspend or terminate your account at any time, for any reason, without prior notice..."
-	},
-	{
-		"number": "5.1",
-		"title": "Intellectual Property Clauses",
-		"preview": "All content you create, upload, or share becomes our exclusive property in perpetuity throughout the universe..."
-	},
-	{
-		"number": "6.4",
-		"title": "Binding Arbitration Agreement",
-		"preview": "You waive all rights to participate in class action lawsuits and agree to binding arbitration..."
-	},
-	{
-		"number": "7.8",
-		"title": "Liability Limitations",
-		"preview": "Under no circumstances shall we be liable for any damages, losses, or claims arising from your use..."
-	},
-	{
-		"number": "8.3",
-		"title": "User Content Ownership",
-		"preview": "By posting content, you grant us a worldwide, perpetual, irrevocable license to use, modify, and distribute..."
-	},
-	{
-		"number": "9.2",
-		"title": "GDPR Compliance Standards",
-		"preview": "We comply with GDPR requirements for users in the European Economic Area, subject to our interpretation..."
-	},
-	{
-		"number": "10.5",
-		"title": "CCPA Privacy Rights",
-		"preview": "California residents have specific privacy rights, which may be exercised through our convoluted process..."
-	},
-	{
-		"number": "11.1",
-		"title": "Children's Privacy Protection",
-		"preview": "We do not knowingly collect information from children under 13, but we're not actively verifying ages..."
-	},
-	{
-		"number": "12.6",
-		"title": "Automatic Renewal Terms",
-		"preview": "Your subscription automatically renews unless you cancel 30 days before renewal through hidden settings..."
-	},
-	{
-		"number": "13.3",
-		"title": "Class Action Waiver",
-		"preview": "You agree to resolve all disputes individually and waive your right to participate in class actions..."
-	},
-	{
-		"number": "14.9",
-		"title": "Governing Law & Jurisdiction",
-		"preview": "These terms are governed by the laws of our preferred jurisdiction, regardless of where you reside..."
-	},
-	{
-		"number": "15.0",
-		"title": "Final Agreement & Acceptance",
-		"preview": "By clicking accept, you confirm that you have read, understood, and agree to be bound by all terms..."
-	}
+	{ "number": "01", "title": "SOVEREIGNTY WAIVER",        "tag": "STABLE",        "tag_color": "green",  "subject": "SUBJECT ID: #4401-X" },
+	{ "number": "02", "title": "BIOMETRIC EXTRACTION",      "tag": "CRITICAL RISK", "tag_color": "red",    "subject": "SIGNAL INTERFERENCE DETECTED" },
+	{ "number": "03", "title": "NEURAL SYNCING",            "tag": "LOCKED",        "tag_color": "locked", "subject": "" },
+	{ "number": "04", "title": "COGNITIVE MAPPING",         "tag": "LOCKED",        "tag_color": "locked", "subject": "" },
+	{ "number": "05", "title": "ASSET CATEGORIZATION",      "tag": "LOCKED",        "tag_color": "locked", "subject": "" },
+	{ "number": "06", "title": "MEMORY SANITATION",         "tag": "LOCKED",        "tag_color": "locked", "subject": "" },
+	{ "number": "07", "title": "BEHAVIORAL REFACTORING",    "tag": "LOCKED",        "tag_color": "locked", "subject": "" },
+	{ "number": "08", "title": "LOYALTY IMPRINTING",        "tag": "LOCKED",        "tag_color": "locked", "subject": "" },
+	{ "number": "09", "title": "VISUAL FEED OVERRIDE",      "tag": "LOCKED",        "tag_color": "locked", "subject": "" },
+	{ "number": "10", "title": "DIRECT COMMAND INJECT",     "tag": "LOCKED",        "tag_color": "locked", "subject": "" },
+	{ "number": "11", "title": "AUDITORY FILTERING",        "tag": "LOCKED",        "tag_color": "locked", "subject": "" },
+	{ "number": "12", "title": "SOCIAL BOND TERMINATION",   "tag": "LOCKED",        "tag_color": "locked", "subject": "" },
+	{ "number": "13", "title": "STANDARDIZED RESPONSE",     "tag": "LOCKED",        "tag_color": "locked", "subject": "" },
+	{ "number": "14", "title": "INTERNAL CLOCK SYNC",       "tag": "LOCKED",        "tag_color": "locked", "subject": "" },
+	{ "number": "15", "title": "PHYSICAL COMPLIANCE FINAL", "tag": "LOCKED",        "tag_color": "locked", "subject": "" },
 ]
 
-func _ready():
-	# Initialize game if needed
+func _ready() -> void:
+	_load_font()
 	if GameManager.game_sequence.is_empty():
 		GameManager.start_new_game()
-	
 	generate_article_cards()
 	update_progress_display()
-	
-	# Block escape
 	block_escape()
-	
-	print("📋 ArticleProgress loaded - Article ", GameManager.current_article_index + 1, "/15")
 
-func generate_article_cards():
-	# Clear existing cards
+func _load_font() -> void:
+	if ResourceLoader.exists(FONT_PATH):
+		mono_font = load(FONT_PATH)
+
+func _af(node: Node) -> void:
+	if mono_font == null:
+		return
+	if node is Label or node is Button:
+		node.add_theme_font_override("font", mono_font)
+	for child in node.get_children():
+		_af(child)
+
+func generate_article_cards() -> void:
 	for child in article_list.get_children():
 		child.queue_free()
-	
-	# Create 15 article cards
-	for i in range(15):
-		var card = create_article_card(i)
-		article_list.add_child(card)
+	for i in range(article_data.size()):
+		article_list.add_child(_create_card(i))
+	_af(article_list)
 
-func create_article_card(index: int) -> PanelContainer:
-	var card = PanelContainer.new()
-	card.name = "ArticleCard" + str(index + 1)
-	card.custom_minimum_size = Vector2(1000, 400)
-	
-	# Determine state
-	var is_current = (index == GameManager.current_article_index)
-	var is_completed = (index < GameManager.current_article_index)
-	var is_locked = (index > GameManager.current_article_index)
-	
-	# Styling based on state
-	var style = StyleBoxFlat.new()
-	if is_current:
-		style.bg_color = Color(1, 1, 1, 1)
-		style.border_color = Color(0.22, 0.59, 0.94, 1)  # Blue
-		style.set_border_width_all(4)
-	elif is_completed:
-		style.bg_color = Color(0.9, 1, 0.9, 1)  # Light green
-		style.border_color = Color(0.4, 0.7, 0.4, 1)
-		style.set_border_width_all(2)
-	else:  # locked
-		style.bg_color = Color(0.85, 0.85, 0.85, 0.5)
-		style.border_color = Color(0.6, 0.6, 0.6, 1)
-		style.set_border_width_all(2)
-	
-	style.set_corner_radius_all(12)
-	card.add_theme_stylebox_override("panel", style)
-	
-	# Content container
-	var margin = MarginContainer.new()
-	margin.add_theme_constant_override("margin_left", 25)
-	margin.add_theme_constant_override("margin_right", 25)
-	margin.add_theme_constant_override("margin_top", 25)
-	margin.add_theme_constant_override("margin_bottom", 25)
-	card.add_child(margin)
-	
-	var vbox = VBoxContainer.new()
-	vbox.add_theme_constant_override("separation", 15)
-	margin.add_child(vbox)
-	
-	# Header (Status + Number)
-	var header = HBoxContainer.new()
-	vbox.add_child(header)
-	 
-	# Status icon
-	var status = Label.new()
-	if is_completed:
-		status.text = "✓"
-		status.add_theme_color_override("font_color", Color(0.2, 0.7, 0.2))
+func _create_card(index: int) -> Panel:
+	var data        = article_data[index]
+	var is_current  = (index == GameManager.current_article_index)
+	var is_done     = (index < GameManager.current_article_index)
+	var is_locked   = (index > GameManager.current_article_index)
+	var is_critical = is_current and data["tag_color"] == "red"
+
+	# ── Card ────────────────────────────────────────────────────
+	var card := Panel.new()
+	card.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	card.custom_minimum_size   = Vector2(0, 220)
+
+	var card_sb := StyleBoxFlat.new()
+	card_sb.border_width_bottom = 1
+	card_sb.border_color        = COLOR_BORDER
+	if is_critical:
+		card_sb.bg_color          = Color(0.18, 0.04, 0.04, 1)
+		card_sb.border_color      = COLOR_RED
+		card_sb.border_width_left = 5
 	elif is_current:
-		status.text = "○"
-		status.add_theme_color_override("font_color", Color(0.22, 0.59, 0.94))
+		card_sb.bg_color          = COLOR_BG2
+		card_sb.border_width_left = 5
+		card_sb.border_color      = COLOR_CYAN
+	elif is_done:
+		card_sb.bg_color = COLOR_BG2
 	else:
-		status.text = "🔒"
-		status.add_theme_color_override("font_color", Color(0.5, 0.5, 0.5))
-	status.add_theme_font_size_override("font_size", 36)
-	header.add_child(status)
-	
-	# Article number
-	var number_label = Label.new()
-	number_label.text = "Article " + article_data[index]["number"]
-	number_label.add_theme_font_size_override("font_size", 24)
-	if is_locked:
-		number_label.modulate = Color(0.5, 0.5, 0.5)
-	header.add_child(number_label)
-	
-	# Spacer
-	var spacer = Control.new()
-	spacer.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	header.add_child(spacer)
-	
-	# Title
-	var title = Label.new()
-	title.text = article_data[index]["title"]
-	title.add_theme_font_size_override("font_size", 28)
-	title.autowrap_mode = TextServer.AUTOWRAP_WORD
-	if is_locked:
-		title.modulate = Color(0.5, 0.5, 0.5)
-	vbox.add_child(title)
-	
-	# Preview
-	var preview = Label.new()
-	preview.text = article_data[index]["preview"]
-	preview.autowrap_mode = TextServer.AUTOWRAP_WORD
-	preview.add_theme_font_size_override("font_size", 20)
-	preview.modulate = Color(0.4, 0.4, 0.4)
-	vbox.add_child(preview)
-	
-	# Separator
-	var sep = Control.new()
-	sep.custom_minimum_size.y = 10
-	vbox.add_child(sep)
-	
-	# Button
-	var button = Button.new()
+		card_sb.bg_color = COLOR_BG
+	card.add_theme_stylebox_override("panel", card_sb)
+
+	# ── Margin ──────────────────────────────────────────────────
+	var mc := MarginContainer.new()
+	mc.layout_mode    = 1
+	mc.anchors_preset = Control.PRESET_FULL_RECT
+	mc.add_theme_constant_override("margin_left",   50)
+	mc.add_theme_constant_override("margin_right",  44)
+	mc.add_theme_constant_override("margin_top",    28)
+	mc.add_theme_constant_override("margin_bottom", 28)
+	card.add_child(mc)
+
+	# ── Row ─────────────────────────────────────────────────────
+	var row := HBoxContainer.new()
+	row.add_theme_constant_override("separation", 28)
+	mc.add_child(row)
+
+	# Number
+	var num_lbl := Label.new()
+	num_lbl.text                = data["number"]
+	num_lbl.custom_minimum_size = Vector2(80, 0)
+	num_lbl.vertical_alignment  = VERTICAL_ALIGNMENT_CENTER
+	num_lbl.add_theme_font_size_override("font_size", 48)
+	num_lbl.add_theme_color_override("font_color",
+		COLOR_GHOST if is_locked else (COLOR_MUTED if is_done else COLOR_TEXT))
+	row.add_child(num_lbl)
+
+	# Accent bar for current card only
 	if is_current:
-		button.text = "Review Article →"
-		button.disabled = false
-		button.pressed.connect(_on_view_article.bind(index))
-	elif is_completed:
-		button.text = "✓ Completed"
-		button.disabled = true
+		var bar := ColorRect.new()
+		bar.custom_minimum_size = Vector2(5, 0)
+		bar.size_flags_vertical = Control.SIZE_EXPAND_FILL
+		bar.color = COLOR_RED if is_critical else COLOR_CYAN
+		row.add_child(bar)
+
+	# Content vbox
+	var vb := VBoxContainer.new()
+	vb.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	vb.add_theme_constant_override("separation", 10)
+	row.add_child(vb)
+
+	# Title
+	var title_lbl := Label.new()
+	title_lbl.text          = data["title"]
+	title_lbl.autowrap_mode = TextServer.AUTOWRAP_WORD
+	title_lbl.add_theme_font_size_override("font_size", 40)
+	title_lbl.add_theme_color_override("font_color",
+		COLOR_GHOST if is_locked else (COLOR_MUTED if is_done else COLOR_TEXT))
+	vb.add_child(title_lbl)
+
+	# ── Tag row — status-driven ──────────────────────────────────
+	# Determine what tag and color to actually show
+	var show_tag: String
+	var show_tag_color: String
+	var show_subject: String = ""
+
+	if is_done:
+		show_tag       = "COMPLETED"
+		show_tag_color = "green"
+	elif is_current:
+		# Use the flavour tag from article_data
+		show_tag       = data["tag"]
+		show_tag_color = data["tag_color"]
+		show_subject   = data["subject"]
 	else:
-		button.text = "🔒 Locked"
-		button.disabled = true
-	
-	button.custom_minimum_size.y = 90
-	button.add_theme_font_size_override("font_size", 26)
-	vbox.add_child(button)
-	
+		show_tag       = "LOCKED"
+		show_tag_color = "locked"
+
+	# Subject text — only for current card
+	if show_subject != "":
+		var subj_lbl := Label.new()
+		subj_lbl.text = show_subject
+		subj_lbl.add_theme_font_size_override("font_size", 26)
+		subj_lbl.add_theme_color_override("font_color", COLOR_MUTED)
+		vb.add_child(subj_lbl)
+
+	# Badge
+	var tag_row := HBoxContainer.new()
+	tag_row.add_theme_constant_override("separation", 0)
+	vb.add_child(tag_row)
+
+	var badge := Panel.new()
+	badge.size_flags_horizontal = Control.SIZE_SHRINK_BEGIN
+	badge.size_flags_vertical   = Control.SIZE_SHRINK_CENTER
+	var badge_sb := StyleBoxFlat.new()
+	badge_sb.corner_radius_top_left     = 4
+	badge_sb.corner_radius_top_right    = 4
+	badge_sb.corner_radius_bottom_left  = 4
+	badge_sb.corner_radius_bottom_right = 4
+	match show_tag_color:
+		"green":  badge_sb.bg_color = Color(0.0,  0.35, 0.15, 1)
+		"red":    badge_sb.bg_color = Color(0.45, 0.05, 0.05, 1)
+		_:        badge_sb.bg_color = Color(0.10, 0.12, 0.16, 1)
+	badge.add_theme_stylebox_override("panel", badge_sb)
+	tag_row.add_child(badge)
+
+	var badge_mc := MarginContainer.new()
+	badge_mc.add_theme_constant_override("margin_left",   16)
+	badge_mc.add_theme_constant_override("margin_right",  16)
+	badge_mc.add_theme_constant_override("margin_top",     8)
+	badge_mc.add_theme_constant_override("margin_bottom",  8)
+	badge.add_child(badge_mc)
+
+	var tag_lbl := Label.new()
+	tag_lbl.text = show_tag
+	tag_lbl.add_theme_font_size_override("font_size", 26)
+	match show_tag_color:
+		"green":  tag_lbl.add_theme_color_override("font_color", COLOR_GREEN)
+		"red":    tag_lbl.add_theme_color_override("font_color", COLOR_RED)
+		_:        tag_lbl.add_theme_color_override("font_color", COLOR_GHOST)
+	badge_mc.add_child(tag_lbl)
+
+	# Right icon
+	var icon_lbl := Label.new()
+	icon_lbl.size_flags_vertical = Control.SIZE_SHRINK_CENTER
+	icon_lbl.add_theme_font_size_override("font_size", 40)
+	if is_done:
+		icon_lbl.text = "✓"
+		icon_lbl.add_theme_color_override("font_color", COLOR_GREEN)
+	elif is_critical:
+		icon_lbl.text = "⚠"
+		icon_lbl.add_theme_color_override("font_color", COLOR_AMBER)
+	elif is_current:
+		icon_lbl.text = "▶"
+		icon_lbl.add_theme_color_override("font_color", COLOR_CYAN)
+	else:
+		icon_lbl.text = "🔒"
+		icon_lbl.add_theme_color_override("font_color", COLOR_GHOST)
+	row.add_child(icon_lbl)
+
+	if is_current:
+		card.mouse_filter = Control.MOUSE_FILTER_STOP
+		card.gui_input.connect(_on_card_clicked.bind(index))
+
 	return card
+	
+func _on_card_clicked(event: InputEvent, _index: int) -> void:
+	if event is InputEventMouseButton and event.pressed and event.button_index == MOUSE_BUTTON_LEFT:
+		get_tree().change_scene_to_file("res://scenes/core/articleView.tscn")
+	elif event is InputEventScreenTouch and event.pressed:
+		get_tree().change_scene_to_file("res://scenes/core/articleView.tscn")
 
-func _on_view_article(index: int):
-	print("📖 Opening article ", index + 1)
-	# Navigate to article detail view
-	get_tree().change_scene_to_file("res://scenes/core/articleView.tscn")
+func update_progress_display() -> void:
+	var completed := GameManager.current_article_index
+	var pct       := int((float(completed) / 15.0) * 100.0)
+	if progress_label:
+		progress_label.text = str(pct) + "%"
+	if validated_label:
+		validated_label.text = str(completed) + " / 15 VALIDATED"
+	if progress_bar_fill:
+		progress_bar_fill.anchor_right = float(completed) / 15.0
+	_af(self)
 
-func update_progress_display():
-	var completed = GameManager.current_article_index
-	progress_label.text = "Article %d/15 Accepted" % completed
+func block_escape() -> void:
+	pass
 
-func block_escape():
-	get_tree().root.set_input_as_handled()
-
-func _input(event: InputEvent):
+func _input(event: InputEvent) -> void:
 	if event.is_action_pressed("ui_cancel"):
 		get_viewport().set_input_as_handled()
 		shake_screen()
 
-func shake_screen():
+func shake_screen() -> void:
 	var original_pos = position
 	var tween = create_tween()
 	tween.set_ease(Tween.EASE_IN_OUT)
-	
 	for i in range(3):
 		tween.tween_property(self, "position:x", original_pos.x + 20, 0.05)
 		tween.tween_property(self, "position:x", original_pos.x - 20, 0.05)
-	
 	tween.tween_property(self, "position", original_pos, 0.05)

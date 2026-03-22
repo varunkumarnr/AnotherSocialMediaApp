@@ -1,0 +1,264 @@
+[gd_scene format=3 uid="uid://lks41vyctys6"]
+
+[ext_resource type="Script" uid="uid://cn8qom127l7cb" path="res://scripts/ui/result_screen.gd" id="1_rs"]
+
+[node name="ResultScreen" type="CanvasLayer" unique_id=372204603]
+layer = 20
+script = ExtResource("1_rs")
+
+[node name="Control" type="Control" parent="." unique_id=836669221]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="BgRect" type="ColorRect" parent="Control" unique_id=1798288625]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="MainVBox" type="VBoxContainer" parent="Control" unique_id=928496231]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 0
+
+[node name="HeaderPanel" type="Panel" parent="Control/MainVBox" unique_id=158797688]
+custom_minimum_size = Vector2(0, 120)
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 0
+
+[node name="HeaderMargin" type="MarginContainer" parent="Control/MainVBox/HeaderPanel" unique_id=717117649]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 50
+theme_override_constants/margin_top = 24
+theme_override_constants/margin_right = 50
+theme_override_constants/margin_bottom = 24
+
+[node name="HeaderHBox" type="HBoxContainer" parent="Control/MainVBox/HeaderPanel/HeaderMargin" unique_id=1371690810]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 16
+
+[node name="ShieldLabel" type="Label" parent="Control/MainVBox/HeaderPanel/HeaderMargin/HeaderHBox" unique_id=1154334693]
+layout_mode = 2
+size_flags_vertical = 0
+theme_override_font_sizes/font_size = 44
+text = "🛡"
+
+[node name="StatusLabel" type="Label" parent="Control/MainVBox/HeaderPanel/HeaderMargin/HeaderHBox" unique_id=677712056]
+layout_mode = 2
+size_flags_vertical = 0
+theme_override_font_sizes/font_size = 30
+text = "[SYSTEM_STATUS: NOMINAL]"
+
+[node name="HeaderSpacer" type="Control" parent="Control/MainVBox/HeaderPanel/HeaderMargin/HeaderHBox" unique_id=1312835425]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="SignalVBox" type="VBoxContainer" parent="Control/MainVBox/HeaderPanel/HeaderMargin/HeaderHBox" unique_id=2044222425]
+layout_mode = 2
+size_flags_vertical = 0
+theme_override_constants/separation = 2
+
+[node name="SignalLabel" type="Label" parent="Control/MainVBox/HeaderPanel/HeaderMargin/HeaderHBox/SignalVBox" unique_id=1106285496]
+layout_mode = 2
+theme_override_font_sizes/font_size = 22
+text = "SIGNAL
+LOST"
+horizontal_alignment = 2
+
+[node name="WifiLabel" type="Label" parent="Control/MainVBox/HeaderPanel/HeaderMargin/HeaderHBox/SignalVBox" unique_id=3658485]
+layout_mode = 2
+theme_override_font_sizes/font_size = 28
+text = "((·))"
+horizontal_alignment = 2
+
+[node name="ContentScroll" type="ScrollContainer" parent="Control/MainVBox"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+size_flags_stretch_ratio = 1.0
+horizontal_scroll_mode = 2
+follow_focus = false
+
+[node name="ContentVBox" type="VBoxContainer" parent="Control/MainVBox/ContentScroll" unique_id=1646114788]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 0
+
+[node name="IconMargin" type="MarginContainer" parent="Control/MainVBox/ContentScroll/ContentVBox" unique_id=473450064]
+layout_mode = 2
+theme_override_constants/margin_left = 50
+theme_override_constants/margin_top = 60
+theme_override_constants/margin_right = 50
+theme_override_constants/margin_bottom = 30
+
+[node name="IconLabel" type="Label" parent="Control/MainVBox/ContentScroll/ContentVBox/IconMargin" unique_id=1182975490]
+layout_mode = 2
+theme_override_font_sizes/font_size = 120
+text = "!"
+horizontal_alignment = 1
+
+[node name="TitleMargin" type="MarginContainer" parent="Control/MainVBox/ContentScroll/ContentVBox" unique_id=691969301]
+layout_mode = 2
+theme_override_constants/margin_left = 50
+theme_override_constants/margin_top = 20
+theme_override_constants/margin_right = 50
+theme_override_constants/margin_bottom = 20
+
+[node name="TitleVBox" type="VBoxContainer" parent="Control/MainVBox/ContentScroll/ContentVBox/TitleMargin" unique_id=1814438153]
+layout_mode = 2
+theme_override_constants/separation = 16
+
+[node name="HeadlineLabel" type="Label" parent="Control/MainVBox/ContentScroll/ContentVBox/TitleMargin/TitleVBox" unique_id=932297836]
+layout_mode = 2
+theme_override_font_sizes/font_size = 100
+text = "BREACH
+DETECTED"
+autowrap_mode = 2
+
+[node name="SubtitleLabel" type="Label" parent="Control/MainVBox/ContentScroll/ContentVBox/TitleMargin/TitleVBox" unique_id=1171607837]
+layout_mode = 2
+theme_override_font_sizes/font_size = 28
+text = "CONTRACT NULLIFIED. IDENTITY PURGED."
+
+[node name="Divider1" type="ColorRect" parent="Control/MainVBox/ContentScroll/ContentVBox" unique_id=1104835788]
+custom_minimum_size = Vector2(0, 2)
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="DataPanel" type="MarginContainer" parent="Control/MainVBox/ContentScroll/ContentVBox" unique_id=1275137382]
+layout_mode = 2
+theme_override_constants/margin_left = 50
+theme_override_constants/margin_top = 40
+theme_override_constants/margin_right = 50
+theme_override_constants/margin_bottom = 40
+
+[node name="DataVBox" type="VBoxContainer" parent="Control/MainVBox/ContentScroll/ContentVBox/DataPanel" unique_id=419518091]
+layout_mode = 2
+theme_override_constants/separation = 20
+
+[node name="DataInnerPanel" type="MarginContainer" parent="Control/MainVBox/ContentScroll/ContentVBox/DataPanel/DataVBox" unique_id=733773282]
+layout_mode = 2
+
+[node name="DataMargin" type="MarginContainer" parent="Control/MainVBox/ContentScroll/ContentVBox/DataPanel/DataVBox/DataInnerPanel" unique_id=765314047]
+layout_mode = 2
+theme_override_constants/margin_left = 30
+theme_override_constants/margin_top = 30
+theme_override_constants/margin_right = 30
+theme_override_constants/margin_bottom = 30
+
+[node name="RowsVBox" type="VBoxContainer" parent="Control/MainVBox/ContentScroll/ContentVBox/DataPanel/DataVBox/DataInnerPanel/DataMargin" unique_id=2147229914]
+layout_mode = 2
+theme_override_constants/separation = 24
+
+[node name="TimestampRow" type="HBoxContainer" parent="Control/MainVBox/ContentScroll/ContentVBox/DataPanel/DataVBox/DataInnerPanel/DataMargin/RowsVBox" unique_id=815474458]
+layout_mode = 2
+
+[node name="TimestampKey" type="Label" parent="Control/MainVBox/ContentScroll/ContentVBox/DataPanel/DataVBox/DataInnerPanel/DataMargin/RowsVBox/TimestampRow" unique_id=1320780367]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 26
+text = "TIMESTAMP"
+
+[node name="TimestampVal" type="Label" parent="Control/MainVBox/ContentScroll/ContentVBox/DataPanel/DataVBox/DataInnerPanel/DataMargin/RowsVBox/TimestampRow" unique_id=171432348]
+layout_mode = 2
+theme_override_font_sizes/font_size = 26
+text = "00:00:00_UTC"
+horizontal_alignment = 2
+
+[node name="ViolationRow" type="HBoxContainer" parent="Control/MainVBox/ContentScroll/ContentVBox/DataPanel/DataVBox/DataInnerPanel/DataMargin/RowsVBox" unique_id=2010392557]
+layout_mode = 2
+
+[node name="ViolationKey" type="Label" parent="Control/MainVBox/ContentScroll/ContentVBox/DataPanel/DataVBox/DataInnerPanel/DataMargin/RowsVBox/ViolationRow" unique_id=545130798]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 26
+text = "VIOLATION CODE"
+
+[node name="ViolationVal" type="Label" parent="Control/MainVBox/ContentScroll/ContentVBox/DataPanel/DataVBox/DataInnerPanel/DataMargin/RowsVBox/ViolationRow" unique_id=1825466479]
+layout_mode = 2
+theme_override_font_sizes/font_size = 26
+text = "ERR_UNKNOWN"
+horizontal_alignment = 2
+
+[node name="ContainmentRow" type="HBoxContainer" parent="Control/MainVBox/ContentScroll/ContentVBox/DataPanel/DataVBox/DataInnerPanel/DataMargin/RowsVBox" unique_id=529170423]
+layout_mode = 2
+
+[node name="ContainmentKey" type="Label" parent="Control/MainVBox/ContentScroll/ContentVBox/DataPanel/DataVBox/DataInnerPanel/DataMargin/RowsVBox/ContainmentRow" unique_id=126482187]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 26
+text = "CONTAINMENT"
+
+[node name="ContainmentVal" type="Label" parent="Control/MainVBox/ContentScroll/ContentVBox/DataPanel/DataVBox/DataInnerPanel/DataMargin/RowsVBox/ContainmentRow" unique_id=992350077]
+layout_mode = 2
+theme_override_font_sizes/font_size = 26
+text = "ACTIVE"
+horizontal_alignment = 2
+
+[node name="DataSeparator" type="ColorRect" parent="Control/MainVBox/ContentScroll/ContentVBox/DataPanel/DataVBox/DataInnerPanel/DataMargin/RowsVBox" unique_id=1156693735]
+custom_minimum_size = Vector2(0, 1)
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="ReasonLabel" type="Label" parent="Control/MainVBox/ContentScroll/ContentVBox/DataPanel/DataVBox/DataInnerPanel/DataMargin/RowsVBox" unique_id=1310780769]
+layout_mode = 2
+theme_override_font_sizes/font_size = 28
+text = "Reason text here"
+autowrap_mode = 2
+
+[node name="ActionSection" type="Panel" parent="Control/MainVBox"]
+custom_minimum_size = Vector2(0, 340)
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 0
+
+
+[node name="ActionMargin" type="MarginContainer" parent="Control/MainVBox/ActionSection" unique_id=1475601041]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 50
+theme_override_constants/margin_top = 30
+theme_override_constants/margin_right = 50
+theme_override_constants/margin_bottom = 30
+
+[node name="ActionVBox" type="VBoxContainer" parent="Control/MainVBox/ActionSection/ActionMargin" unique_id=753463540]
+layout_mode = 2
+theme_override_constants/separation = 16
+
+[node name="PrimaryButton" type="Button" parent="Control/MainVBox/ActionSection/ActionMargin/ActionVBox" unique_id=436027612]
+custom_minimum_size = Vector2(0, 160)
+layout_mode = 2
+size_flags_horizontal = 3
+focus_mode = 0
+theme_override_font_sizes/font_size = 44
+text = "RETRY FROM MODULE 1"
+
+[node name="SecondaryButton" type="Button" parent="Control/MainVBox/ActionSection/ActionMargin/ActionVBox" unique_id=395061446]
+visible = false
+custom_minimum_size = Vector2(0, 100)
+layout_mode = 2
+size_flags_horizontal = 3
+focus_mode = 0
+theme_override_font_sizes/font_size = 36
+text = "GIVE UP"

@@ -1,7 +1,21 @@
 [gd_scene format=3 uid="uid://drdspao4awuld"]
 
-[ext_resource type="Texture2D" uid="uid://krb7g2loj53a" path="res://assets/SocialMedia/boy.png" id="1_puta0"]
 [ext_resource type="Script" uid="uid://bdc025tw3qhvl" path="res://scripts/ui/articleProgress.gd" id="1_sxlyp"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_bg"]
+bg_color = Color(0.039, 0.047, 0.063, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_header"]
+bg_color = Color(0.027, 0.035, 0.051, 1)
+border_color = Color(0.0, 0.831, 1.0, 1)
+border_width_bottom = 2
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_progressbar_bg"]
+bg_color = Color(0.082, 0.102, 0.133, 1)
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_left = 4
+corner_radius_bottom_right = 4
 
 [node name="ArticleProgress" type="Control" unique_id=1341892932]
 layout_mode = 3
@@ -12,135 +26,171 @@ grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_sxlyp")
 
-[node name="ColorRect" type="ColorRect" parent="." unique_id=25056445]
+[node name="BgRect" type="ColorRect" parent="." unique_id=25056445]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-color = Color(0.98039216, 0.98039216, 0.98039216, 1)
+color = Color(0.039, 0.047, 0.063, 1)
 
-[node name="MarginContainer" type="MarginContainer" parent="." unique_id=734802661]
+[node name="MainVBox" type="VBoxContainer" parent="." unique_id=1670472573]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-theme_override_constants/margin_left = 30
-theme_override_constants/margin_top = 30
-theme_override_constants/margin_right = 30
-theme_override_constants/margin_bottom = 30
+theme_override_constants/separation = 0
 
-[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer" unique_id=1670472573]
-layout_mode = 2
-size_flags_horizontal = 3
-size_flags_vertical = 3
-theme_override_constants/separation = 10
-
-[node name="HeaderPanel" type="Panel" parent="MarginContainer/VBoxContainer" unique_id=1628730772]
-custom_minimum_size = Vector2(0, 370)
+[node name="HeaderPanel" type="Panel" parent="MainVBox" unique_id=1628730772]
+custom_minimum_size = Vector2(0, 580)
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 0
+theme_override_styles/panel = SubResource("StyleBoxFlat_header")
 
-[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/VBoxContainer/HeaderPanel" unique_id=1127593738]
+[node name="HeaderMargin" type="MarginContainer" parent="MainVBox/HeaderPanel" unique_id=3001000001]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+theme_override_constants/margin_left = 50
+theme_override_constants/margin_right = 50
+theme_override_constants/margin_top = 40
+theme_override_constants/margin_bottom = 40
 
-[node name="AppLogo" type="TextureRect" parent="MarginContainer/VBoxContainer/HeaderPanel/VBoxContainer" unique_id=1989749824]
-custom_minimum_size = Vector2(150, 150)
+[node name="HeaderVBox" type="VBoxContainer" parent="MainVBox/HeaderPanel/HeaderMargin" unique_id=3001000002]
 layout_mode = 2
-texture = ExtResource("1_puta0")
-expand_mode = 1
-stretch_mode = 5
+size_flags_horizontal = 3
+theme_override_constants/separation = 16
 
-[node name="TitleLabel" type="Label" parent="MarginContainer/VBoxContainer/HeaderPanel/VBoxContainer" unique_id=31624311]
+[node name="TopHBox" type="HBoxContainer" parent="MainVBox/HeaderPanel/HeaderMargin/HeaderVBox" unique_id=3001000003]
 layout_mode = 2
-theme_override_colors/font_color = Color(0, 0, 0, 1)
-theme_override_font_sizes/font_size = 48
-text = "Terms of Service"
-horizontal_alignment = 1
+size_flags_horizontal = 3
+theme_override_constants/separation = 16
 
-[node name="ProgressLabel" type="Label" parent="MarginContainer/VBoxContainer/HeaderPanel/VBoxContainer" unique_id=2038233320]
+[node name="ShieldLabel" type="Label" parent="MainVBox/HeaderPanel/HeaderMargin/HeaderVBox/TopHBox" unique_id=3001000004]
 layout_mode = 2
-theme_override_colors/font_color = Color(0, 0, 0, 1)
-theme_override_font_sizes/font_size = 48
-text = "Article 0/15 Accepted"
-horizontal_alignment = 1
+size_flags_vertical = 0
+theme_override_colors/font_color = Color(0.0, 0.831, 1.0, 1)
+theme_override_font_sizes/font_size = 44
+text = "🛡"
 
-[node name="InstructionLabel" type="Label" parent="MarginContainer/VBoxContainer/HeaderPanel/VBoxContainer" unique_id=2097972960]
+[node name="SystemStatus" type="Label" parent="MainVBox/HeaderPanel/HeaderMargin/HeaderVBox/TopHBox" unique_id=3001000005]
 layout_mode = 2
-theme_override_colors/font_color = Color(0, 0, 0, 1)
-theme_override_font_sizes/font_size = 40
-text = "Accept all articles to Complete Login"
-horizontal_alignment = 1
+size_flags_vertical = 0
+theme_override_colors/font_color = Color(0.0, 0.831, 1.0, 1)
+theme_override_font_sizes/font_size = 30
+text = "[SYSTEM_STATUS: NOMINAL]"
 
-[node name="VSeparator" type="VSeparator" parent="MarginContainer/VBoxContainer" unique_id=103777948]
-custom_minimum_size = Vector2(10, 20)
+[node name="HeaderSpacer" type="Control" parent="MainVBox/HeaderPanel/HeaderMargin/HeaderVBox/TopHBox" unique_id=3001000006]
 layout_mode = 2
+size_flags_horizontal = 3
 
-[node name="ArticleScrollContainer" type="ScrollContainer" parent="MarginContainer/VBoxContainer" unique_id=1581747477]
+[node name="EncryptionVBox" type="VBoxContainer" parent="MainVBox/HeaderPanel/HeaderMargin/HeaderVBox/TopHBox" unique_id=3001000007]
+layout_mode = 2
+size_flags_vertical = 0
+theme_override_constants/separation = 2
+
+[node name="EncryptionLabel" type="Label" parent="MainVBox/HeaderPanel/HeaderMargin/HeaderVBox/TopHBox/EncryptionVBox" unique_id=3001000008]
+layout_mode = 2
+horizontal_alignment = 2
+theme_override_colors/font_color = Color(0.29, 0.353, 0.439, 1)
+theme_override_font_sizes/font_size = 22
+text = "ENCRYPTION: ACTIVE"
+
+[node name="WifiLabel" type="Label" parent="MainVBox/HeaderPanel/HeaderMargin/HeaderVBox/TopHBox/EncryptionVBox" unique_id=3001000009]
+layout_mode = 2
+horizontal_alignment = 2
+theme_override_colors/font_color = Color(0.0, 0.831, 1.0, 1)
+theme_override_font_sizes/font_size = 30
+text = "((·))"
+
+[node name="OverviewLabel" type="Label" parent="MainVBox/HeaderPanel/HeaderMargin/HeaderVBox" unique_id=3001000010]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.29, 0.353, 0.439, 1)
+theme_override_font_sizes/font_size = 24
+text = "OPERATIONAL OVERVIEW"
+
+[node name="TitleLabel" type="Label" parent="MainVBox/HeaderPanel/HeaderMargin/HeaderVBox" unique_id=31624311]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.0, 0.831, 1.0, 1)
+theme_override_font_sizes/font_size = 72
+text = "COMPLIANCE\nPROTOCOL:\n15 MODULES"
+
+[node name="ProgressHBox" type="HBoxContainer" parent="MainVBox/HeaderPanel/HeaderMargin/HeaderVBox" unique_id=3001000011]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 0
+
+[node name="ProgressSpacer" type="Control" parent="MainVBox/HeaderPanel/HeaderMargin/HeaderVBox/ProgressHBox" unique_id=3001000012]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="ProgressVBox" type="VBoxContainer" parent="MainVBox/HeaderPanel/HeaderMargin/HeaderVBox/ProgressHBox" unique_id=3001000013]
+layout_mode = 2
+size_flags_horizontal = 0
+theme_override_constants/separation = 4
+
+[node name="AggregateLabel" type="Label" parent="MainVBox/HeaderPanel/HeaderMargin/HeaderVBox/ProgressHBox/ProgressVBox" unique_id=3001000014]
+layout_mode = 2
+horizontal_alignment = 2
+theme_override_colors/font_color = Color(0.29, 0.353, 0.439, 1)
+theme_override_font_sizes/font_size = 22
+text = "AGGREGATE PROGRESS"
+
+[node name="ProgressLabel" type="Label" parent="MainVBox/HeaderPanel/HeaderMargin/HeaderVBox/ProgressHBox/ProgressVBox" unique_id=2038233320]
+layout_mode = 2
+horizontal_alignment = 2
+theme_override_colors/font_color = Color(0.784, 0.831, 0.910, 1)
+theme_override_font_sizes/font_size = 70
+text = "0%"
+
+[node name="ProgressBarBg" type="Panel" parent="MainVBox/HeaderPanel/HeaderMargin/HeaderVBox" unique_id=3001000015]
+custom_minimum_size = Vector2(0, 14)
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_styles/panel = SubResource("StyleBoxFlat_progressbar_bg")
+
+[node name="ProgressBarFill" type="ColorRect" parent="MainVBox/HeaderPanel/HeaderMargin/HeaderVBox/ProgressBarBg" unique_id=3001000016]
+layout_mode = 1
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 1.0
+grow_horizontal = 1
+color = Color(0.0, 0.831, 1.0, 1)
+
+[node name="StatusHBox" type="HBoxContainer" parent="MainVBox/HeaderPanel/HeaderMargin/HeaderVBox" unique_id=3001000017]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 0
+
+[node name="StatusLabel" type="Label" parent="MainVBox/HeaderPanel/HeaderMargin/HeaderVBox/StatusHBox" unique_id=3001000018]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.29, 0.353, 0.439, 1)
+theme_override_font_sizes/font_size = 24
+text = "ESTABLISHING CONNECTION..."
+
+[node name="ValidatedLabel" type="Label" parent="MainVBox/HeaderPanel/HeaderMargin/HeaderVBox/StatusHBox" unique_id=3001000019]
+layout_mode = 2
+size_flags_horizontal = 3
+horizontal_alignment = 2
+theme_override_colors/font_color = Color(0.29, 0.353, 0.439, 1)
+theme_override_font_sizes/font_size = 24
+text = "0 / 15 VALIDATED"
+
+[node name="ArticleScrollContainer" type="ScrollContainer" parent="MainVBox" unique_id=1581747477]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
+horizontal_scroll_mode = 2
 
-[node name="ArticleListContainer" type="VBoxContainer" parent="MarginContainer/VBoxContainer/ArticleScrollContainer" unique_id=1497706142]
+[node name="ArticleListContainer" type="VBoxContainer" parent="MainVBox/ArticleScrollContainer" unique_id=1497706142]
 layout_mode = 2
 size_flags_horizontal = 3
-
-[node name="ArticleCard" type="PanelContainer" parent="MarginContainer/VBoxContainer/ArticleScrollContainer/ArticleListContainer" unique_id=471986353]
-custom_minimum_size = Vector2(0, 300)
-layout_mode = 2
-size_flags_horizontal = 3
-
-[node name="MarginContainer" type="MarginContainer" parent="MarginContainer/VBoxContainer/ArticleScrollContainer/ArticleListContainer/ArticleCard" unique_id=1278482809]
-layout_mode = 2
-theme_override_constants/margin_left = 20
-theme_override_constants/margin_top = 20
-theme_override_constants/margin_right = 20
-theme_override_constants/margin_bottom = 20
-
-[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/VBoxContainer/ArticleScrollContainer/ArticleListContainer/ArticleCard/MarginContainer" unique_id=1149765295]
-layout_mode = 2
-size_flags_horizontal = 3
-
-[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/VBoxContainer/ArticleScrollContainer/ArticleListContainer/ArticleCard/MarginContainer/VBoxContainer" unique_id=277376270]
-layout_mode = 2
-
-[node name="StatusIcon" type="Label" parent="MarginContainer/VBoxContainer/ArticleScrollContainer/ArticleListContainer/ArticleCard/MarginContainer/VBoxContainer/HBoxContainer" unique_id=1711682435]
-layout_mode = 2
-theme_override_colors/font_color = Color(0, 0, 0, 1)
-theme_override_font_sizes/font_size = 40
-text = "○"
-
-[node name="ArticleNumber" type="Label" parent="MarginContainer/VBoxContainer/ArticleScrollContainer/ArticleListContainer/ArticleCard/MarginContainer/VBoxContainer/HBoxContainer" unique_id=1883743273]
-layout_mode = 2
-theme_override_colors/font_color = Color(0, 0, 0, 1)
-theme_override_font_sizes/font_size = 40
-text = "Article 1.1"
-
-[node name="ArticleTitle" type="Label" parent="MarginContainer/VBoxContainer/ArticleScrollContainer/ArticleListContainer/ArticleCard/MarginContainer/VBoxContainer" unique_id=2026156053]
-layout_mode = 2
-theme_override_colors/font_color = Color(0, 0, 0, 1)
-theme_override_font_sizes/font_size = 32
-text = "Data Privacy & Collection"
-
-[node name="ArticlePreview" type="Label" parent="MarginContainer/VBoxContainer/ArticleScrollContainer/ArticleListContainer/ArticleCard/MarginContainer/VBoxContainer" unique_id=1675769336]
-custom_minimum_size = Vector2(100, 50)
-layout_mode = 2
-theme_override_colors/font_color = Color(0, 0, 0, 1)
-text = "By Accepting these terms..."
-autowrap_mode = 2
-max_lines_visible = 2
-
-[node name="ViewButton" type="Button" parent="MarginContainer/VBoxContainer/ArticleScrollContainer/ArticleListContainer/ArticleCard/MarginContainer/VBoxContainer" unique_id=952148586]
-custom_minimum_size = Vector2(0, 80)
-layout_mode = 2
-mouse_filter = 1
-text = "Review Article ->"
+theme_override_constants/separation = 0
