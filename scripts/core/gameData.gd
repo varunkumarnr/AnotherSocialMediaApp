@@ -53,9 +53,9 @@ func register_all_games():
         10.0
     ))
     register_game(MiniGameConfig.new(
-        "checkbox",
+        "slots",
         "res://scenes/games/skillGames/slots.tscn", 
-        "CheckBox", 
+        "Slots", 
         60.0,
         true, 
         WINFACTOR.NO_FAIL_TIME_TIMIT, 
@@ -167,7 +167,7 @@ func register_all_games():
         10.0
     ))
     register_game(MiniGameConfig.new(
-        "flappy_guy_normal_8",
+        "popular_opinon",
         "res://scenes/games/quizGames/popular_opinon.tscn", 
         "Flappy Guy", 
         120.0,
@@ -179,7 +179,7 @@ func register_all_games():
         10.0
     ))
     register_game(MiniGameConfig.new(
-        "flappy_guy_normal_8",
+        "shooting",
         "res://scenes/games/shooting/shooting.tscn", 
         "Flappy Guy", 
         120.0,
@@ -191,7 +191,7 @@ func register_all_games():
         10.0
     ))
     register_game(MiniGameConfig.new(
-        "flappy_guy_normal_8",
+        "musicsequence",
         "res://scenes/games/skillGames/musicsequence.tscn", 
         "Flappy Guy", 
         120.0,
@@ -203,7 +203,7 @@ func register_all_games():
         10.0
     ))
     register_game(MiniGameConfig.new(
-        "flappy_guy_normal_8",
+        "colorsequence",
         "res://scenes/games/skillGames/colorsequence.tscn", 
         "Flappy Guy", 
         120.0,
@@ -215,7 +215,7 @@ func register_all_games():
         10.0
     ))
     register_game(MiniGameConfig.new(
-        "flappy_guy_normal_8",
+        "virus_popup",
         "res://scenes/games/trollyGames/virus_popup.tscn", 
         "Flappy Guy", 
         120.0,

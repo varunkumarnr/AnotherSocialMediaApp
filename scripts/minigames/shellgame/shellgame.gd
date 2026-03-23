@@ -31,8 +31,9 @@ func random_box_count() -> void:
 # ── ENTRY POINT ───────────────────────────────────────────────────────────────
 func on_game_started() -> void:
 	play_game_music()
-	add_child(TCBackground.new())
+	
 	await _build_popup()
+	add_child(TCBackground.new())
 	_run_sequence()
 
 

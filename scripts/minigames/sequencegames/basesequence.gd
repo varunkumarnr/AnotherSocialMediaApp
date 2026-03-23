@@ -19,8 +19,8 @@ var rng := RandomNumberGenerator.new()
 func on_game_started() -> void:
 	rng.randomize()
 	play_game_music()
-	add_child(TCBackground.new())
 	await _build_popup()
+	add_child(TCBackground.new())
 	_run_game()
 	MAX_ROUNDS = get_max_rounds()
 
