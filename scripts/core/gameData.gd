@@ -42,7 +42,7 @@ func _ready() -> void:
 func register_all_games():
     register_game(MiniGameConfig.new(
         "number_sequence",
-        "res://scenes/games/shooting/shooting.tscn", 
+        "res://scenes/games/skillGames/basketball.tscn", 
         # "res://scenes/games/skillGames/numbersequence.tscn", 
         "Number Sequence", 
         90.0,
@@ -66,20 +66,6 @@ func register_all_games():
         10.0,
         -1
     ))
-    
-    # register_game(MiniGameConfig.new(
-    #     "virus_game",
-    #     "res://scenes/games/shooting/pulsingShooter.tscn", 
-    #     "Virus Game", 
-    #     120.0,
-    #     false, 
-    #     WINFACTOR.NO_FAIL, 
-    #     10.0, 
-    #     DIFFICULTY.HARD, 
-    #     CATEGORY.SKILL, 
-    #     10.0,
-    #     -1
-    # ))
     
     register_game(MiniGameConfig.new(
         "checkbox",
