@@ -15,7 +15,7 @@ func _ready():
 	cam.limit_bottom = 1920
 	add_child(cam)
 	cam.make_current()
-	
+	add_child(TCBackground.new())
 	await get_tree().create_timer(0.1).timeout
 	setup_flappy_game()
 

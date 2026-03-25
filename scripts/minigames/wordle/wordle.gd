@@ -1,16 +1,7 @@
 extends MiniGamesTemplate
 class_name WordleGame
 
-const WORDS : Array = [
-	"AGREE", "TERMS", "LEGAL", "CLAIM", "LIMIT",
-	"GRANT", "WAIVE", "COURT", "PARTY", "BOUND",
-	"FORCE", "MAJOR", "SCOPE", "VALID", "PRIOR",
-	"RIGHT", "SHARE", "CLASS", "FIRST", "FINAL",
-	"TRIAL", "JUDGE", "PROOF", "CLAIM", "RULES",
-	"WRITE", "FLOOR", "PLANE", "SHOUT", "BLINK",
-	"CRANE", "GLARE", "FLUTE", "BRAVE", "CHESS",
-	"DELTA", "EMBER", "FROWN", "GHOST", "HONEY",
-]
+var WORDS : Array = []
 
 const MAX_GUESSES  := 6
 const WORD_LENGTH  := 5
@@ -35,17 +26,22 @@ var game_over_flag: bool   = false
 var key_states    : Dictionary = {}
 
 var popup         : GamePopup
-var tile_labels   : Array = []   # tile_labels[row][col] = Label
-var tile_bgs      : Array = []   # tile_bgs[row][col]    = ColorRect
+var tile_labels   : Array = []  
+var tile_bgs      : Array = []  
 var key_buttons   : Dictionary = {}   
 
 var rng := RandomNumberGenerator.new()
 
 func on_game_started() -> void:
+	read_file_into_array("res://scripts/minigames/wordle/words.txt")
+	print("total words %d", WORDS.size())
 	rng.randomize()
 	target_word = WORDS[rng.randi() % WORDS.size()].to_upper()
 	play_game_music()
 	await _build_ui()
+	add_child(TCBackground.new())
+	
+	
 
 func _build_ui() -> void:
 	var config               := PopupConfig.new()
@@ -76,7 +72,19 @@ func _build_ui() -> void:
 	sp.custom_minimum_size = Vector2(0, 8)
 	cc.add_child(sp)
 
-# ── TILE GRID ─────────────────────────────────────────────────────────────────
+func read_file_into_array(file_path: String): 
+	var file = FileAccess.open(file_path, FileAccess.READ) 
+	if file: 
+		while not file.eof_reached(): 
+			var line = file.get_line().strip_edges()
+			if line != "" and line.length() == WORD_LENGTH: 
+				WORDS.append(line.to_upper())
+		file.close()
+	else: 
+		print("Error opening file: %s" % file_path) 
+		print("Error code: %d - %s" % [file.get_error(), file.get_error_message()])
+
+
 func _build_grid(cc: VBoxContainer) -> void:
 	var TILE   : float = 92.0
 	var GAP    : float = 6.0
@@ -135,7 +143,6 @@ func _build_grid(cc: VBoxContainer) -> void:
 		tile_bgs.append(row_bgs)
 		tile_labels.append(row_lbls)
 
-# ── KEYBOARD ──────────────────────────────────────────────────────────────────
 const KB_ROWS := [
 	["Q","W","E","R","T","Y","U","I","O","P"],
 	["A","S","D","F","G","H","J","K","L"],
@@ -191,7 +198,6 @@ func _style_key(btn: Button, state: String) -> void:
 		btn.add_theme_stylebox_override(s, sb)
 	btn.add_theme_color_override("font_color", C_TEXT)
 
-# ── INPUT ─────────────────────────────────────────────────────────────────────
 func _on_key(key: String) -> void:
 	if game_over_flag or is_game_over: return
 
@@ -220,9 +226,12 @@ func _redraw_borders() -> void:
 			if cell.get_child_count() > 1:
 				cell.get_child(1).queue_redraw()
 
-# ── SUBMIT GUESS ──────────────────────────────────────────────────────────────
 func _submit_guess() -> void:
 	if current_guess.length() < WORD_LENGTH:
+		_shake_row(current_row)
+		return
+	
+	if current_guess not in WORDS: 
 		_shake_row(current_row)
 		return
 
@@ -269,7 +278,6 @@ func _submit_guess() -> void:
 		await get_tree().create_timer(1.2).timeout
 		fail_game("The word was: %s" % target_word)
 
-# ── EVALUATE GUESS ────────────────────────────────────────────────────────────
 func _evaluate(guess: String) -> Array:
 	var result   : Array  = ["absent", "absent", "absent", "absent", "absent"]
 	var remaining: Array  = []

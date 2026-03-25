@@ -91,7 +91,7 @@ func _build_hud() -> void:
 	score_lbl.add_theme_font_size_override("font_size", 32)
 	score_lbl.add_theme_color_override("font_color", Color(1, 1, 1))
 	_add_label_shadow(score_lbl)
-	score_lbl.text = "⭐ 0 / %d" % POINTS_TO_WIN
+	score_lbl.text = "0 / %d" % POINTS_TO_WIN
 	control_layer.add_child(score_lbl)
 
 	miss_lbl = Label.new()
@@ -99,7 +99,7 @@ func _build_hud() -> void:
 	miss_lbl.add_theme_font_size_override("font_size", 32)
 	miss_lbl.add_theme_color_override("font_color", Color(1, 0.3, 0.3))
 	_add_label_shadow(miss_lbl)
-	miss_lbl.text = "✗ 0 / %d" % MAX_MISSES
+	miss_lbl.text = "0 / %d" % MAX_MISSES
 	control_layer.add_child(miss_lbl)
 
 func _add_label_shadow(lbl: Label) -> void:
@@ -108,8 +108,8 @@ func _add_label_shadow(lbl: Label) -> void:
 	lbl.add_theme_color_override("font_shadow_color", Color(0, 0, 0, 0.5))
 
 func _update_hud() -> void:
-	if score_lbl: score_lbl.text = "⭐ %d / %d" % [score, POINTS_TO_WIN]
-	if miss_lbl:  miss_lbl.text  = "✗ %d / %d"  % [misses, MAX_MISSES]
+	if score_lbl: score_lbl.text = "%d / %d" % [score, POINTS_TO_WIN]
+	if miss_lbl:  miss_lbl.text  = "%d / %d"  % [misses, MAX_MISSES]
 
 # ── GUN — static base + rotating barrel ──────────────────────────────────────
 func _build_gun() -> void:
@@ -119,7 +119,7 @@ func _build_gun() -> void:
 	const RH  : float = 110.0   # barrel height
 
 	var cx : float = _content_rect.get_center().x
-	var gy : float = _content_rect.position.y + _content_rect.size.y - BH - 20.0
+	var gy : float = _content_rect.position.y + _content_rect.size.y - BH - 160.0
 
 	# Store pivot in world space so _process can compute angle correctly
 	_gun_pivot = Vector2(cx, gy)
@@ -302,7 +302,7 @@ func _hit_target(td: Dictionary) -> void:
 	td["hit_timer"] = 0.0
 	score += 1
 	_update_hud()
-	AudioManager.play_sfx(AudioManager.SFX.CORRECT)
+	# AudioManager.play_sfx(AudioManager.SFX.CORRECT)
 	_spawn_shot_fx(td["pos"], true)
 	if score >= POINTS_TO_WIN:
 		game_active = false
