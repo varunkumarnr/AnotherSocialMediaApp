@@ -41,9 +41,9 @@ func _ready() -> void:
 
 func register_all_games():
     register_game(MiniGameConfig.new(
-        "number_sequence",
-        "res://scenes/games/skillGames/numbersequence.tscn", 
-        "Number Sequence", 
+        "wordle",
+        "res://scenes/games/quizGames/wordle.tscn", 
+        "Wordle", 
         90.0,
         false, 
         WINFACTOR.NO_FAIL, 
@@ -296,6 +296,6 @@ func get_random_games(exclude: Array =[]) -> Array:
     for game_id in mini_games: 
         if not exclude.has(game_id):
             available.append(game_id)
-    available.shuffle()
+    # available.shuffle()
     return available.slice(0, 15)
 
