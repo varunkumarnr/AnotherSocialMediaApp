@@ -131,7 +131,7 @@ func _on_timer_tick():
 		update_timer_display()
 		gameTimer.stop()
 		match game_config.win_factor: 
-			GameData.WINFACTOR.NO_FAIL_TIME_TIMIT, GameData.WINFACTOR.TIME_LIMIT: 
+			GameData.WINFACTOR.NO_FAIL_TIME_TIMIT, GameData.WINFACTOR.TIME_LIMIT, GameData.WINFACTOR.POINTS_IN_TIME: 
 				fail_game("Times up!")
 
 func update_timer_display():
@@ -191,15 +191,15 @@ func update_score_display():
 
 func register_failure():
 	match game_config.win_factor:
-		GameData.WINFACTOR.NO_FAIL, GameData.WINFACTOR.NO_FAIL_TIME_TIMIT:
+		GameData.WINFACTOR.NO_FAIL, GameData.WINFACTOR.NO_FAIL_TIME_TIMIT, GameData.WINFACTOR.POINTS_IN_TIME:
 			if not failed_once:
 				failed_once = true
 				fail_game("You Failed!")
 	
-	match game_config.win_factor:
-		GameData.WINFACTOR.POINTS_IN_TIME: 
-			if current_score < game_config.success_condition && time_remaining <= 0:
-				fail_game("You Failed!")
+	# match game_config.win_factor:
+	# 	GameData.WINFACTOR.POINTS_IN_TIME: 
+	# 		if current_score < game_config.success_condition && time_remaining <= 0:
+	# 			fail_game("You Failed!")
 
 # ── POPUP HELPERS ──────────────────────────────────────────────────────────────
 
