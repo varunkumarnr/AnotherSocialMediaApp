@@ -1,0 +1,162 @@
+[
+    {
+        "image": "res://assets/minigames/sprites/guessRace/indonesia.jpg", 
+        "answer": 2, 
+        "choices": ["Malaysia","Indonesia", "Brunei", "Pakistan"]
+    }, 
+    {
+        "image": "res://assets/minigames/sprites/guessRace/india.jpg", 
+        "answer": 2, 
+        "choices": ["Philippines","India", "Indonesia", "Sri Lanka"]
+    }, 
+    {
+        "image": "res://assets/minigames/sprites/guessRace/malaysia.jpg", 
+        "answer": 3, 
+        "choices": ["Indonesia","Thailand", "Malaysia", "India"]
+    }, 
+    {
+        "image": "res://assets/minigames/sprites/guessRace/china.jpg", 
+        "answer": 3, 
+        "choices": ["Japan","Korea", "China", "Vietnam"]
+    }, 
+    {
+        "image": "res://assets/minigames/sprites/guessRace/japan.jpg", 
+        "answer": 1, 
+        "choices": ["Japan","Korea", "China", "Vietnam"]
+    }, 
+    {
+        "image": "res://assets/minigames/sprites/guessRace/india2.jpg", 
+        "answer": 4, 
+        "choices": ["Pakistan","Nepal", "Bangladesh", "India"]
+    }, 
+    {
+        "image": "res://assets/minigames/sprites/guessRace/korea.jpg", 
+        "answer": 3, 
+        "choices": ["Japan","Mongolia", "Korea", "China"]
+    }, 
+    {
+        "image": "res://assets/minigames/sprites/guessRace/usa.jpg", 
+        "answer": 4, 
+        "choices": ["Canada","UK", "Australia", "US"]
+    }, 
+    {
+        "image": "res://assets/minigames/sprites/guessRace/spain.jpg", 
+        "answer": 2, 
+        "choices": ["Italy","Spain", "Portugal", "Mexico"]
+    }, 
+    {
+        "image": "res://assets/minigames/sprites/guessRace/egypt.jpg", 
+        "answer": 4, 
+        "choices": ["India","Pakistan", "Morocco", "Egypt"]
+    }, 
+    {
+        "image": "res://assets/minigames/sprites/guessRace/brazil.jpg", 
+        "answer": 2, 
+        "choices": ["Argentina","Brazil", "Colombia", "Portugal"]
+    }, 
+    {
+        "image": "res://assets/minigames/sprites/guessRace/saudi.jpg", 
+        "answer": 1, 
+        "choices": ["Saudi Arabia","UAE", "Qatar", "Jordan"]
+    }, 
+    {
+        "image": "res://assets/minigames/sprites/guessRace/russia.jpg", 
+        "answer": 4, 
+        "choices": ["Finland","Mongolia", "Ukraine", "Russia"]
+    }, 
+    {
+        "image": "res://assets/minigames/sprites/guessRace/germany.jpg", 
+        "answer": 3, 
+        "choices": ["Austria","Switzerland", "Germany", "Netherlands"]
+    }, 
+    {
+        "image": "res://assets/minigames/sprites/guessRace/mexico.jpg", 
+        "answer": 2, 
+        "choices": ["Peru","Mexico", "Chile", "Spain"]
+    }, 
+    {
+        "image": "res://assets/minigames/sprites/guessRace/france.jpg", 
+        "answer": 3, 
+        "choices": ["Italy","Netherlands", "France", "UK"]
+    }, 
+    {
+        "image": "res://assets/minigames/sprites/guessRace/vietnam.jpg",
+        "answer": 1,
+        "choices": ["Vietnam","China","Thailand","Philippines"]
+    },
+    {
+        "image": "res://assets/minigames/sprites/guessRace/mongolia.jpg",
+        "answer": 2,
+        "choices": ["Kazakhstan","Mongolia","Nepal","China"]
+    },
+    {
+        "image": "res://assets/minigames/sprites/guessRace/netherlands.jpg",
+        "answer": 3,
+        "choices": ["Germany","Belgium","Netherlands","Denmark"]
+    },
+    {
+        "image": "res://assets/minigames/sprites/guessRace/greece.jpg",
+        "answer": 4,
+        "choices": ["Italy","Turkey","Albania","Greece"]
+    },
+    {
+        "image": "res://assets/minigames/sprites/guessRace/peru.jpg",
+        "answer": 2,
+        "choices": ["Bolivia","Peru","Chile","Ecuador"]
+    },
+    {
+        "image": "res://assets/minigames/sprites/guessRace/australia.jpg",
+        "answer": 3,
+        "choices": ["USA","Canada","Australia","South Africa"]
+    },
+    {
+        "image": "res://assets/minigames/sprites/guessRace/turkey.jpg",
+        "answer": 1,
+        "choices": ["Turkey","Morocco","Tunisia","Egypt"]
+    },
+    {
+        "image": "res://assets/minigames/sprites/guessRace/nigeria.jpg",
+        "answer": 4,
+        "choices": ["Ghana","Kenya","Ethiopia","Nigeria"]
+    },
+    {
+        "image": "res://assets/minigames/sprites/guessRace/poland.jpg",
+        "answer": 1,
+        "choices": ["Poland","Ukraine","Lithuania","Hungary"]
+    },
+    {
+        "image": "res://assets/minigames/sprites/guessRace/hungary.jpg",
+        "answer": 2,
+        "choices": ["Austria","Hungary","Czech Republic","Slovakia"]
+    },
+    {
+        "image": "res://assets/minigames/sprites/guessRace/czech.jpg",
+        "answer": 3,
+        "choices": ["Poland","Slovakia","Czech Republic","Hungary"]
+    },
+    {
+        "image": "res://assets/minigames/sprites/guessRace/kenya.jpg",
+        "answer": 2,
+        "choices": ["Tanzania","Kenya","Uganda","Ethiopia"]
+    },
+    {
+        "image": "res://assets/minigames/sprites/guessRace/southafrica.jpg",
+        "answer": 4,
+        "choices": ["Nigeria","Ghana","Kenya","South Africa"]
+    },
+    {
+        "image": "res://assets/minigames/sprites/guessRace/portugal.jpg",
+        "answer": 1,
+        "choices": ["Portugal","Spain","Italy","Greece"]
+    },
+    {
+        "image": "res://assets/minigames/sprites/guessRace/argentina.jpg",
+        "answer": 3,
+        "choices": ["Chile","Uruguay","Argentina","Brazil"]
+    },
+    {
+        "image": "res://assets/minigames/sprites/guessRace/chile.jpg",
+        "answer": 2,
+        "choices": ["Peru","Chile","Bolivia","Argentina"]
+    }
+]

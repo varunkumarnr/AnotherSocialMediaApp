@@ -40,25 +40,25 @@ func _ready() -> void:
     print("Game Data initialized")
 
 func register_all_games():
-    # register_game(MiniGameConfig.new(
-    #     "basketball",
-    #     "res://scenes/games/skillGames/basketball.tscn", 
-    #     # "res://scenes/games/skillGames/numbersequence.tscn", 
-    #     "basketball", 
-    #     120.0,
-    #     true, 
-    #     WINFACTOR.POINTS_IN_TIME, 
-    #     10.0, 
-    #     DIFFICULTY.HARD, 
-    #     CATEGORY.SKILL, 
-    #     10.0
-    # ))
+    register_game(MiniGameConfig.new(
+        "basketball",
+        "res://scenes/core/main_menu.tscn", 
+        # "res://scenes/games/skillGames/numbersequence.tscn", 
+        "basketball", 
+        500.0,
+        true, 
+        WINFACTOR.POINTS_IN_TIME, 
+        10.0, 
+        DIFFICULTY.HARD, 
+        CATEGORY.SKILL, 
+        10.0
+    ))
 
     register_game(MiniGameConfig.new(
         "wordle",
         "res://scenes/games/quizGames/wordle.tscn", 
         "Wordle", 
-        90.0,
+        150.0,
         true, 
         WINFACTOR.TIME_LIMIT, 
         12.0, 

@@ -12,7 +12,14 @@ const COLOR_MUTED  := Color(0.29,  0.353, 0.439, 1)
 const COLOR_TEXT   := Color(0.784, 0.831, 0.910, 1)
 const COLOR_GHOST  := Color(0.2,   0.25,  0.32,  1)
 
-const FONT_PATH := "res://assets/fonts/JetBrainsMono-Regular.ttf"
+const FONT_TITLE  := "res://font/Inter_18pt-Black.ttf"
+const FONT_BOLD   := "res://font/Inter_18pt-Bold.ttf"
+const FONT_MEDIUM := "res://font/Inter_18pt-Medium.ttf"
+const FONT_REG    := "res://font/Inter_18pt-Regular.ttf"
+var _ft : FontFile = null
+var _fb : FontFile = null
+var _fm : FontFile = null
+var _fr : FontFile = null
 var mono_font: FontFile = null
 
 @onready var progress_label    = $MainVBox/HeaderPanel/HeaderMargin/HeaderVBox/ProgressHBox/ProgressVBox/ProgressLabel
@@ -37,24 +44,28 @@ var article_data = [
 	{ "number": "14", "title": "INTERNAL CLOCK SYNC",       "tag": "LOCKED",        "tag_color": "locked", "subject": "" },
 	{ "number": "15", "title": "PHYSICAL COMPLIANCE FINAL", "tag": "LOCKED",        "tag_color": "locked", "subject": "" },
 ]
-
 func _ready() -> void:
-	_load_font()
+	_ft = _load_font(FONT_TITLE)
+	_fb = _load_font(FONT_BOLD)
+	_fm = _load_font(FONT_MEDIUM)
+	_fr = _load_font(FONT_REG)
 	if GameManager.game_sequence.is_empty():
 		GameManager.start_new_game()
 	generate_article_cards()
 	update_progress_display()
 	block_escape()
 
-func _load_font() -> void:
-	if ResourceLoader.exists(FONT_PATH):
-		mono_font = load(FONT_PATH)
+func _load_font(path: String) -> FontFile:
+	if ResourceLoader.exists(path):
+		var f = load(path); if f is FontFile: return f
+	return null
 
 func _af(node: Node) -> void:
-	if mono_font == null:
-		return
-	if node is Label or node is Button:
-		node.add_theme_font_override("font", mono_font)
+	if node is Label:
+		node.add_theme_font_override("font", _fr)
+	elif node is Button:
+		node.add_theme_font_override("font", _fb)
+
 	for child in node.get_children():
 		_af(child)
 
@@ -137,6 +148,7 @@ func _create_card(index: int) -> Panel:
 	var title_lbl := Label.new()
 	title_lbl.text          = data["title"]
 	title_lbl.autowrap_mode = TextServer.AUTOWRAP_WORD
+	title_lbl.add_theme_font_override("font", _ft)
 	title_lbl.add_theme_font_size_override("font_size", 40)
 	title_lbl.add_theme_color_override("font_color",
 		COLOR_GHOST if is_locked else (COLOR_MUTED if is_done else COLOR_TEXT))
@@ -198,6 +210,7 @@ func _create_card(index: int) -> Panel:
 	var tag_lbl := Label.new()
 	tag_lbl.text = show_tag
 	tag_lbl.add_theme_font_size_override("font_size", 26)
+	tag_lbl.add_theme_font_override("font", _fm)
 	match show_tag_color:
 		"green":  tag_lbl.add_theme_color_override("font_color", COLOR_GREEN)
 		"red":    tag_lbl.add_theme_color_override("font_color", COLOR_RED)

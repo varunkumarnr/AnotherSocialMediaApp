@@ -23,9 +23,9 @@ const BASKET_Y_FRAC    := 0.34
 const BOARD_W := 500.0
 const BOARD_H := 400.0
 
-const RIM_WORLD_W      := 240.0
-const RIM_WORLD_H      := 12.0
-const RIM_OPENING_W    := 160.0    
+const RIM_WORLD_W      := 200.0
+const RIM_WORLD_H      := 18.0
+const RIM_OPENING_W    := 140.0    
 
 # ── MOVEMENT CONSTANTS (added) ────────────────────────────────────────────────
 const MOVE_STARTS_AT     := 9    # basket count that triggers movement

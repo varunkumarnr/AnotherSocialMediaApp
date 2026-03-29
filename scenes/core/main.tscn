@@ -109,25 +109,8 @@ theme_override_styles/panel = SubResource("StyleBoxFlat_posts")
 
 [node name="ScrollContainer" parent="MarginContainer/VBoxContainer/Posts" unique_id=1189934886 instance=ExtResource("6_44pk5")]
 layout_mode = 1
-anchors_preset = 15
-anchor_left = 0.0
-anchor_right = 1.0
-anchor_bottom = 1.0
-offset_left = 0.0
-offset_top = 0.0
-offset_right = 0.0
-offset_bottom = 0.0
-grow_horizontal = 2
-grow_vertical = 2
 
-[node name="PostFeed" parent="MarginContainer/VBoxContainer/Posts/ScrollContainer" index="0" unique_id=622414403]
-size_flags_horizontal = 3
-size_flags_vertical = 3
-
-[node name="PostImage" parent="MarginContainer/VBoxContainer/Posts/ScrollContainer/PostFeed/PostCard" parent_id_path=PackedInt32Array(1189934886, 722488970) index="1" unique_id=1065001635]
-stretch_mode = 6
-
-[node name="HBoxContainer" parent="MarginContainer/VBoxContainer/Posts/ScrollContainer/PostFeed/PostCard" parent_id_path=PackedInt32Array(1189934886, 722488970) index="2" unique_id=804981539]
+[node name="HBoxContainer" parent="MarginContainer/VBoxContainer/Posts/ScrollContainer/PostFeed/PostCard/ActionsMargin" parent_id_path=PackedInt32Array(1189934886, 722488970, -1293967289) index="0" unique_id=804981539]
 size_flags_vertical = 3
 
 [node name="ClickBlocker" type="ColorRect" parent="." unique_id=579058087]

@@ -1,0 +1,45 @@
+[gd_scene format=3 uid="uid://brrkvmlgq5g18"]
+
+[ext_resource type="PackedScene" uid="uid://bb66y5nbliqn0" path="res://scenes/games/mini_game_template.tscn" id="1_o4apa"]
+[ext_resource type="Script" uid="uid://qdrbipvobbr3" path="res://scripts/minigames/minesweeper/minesweeper.gd" id="2_46ymm"]
+
+[node name="MiniGameTemplate" unique_id=1547774175 instance=ExtResource("1_o4apa")]
+script = ExtResource("2_46ymm")
+
+[node name="VignetteRect" parent="GameUI" parent_id_path=PackedInt32Array(999235674) index="0" unique_id=1000000099]
+layout_mode = 3
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="TopBar" parent="GameUI" parent_id_path=PackedInt32Array(999235674) index="1" unique_id=1157185802]
+layout_mode = 3
+anchors_preset = 10
+
+[node name="TopMargin" parent="GameUI/TopBar" index="0" unique_id=1000000002]
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="InstructionsBar" parent="GameUI" parent_id_path=PackedInt32Array(999235674) index="2" unique_id=1000000010]
+layout_mode = 3
+anchors_preset = 10
+offset_top = 160.0
+
+[node name="InstructionsMargin" parent="GameUI/InstructionsBar" index="0" unique_id=1000000011]
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="BottomBar" parent="GameUI" parent_id_path=PackedInt32Array(999235674) index="3" unique_id=1000000020]
+layout_mode = 3
+anchors_preset = 12
+
+[node name="BottomMargin" parent="GameUI/BottomBar" index="0" unique_id=1000000021]
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="ScoreMargin" parent="GameUI/BottomBar/BottomMargin/BottomHBox/ScorePanel" parent_id_path=PackedInt32Array(1000000030) index="0" unique_id=1000000031]
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="TimerMargin" parent="GameUI/BottomBar/BottomMargin/BottomHBox/TimerPanel" parent_id_path=PackedInt32Array(1000000041) index="0" unique_id=1000000042]
+grow_horizontal = 2
+grow_vertical = 2

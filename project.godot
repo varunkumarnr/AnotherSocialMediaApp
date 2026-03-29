@@ -11,7 +11,7 @@ config_version=5
 [application]
 
 config/name="Another Social Media"
-run/main_scene="uid://w7662p2yr2jc"
+run/main_scene="uid://bwowg4wtetkm"
 config/features=PackedStringArray("4.6", "Mobile")
 boot_splash/bg_color=Color(0, 0, 0, 1)
 boot_splash/image="uid://cka7eaam53dao"
