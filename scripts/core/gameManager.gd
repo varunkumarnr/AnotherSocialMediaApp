@@ -85,7 +85,7 @@ func reset_game():
 	game_sequence.clear()
 	game_config.clear()
 	print("Game reset. Done!!");
-	get_tree().change_scene_to_file("res://scenes/core/main.tscn")
+	get_tree().change_scene_to_file("res://scenes/core/main_menu.tscn")
 
 
 func get_progress_text() -> String:

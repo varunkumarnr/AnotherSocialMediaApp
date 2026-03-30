@@ -7,32 +7,35 @@ const MINE_COUNT  := 10
 const CELL_SIZE   := 96.0
 const GAP         := 2.0
 
-# ── PALETTE — minimal monochrome  ───────────────────────────
-const C_DARK      := Color(0.082, 0.082, 0.082)   # deepest bg / revealed cell
-const C_PANEL     := Color(0.100, 0.100, 0.100)   # panel bg
-const C_CELL_UP   := Color(0.65, 0.82, 0.29) # unrevealed cell — mid grey
-const C_CELL_HI   := Color(0.210, 0.210, 0.210)   # hover
-const C_CELL_DN   := Color(0.76, 0.70, 0.54) # revealed cell — near black
-const C_BORDER_UP := Color(0.260, 0.260, 0.260)   # subtle border on unrevealed
-const C_BORDER_DN := Color(0.130, 0.130, 0.130)   # barely visible on revealed
-const C_ACCENT    := Color(0.820, 0.740, 0.440)   # gold — used sparingly
-const C_WARN      := Color(0.88, 0.20, 0.18)   # muted gold for flag
-const C_DANGER    := Color(0.880, 0.320, 0.240)   # red only for explosion
-const C_TEXT      := Color(0.960, 0.960, 0.960)   # near-white numbers
-const C_MUTED     := Color(0.380, 0.380, 0.380)   # dimmed text
+# ── PALETTE ───────────────────────────────────────────────────────────────────
+const C_DARK      := Color(0.020, 0.027, 0.039, 1)
+const C_PANELS    := Color(0.030, 0.040, 0.058, 1)
+const C_CELL_UP   := Color(0.040, 0.055, 0.082, 1)
+const C_CELL_HI   := Color(0.055, 0.075, 0.115, 1)
+const C_CELL_DN   := Color(0.022, 0.030, 0.045, 1)
+const C_BORDER_UP := Color(0.110, 0.140, 0.200, 1)
+const C_BORDER_DN := Color(0.055, 0.075, 0.110, 1)
+const C_ACCENT    := Color(0.427, 0.612, 0.976, 1)
+const C_WARN      := Color(0.859, 0.376, 0.290, 1)
+const C_DANGER    := Color(0.859, 0.376, 0.290, 1)
+const C_TEXT      := Color(0.784, 0.831, 0.910, 1)
+const C_MUTED     := Color(0.200, 0.260, 0.360, 1)
 
-# All numbers white — like reference. Slight size differentiation only.
 const NUM_COLORS := [
-	Color(0,0,0,0),
-	Color(0.95, 0.95, 0.95),   # 1 — white
-	Color(0.95, 0.95, 0.95),   # 2 — white
-	Color(0.95, 0.95, 0.95),   # 3 — white
-	Color(0.95, 0.95, 0.95),   # 4 — white
-	Color(0.95, 0.95, 0.95),   # 5 — white
-	Color(0.95, 0.95, 0.95),   # 6 — white
-	Color(0.55, 0.55, 0.55),   # 7 — dimmer
-	Color(0.40, 0.40, 0.40),   # 8 — dimmest
+	Color(0, 0, 0, 0),
+	Color(0.427, 0.749, 0.976, 1),
+	Color(0.0,   0.831, 0.533, 1),
+	Color(0.427, 0.612, 0.976, 1),
+	Color(1.0,   0.67,  0.0,   1),
+	Color(0.859, 0.376, 0.290, 1),
+	Color(0.0,   0.831, 1.0,   1),
+	Color(0.784, 0.831, 0.910, 1),
+	Color(0.380, 0.450, 0.560, 1),
 ]
+
+# ── ICON PATHS — replace with your actual asset paths ────────────────────────
+const ICON_FLAG_PATH := "res://assets/icons/flag.png"   # TODO: replace
+const ICON_MINE_PATH := "res://assets/icons/mine.png"   # TODO: replace
 
 # ── STATE ─────────────────────────────────────────────────────────────────────
 var popup          : GamePopup
@@ -44,7 +47,6 @@ var first_click    : bool  = true
 var game_over_f    : bool  = false
 var flags_left     : int   = MINE_COUNT
 var cells_revealed : int   = 0
-var safe_cells     : int   = GRID_SIZE * GRID_SIZE - MINE_COUNT
 
 var cell_btns      : Array = []
 var _flag_count_lbl: Label
@@ -54,26 +56,53 @@ var _status_lbl    : Label
 
 var rng := RandomNumberGenerator.new()
 
+# ── Fonts ─────────────────────────────────────────────────────────────────────
+const FONT_BOLD_PATH   := "res://font/Inter_18pt-Bold.ttf"
+const FONT_MEDIUM_PATH := "res://font/Inter_18pt-Medium.ttf"
+const FONT_REG_PATH    := "res://font/Inter_18pt-Regular.ttf"
+var _font_bold   : FontFile = null
+var _font_medium : FontFile = null
+var _font_reg    : FontFile = null
+
+func _load_fonts() -> void:
+	if ResourceLoader.exists(FONT_BOLD_PATH):   _font_bold   = load(FONT_BOLD_PATH)
+	if ResourceLoader.exists(FONT_MEDIUM_PATH): _font_medium = load(FONT_MEDIUM_PATH)
+	if ResourceLoader.exists(FONT_REG_PATH):    _font_reg    = load(FONT_REG_PATH)
+
+func _apply_font(node: Label, bold: bool = false, medium: bool = false) -> void:
+	if bold and _font_bold:         node.add_theme_font_override("font", _font_bold)
+	elif medium and _font_medium:   node.add_theme_font_override("font", _font_medium)
+	elif _font_reg:                 node.add_theme_font_override("font", _font_reg)
+
+# ── Helper: TextureRect icon with placeholder path ────────────────────────────
+func _make_icon(path: String, size: Vector2) -> TextureRect:
+	var tr := TextureRect.new()
+	tr.custom_minimum_size = size
+	tr.expand_mode         = TextureRect.EXPAND_FIT_WIDTH_PROPORTIONAL
+	tr.stretch_mode        = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
+	tr.mouse_filter        = Control.MOUSE_FILTER_IGNORE
+	if ResourceLoader.exists(path):
+		tr.texture = load(path)
+	return tr
+
 # ── ENTRY ─────────────────────────────────────────────────────────────────────
 func on_game_started() -> void:
 	rng.randomize()
+	_load_fonts()
 	_init_arrays()
-	add_child(TCBackground.new())
 	await _build_ui()
 
 func _init_arrays() -> void:
 	for r in range(GRID_SIZE):
-		mines.append([])
-		revealed.append([])
-		flagged.append([])
-		adj_counts.append([])
+		mines.append([]);      revealed.append([])
+		flagged.append([]);    adj_counts.append([])
 		for _c in range(GRID_SIZE):
-			mines[r].append(false)
-			revealed[r].append(false)
-			flagged[r].append(false)
-			adj_counts[r].append(0)
+			mines[r].append(false);     revealed[r].append(false)
+			flagged[r].append(false);   adj_counts[r].append(0)
 
 # ── UI ────────────────────────────────────────────────────────────────────────
+# Popup lives on CanvasLayer 9 — below the chrome/GameUI which is on layer 20.
+# When _using_chrome it is also clipped to the game area so bars stay visible.
 func _build_ui() -> void:
 	var grid_px : float = GRID_SIZE * CELL_SIZE + (GRID_SIZE - 1) * GAP
 	var pw      : int   = int(grid_px) + 56
@@ -86,18 +115,45 @@ func _build_ui() -> void:
 	config.content_rows      = []
 	config.buttons           = []
 
-	
 	popup = POPUP_SCENE.instantiate()
-	add_child(popup)
+
+	# Layer 9 — always below the HUD chrome (layer 20)
+	var cl      := CanvasLayer.new()
+	cl.layer    = 9
+	add_child(cl)
+
+	if _using_chrome:
+		# Clip to game area only so top/bottom chrome bars are never covered
+		var clip              := Control.new()
+		clip.position         = Vector2(0.0, _game_y)
+		clip.size             = Vector2(_vp_w, _game_h)
+		clip.clip_contents    = true
+		clip.mouse_filter     = Control.MOUSE_FILTER_PASS
+		cl.add_child(clip)
+
+		var cc2 := CenterContainer.new()
+		cc2.set_anchors_preset(Control.PRESET_FULL_RECT)
+		cc2.mouse_filter = Control.MOUSE_FILTER_PASS
+		clip.add_child(cc2)
+		cc2.add_child(popup)
+	else:
+		# Legacy GameUI scene — centre in the full canvas layer
+		var cc2 := CenterContainer.new()
+		cc2.set_anchors_preset(Control.PRESET_FULL_RECT)
+		cc2.mouse_filter = Control.MOUSE_FILTER_PASS
+		cl.add_child(cc2)
+		cc2.add_child(popup)
+
 	popup.configure(config)
-	
-	# Override panel bg to dark military
+
+	# Dark matrix panel style
 	var main_panel : Panel = popup.get_node("Control/CenterContainer/Panel")
-	# var bg_sb := StyleBoxFlat.new()
-	# bg_sb.bg_color = C_PANEL
-	# bg_sb.set_corner_radius_all(0)
-	# bg_sb.set_border_width_all(0)
-	# main_panel.add_theme_stylebox_override("panel", bg_sb)
+	var bg_sb := StyleBoxFlat.new()
+	bg_sb.bg_color     = C_PANELS
+	bg_sb.set_corner_radius_all(0)
+	bg_sb.set_border_width_all(1)
+	bg_sb.border_color = C_BORDER_UP
+	main_panel.add_theme_stylebox_override("panel", bg_sb)
 
 	await get_tree().process_frame
 	await get_tree().process_frame
@@ -105,7 +161,6 @@ func _build_ui() -> void:
 	var cc : VBoxContainer = popup.get_node(
 		"Control/CenterContainer/Panel/VBoxContainer/ContentMargin/ContentContainer"
 	)
-
 	_build_hud(cc)
 	_build_grid(cc)
 	_build_status_bar(cc)
@@ -118,7 +173,7 @@ func _build_hud(cc: VBoxContainer) -> void:
 	cc.add_child(hud)
 
 	# Left: flag counter
-	var flag_box := _make_hud_panel(true)
+	var flag_box := _make_hud_panel()
 	hud.add_child(flag_box)
 
 	var flag_inner := HBoxContainer.new()
@@ -127,34 +182,23 @@ func _build_hud(cc: VBoxContainer) -> void:
 	flag_inner.set_anchors_preset(Control.PRESET_FULL_RECT)
 	flag_box.add_child(flag_inner)
 
-	# Flag icon drawn
-	var flag_icon := Control.new()
-	flag_icon.custom_minimum_size = Vector2(22, 28)
-	flag_icon.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	flag_icon.draw.connect(func():
-		# Pole
-		flag_icon.draw_rect(Rect2(10, 4, 2, 22), C_TEXT)
-		# Flag triangle
-		var pts := PackedVector2Array([Vector2(12,4), Vector2(22,9), Vector2(12,14)])
-		flag_icon.draw_colored_polygon(pts, C_WARN)
-		# Base
-		flag_icon.draw_rect(Rect2(6, 24, 10, 2), C_TEXT.darkened(0.3))
-	)
+	var flag_icon      := _make_icon(ICON_FLAG_PATH, Vector2(24, 28))
+	flag_icon.modulate = C_WARN
 	flag_inner.add_child(flag_icon)
 
 	_flag_count_lbl = Label.new()
 	_flag_count_lbl.text = "%02d" % flags_left
 	_flag_count_lbl.add_theme_font_size_override("font_size", 32)
 	_flag_count_lbl.add_theme_color_override("font_color", C_ACCENT)
+	_apply_font(_flag_count_lbl, true)
 	flag_inner.add_child(_flag_count_lbl)
 
-	# Spacer
 	var sp := Control.new()
 	sp.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	hud.add_child(sp)
 
 	# Right: mine counter
-	var mine_box := _make_hud_panel(false)
+	var mine_box := _make_hud_panel()
 	hud.add_child(mine_box)
 
 	var mine_inner := HBoxContainer.new()
@@ -167,34 +211,20 @@ func _build_hud(cc: VBoxContainer) -> void:
 	_mine_count_lbl.text = "%02d" % MINE_COUNT
 	_mine_count_lbl.add_theme_font_size_override("font_size", 32)
 	_mine_count_lbl.add_theme_color_override("font_color", C_DANGER)
+	_apply_font(_mine_count_lbl, true)
 	mine_inner.add_child(_mine_count_lbl)
 
-	# Mine icon drawn
-	var mine_icon := Control.new()
-	mine_icon.custom_minimum_size = Vector2(26, 26)
-	mine_icon.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	mine_icon.draw.connect(func():
-		var c := Vector2(13, 13)
-		# Body
-		mine_icon.draw_circle(c, 9, C_DANGER)
-		# Spikes
-		for i in range(8):
-			var angle : float = i * TAU / 8.0
-			var inner : Vector2 = c + Vector2(cos(angle), sin(angle)) * 9
-			var outer : Vector2 = c + Vector2(cos(angle), sin(angle)) * 14
-			mine_icon.draw_line(inner, outer, C_DANGER, 2.5)
-		# Shine
-		mine_icon.draw_circle(c + Vector2(-3, -3), 2.5, Color(1,1,1,0.35))
-	)
+	var mine_icon      := _make_icon(ICON_MINE_PATH, Vector2(26, 26))
+	mine_icon.modulate = C_DANGER
 	mine_inner.add_child(mine_icon)
 
 	var sep := ColorRect.new()
-	sep.custom_minimum_size = Vector2(0, 1)
+	sep.custom_minimum_size   = Vector2(0, 1)
 	sep.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	sep.color = Color(0.18, 0.18, 0.18)
+	sep.color                 = C_BORDER_UP
 	cc.add_child(sep)
 
-func _make_hud_panel(_left: bool) -> PanelContainer:
+func _make_hud_panel() -> PanelContainer:
 	var p := PanelContainer.new()
 	p.custom_minimum_size = Vector2(90, 52)
 	var sb := StyleBoxFlat.new()
@@ -210,18 +240,14 @@ func _build_grid(cc: VBoxContainer) -> void:
 	wrapper.custom_minimum_size   = Vector2(0, GRID_SIZE * (CELL_SIZE + GAP) + 12)
 	cc.add_child(wrapper)
 
-	# Scanline overlay drawn on top of everything
 	var scan := Control.new()
 	scan.set_anchors_preset(Control.PRESET_FULL_RECT)
 	scan.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	scan.z_index      = 10
 	scan.draw.connect(func():
-		var h := wrapper.size.y
-		var w := wrapper.size.x
-		var i := 0
+		var h := wrapper.size.y; var w := wrapper.size.x; var i := 0
 		while i < h:
-			scan.draw_line(Vector2(0, i), Vector2(w, i), Color(0,0,0,0.04))
-			i += 3
+			scan.draw_line(Vector2(0, i), Vector2(w, i), Color(0, 0, 0, 0.06)); i += 4
 	)
 	wrapper.add_child(scan)
 
@@ -230,13 +256,13 @@ func _build_grid(cc: VBoxContainer) -> void:
 	center.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	wrapper.add_child(center)
 
-	# Grid border frame
 	var grid_w : float = GRID_SIZE * (CELL_SIZE + GAP) - GAP
 	var frame  := PanelContainer.new()
 	frame.custom_minimum_size = Vector2(grid_w + 8, GRID_SIZE * (CELL_SIZE + GAP) - GAP + 8)
 	var frame_sb := StyleBoxFlat.new()
-	frame_sb.bg_color = C_DARK   # this dark bg shows through GAP = the "border"
-	frame_sb.set_border_width_all(0)
+	frame_sb.bg_color              = C_DARK
+	frame_sb.set_border_width_all(1)
+	frame_sb.border_color          = C_BORDER_UP
 	frame_sb.content_margin_left   = 3
 	frame_sb.content_margin_right  = 3
 	frame_sb.content_margin_top    = 3
@@ -258,30 +284,25 @@ func _build_grid(cc: VBoxContainer) -> void:
 			btn.clip_contents       = true
 			_style_cell_up(btn)
 
-			# Long press = flag
 			var hold_timer := Timer.new()
 			hold_timer.wait_time = 0.42
 			hold_timer.one_shot  = true
 			btn.add_child(hold_timer)
 
 			var row := r; var col := c
-			var did_hold := [false]   # array so lambda can mutate it
+			var did_hold := [false]
 			btn.button_down.connect(func():
-				did_hold[0] = false
-				hold_timer.start()
+				did_hold[0] = false; hold_timer.start()
 			)
 			btn.button_up.connect(func():
 				if hold_timer.time_left > 0.0:
 					hold_timer.stop()
-					if not did_hold[0]:
-						_on_reveal(row, col)
+					if not did_hold[0]: _on_reveal(row, col)
 				did_hold[0] = false
 			)
 			hold_timer.timeout.connect(func():
-				did_hold[0] = true
-				_on_flag(row, col)
+				did_hold[0] = true; _on_flag(row, col)
 			)
-
 			grid.add_child(btn)
 			cell_btns.append(btn)
 
@@ -290,49 +311,52 @@ func _build_status_bar(cc: VBoxContainer) -> void:
 	var sep := ColorRect.new()
 	sep.custom_minimum_size   = Vector2(0, 1)
 	sep.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	sep.color = Color(0.15, 0.15, 0.15)
+	sep.color                 = C_BORDER_UP
 	cc.add_child(sep)
 
-	_status_bar = ColorRect.new()
-	_status_bar.color                = C_DARK
-	_status_bar.custom_minimum_size  = Vector2(0, 40)
+	_status_bar                       = ColorRect.new()
+	_status_bar.color                 = C_DARK
+	_status_bar.custom_minimum_size   = Vector2(0, 44)
 	_status_bar.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	cc.add_child(_status_bar)
 
-	_status_lbl = Label.new()
-	_status_lbl.text                  = "TAP TO REVEAL  ·  HOLD TO FLAG"
-	_status_lbl.set_anchors_preset(Control.PRESET_FULL_RECT)
-	_status_lbl.horizontal_alignment  = HORIZONTAL_ALIGNMENT_CENTER
-	_status_lbl.vertical_alignment    = VERTICAL_ALIGNMENT_CENTER
-	_status_lbl.add_theme_font_size_override("font_size", 18)
+	var row_ctrl := HBoxContainer.new()
+	row_ctrl.set_anchors_preset(Control.PRESET_FULL_RECT)
+	row_ctrl.alignment = BoxContainer.ALIGNMENT_CENTER
+	row_ctrl.add_theme_constant_override("separation", 10)
+	_status_bar.add_child(row_ctrl)
+
+	var diamond := Control.new()
+	diamond.custom_minimum_size = Vector2(14, 14)
+	diamond.mouse_filter        = Control.MOUSE_FILTER_IGNORE
+	diamond.draw.connect(func():
+		diamond.draw_colored_polygon(
+			PackedVector2Array([Vector2(7,0), Vector2(14,7), Vector2(7,14), Vector2(0,7)]),
+			C_ACCENT)
+	)
+	row_ctrl.add_child(diamond)
+
+	_status_lbl                      = Label.new()
+	_status_lbl.text                 = "TAP TO REVEAL  ·  HOLD TO FLAG"
+	_status_lbl.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	_status_lbl.vertical_alignment   = VERTICAL_ALIGNMENT_CENTER
+	_status_lbl.add_theme_font_size_override("font_size", 16)
 	_status_lbl.add_theme_color_override("font_color", C_MUTED)
-	_status_bar.add_child(_status_lbl)
+	_apply_font(_status_lbl, false, true)
+	row_ctrl.add_child(_status_lbl)
 
 # ── CELL STYLES ───────────────────────────────────────────────────────────────
 func _style_cell_up(btn: Button) -> void:
-	_clear_cell_draw(btn)   # remove flag/mine/number draw nodes
+	_clear_cell_draw(btn)
 	for state in ["normal","hover","pressed","disabled","focus"]:
 		var sb := StyleBoxFlat.new()
 		match state:
-			"normal":
-				sb.bg_color = C_CELL_UP
-				# Bevel effect: bright top-left, dark bottom-right
-				sb.border_width_top    = 2; sb.border_width_left  = 2
-				sb.border_width_bottom = 1; sb.border_width_right = 1
-				sb.border_color = C_BORDER_UP
-			"hover":
-				sb.bg_color = C_CELL_HI
-				sb.set_border_width_all(1)
-				sb.border_color = C_ACCENT.darkened(0.3)
-			"pressed":
-				sb.bg_color = C_CELL_DN
-				sb.set_border_width_all(1)
-				sb.border_color = C_BORDER_DN
-			_:
-				sb.bg_color = C_CELL_UP
-				sb.set_border_width_all(1)
-				sb.border_color = C_BORDER_UP
-		sb.set_corner_radius_all(3)
+			"normal":  sb.bg_color = C_CELL_UP; sb.border_color = C_BORDER_UP
+			"hover":   sb.bg_color = C_CELL_HI; sb.border_color = C_ACCENT.darkened(0.2)
+			"pressed": sb.bg_color = C_CELL_DN; sb.border_color = C_BORDER_DN
+			_:         sb.bg_color = C_CELL_UP; sb.border_color = C_BORDER_UP
+		sb.set_border_width_all(1)
+		sb.set_corner_radius_all(2)
 		btn.add_theme_stylebox_override(state, sb)
 	btn.add_theme_color_override("font_color", C_TEXT)
 	btn.add_theme_font_size_override("font_size", 24)
@@ -341,117 +365,61 @@ func _style_cell_up(btn: Button) -> void:
 func _style_cell_revealed(btn: Button, count: int) -> void:
 	for state in ["normal","hover","pressed","disabled","focus"]:
 		var sb := StyleBoxFlat.new()
-		sb.bg_color = C_CELL_DN
-		sb.set_border_width_all(0)
-		sb.set_corner_radius_all(2)
+		sb.bg_color = C_CELL_DN; sb.border_color = C_BORDER_DN
+		sb.set_border_width_all(1); sb.set_corner_radius_all(2)
 		btn.add_theme_stylebox_override(state, sb)
-	btn.disabled = true
-	btn.text = ""
-	# Draw number via child Control to use draw API
+	btn.disabled = true; btn.text = ""
 	_clear_cell_draw(btn)
 	if count > 0:
 		var num_node := Control.new()
 		num_node.set_anchors_preset(Control.PRESET_FULL_RECT)
 		num_node.mouse_filter = Control.MOUSE_FILTER_IGNORE
-		var col :Color= NUM_COLORS[count]
-		var txt := str(count)
+		var col : Color = NUM_COLORS[count]; var txt := str(count)
 		num_node.draw.connect(func():
-			var sz : Vector2 = num_node.size
-			# Glow circle behind number
-			# num_node.draw_circle(sz / 2.0, 14.0, Color(col.r, col.g, col.b, 0.12))
-			# Use font rendering via Label trick — draw string
-			num_node.draw_string(
-				ThemeDB.fallback_font,
-				Vector2(sz.x / 2.0 - 7, sz.y / 2.0 + 9),
-				txt, HORIZONTAL_ALIGNMENT_LEFT, -1, 40, col
-			)
+			var sz := num_node.size
+			num_node.draw_circle(sz/2.0, 16.0, Color(col.r,col.g,col.b,0.08))
+			num_node.draw_string(ThemeDB.fallback_font,
+				Vector2(sz.x/2.0-8, sz.y/2.0+10), txt, HORIZONTAL_ALIGNMENT_LEFT, -1, 42, col)
 		)
 		btn.add_child(num_node)
 
 func _style_cell_flagged(btn: Button) -> void:
-	# Same grey as unrevealed — flag is drawn inside, no cell color change
 	for state in ["normal","hover","pressed","disabled","focus"]:
 		var sb := StyleBoxFlat.new()
 		sb.bg_color = C_CELL_UP
-		sb.set_border_width_all(0)
-		sb.set_corner_radius_all(2)
+		sb.border_color = Color(C_WARN.r, C_WARN.g, C_WARN.b, 0.6)
+		sb.set_border_width_all(1); sb.set_corner_radius_all(2)
 		btn.add_theme_stylebox_override(state, sb)
 	btn.text = ""
 	_clear_cell_draw(btn)
-	var flag_node := Control.new()
-	flag_node.set_anchors_preset(Control.PRESET_FULL_RECT)
-	flag_node.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	flag_node.draw.connect(func():
-		var sz  : Vector2 = flag_node.size
-		var cx  : float   = sz.x / 2.0
-		var cy  : float   = sz.y / 2.0
-		
-		# Scale factor based on cell size
-		var s : float = min(sz.x, sz.y) / 48.0   # 48 was your original base
-		
-		var pole_h : float = 28.0 * s
-		var pole_w : float = 3.0 * s
-		var flag_w : float = 18.0 * s
-		var flag_h : float = 12.0 * s
-		var base_w : float = 20.0 * s
-		var base_h : float = 4.0 * s
-
-		var pole_x : float = cx - pole_w / 2.0
-
-		# Pole
-		flag_node.draw_rect(Rect2(pole_x, cy - pole_h * 0.6, pole_w, pole_h), C_TEXT.darkened(0.2))
-
-		# Flag (bigger rectangle)
-		flag_node.draw_rect(Rect2(pole_x + pole_w, cy - pole_h * 0.6, flag_w, flag_h), C_WARN)
-
-		# Base
-		flag_node.draw_rect(Rect2(cx - base_w / 2.0, cy + pole_h * 0.2, base_w, base_h), C_MUTED.darkened(0.3))
-	)
-	btn.add_child(flag_node)
+	# Flag image icon centred in cell — swap ICON_FLAG_PATH for your asset
+	var icon      := _make_icon(ICON_FLAG_PATH, Vector2(CELL_SIZE * 0.45, CELL_SIZE * 0.45))
+	icon.modulate = C_WARN
+	icon.set_anchors_preset(Control.PRESET_CENTER)
+	icon.offset_left   = -CELL_SIZE * 0.225; icon.offset_top    = -CELL_SIZE * 0.225
+	icon.offset_right  =  CELL_SIZE * 0.225; icon.offset_bottom =  CELL_SIZE * 0.225
+	btn.add_child(icon)
 
 func _style_cell_mine(btn: Button, exploded: bool) -> void:
 	for state in ["normal","hover","pressed","disabled","focus"]:
 		var sb := StyleBoxFlat.new()
-		sb.bg_color = Color(C_DANGER.r, C_DANGER.g, C_DANGER.b, 0.25) if exploded \
-					  else C_CELL_DN
-		sb.set_border_width_all(1)
+		sb.bg_color     = Color(C_DANGER.r, C_DANGER.g, C_DANGER.b, 0.22) if exploded else C_CELL_DN
 		sb.border_color = C_DANGER if exploded else C_BORDER_DN
-		sb.set_corner_radius_all(3)
+		sb.set_border_width_all(1); sb.set_corner_radius_all(2)
 		btn.add_theme_stylebox_override(state, sb)
-	btn.text = ""
-	btn.disabled = true
+	btn.text = ""; btn.disabled = true
 	_clear_cell_draw(btn)
-	var mine_node := Control.new()
-	mine_node.set_anchors_preset(Control.PRESET_FULL_RECT)
-	mine_node.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	var is_exp := exploded
-	mine_node.draw.connect(func():
-		var sz : Vector2 = mine_node.size
-		var c  : Vector2 = sz / 2.0
-		var col : Color  = C_DANGER if is_exp else C_MUTED
-		# Body
-		mine_node.draw_circle(c, 10, col)
-		# Spikes 8-way
-		for i in range(8):
-			var a : float = i * TAU / 8.0
-			mine_node.draw_line(
-				c + Vector2(cos(a), sin(a)) * 10,
-				c + Vector2(cos(a), sin(a)) * 16,
-				col, 2.0
-			)
-		# Shine
-		mine_node.draw_circle(c + Vector2(-3.5, -3.5), 3.0,
-			Color(1, 1, 1, 0.4 if is_exp else 0.2))
-		# Explosion ring
-		if is_exp:
-			mine_node.draw_arc(c, 18, 0, TAU, 32, Color(1, 0.5, 0.1, 0.6), 2.0)
-	)
-	btn.add_child(mine_node)
+	# Mine image icon centred in cell — swap ICON_MINE_PATH for your asset
+	var icon      := _make_icon(ICON_MINE_PATH, Vector2(CELL_SIZE * 0.45, CELL_SIZE * 0.45))
+	icon.modulate = C_DANGER if exploded else C_MUTED
+	icon.set_anchors_preset(Control.PRESET_CENTER)
+	icon.offset_left   = -CELL_SIZE * 0.225; icon.offset_top    = -CELL_SIZE * 0.225
+	icon.offset_right  =  CELL_SIZE * 0.225; icon.offset_bottom =  CELL_SIZE * 0.225
+	btn.add_child(icon)
 
 func _clear_cell_draw(btn: Button) -> void:
 	for child in btn.get_children():
-		if not child is Timer:
-			child.queue_free()
+		if not child is Timer: child.queue_free()
 
 # ── MINE GENERATION ───────────────────────────────────────────────────────────
 func _place_mines(safe_r: int, safe_c: int) -> void:
@@ -463,11 +431,9 @@ func _place_mines(safe_r: int, safe_c: int) -> void:
 				forbidden.append(Vector2i(nr, nc))
 	var placed := 0
 	while placed < MINE_COUNT:
-		var r := rng.randi() % GRID_SIZE
-		var c := rng.randi() % GRID_SIZE
+		var r := rng.randi() % GRID_SIZE; var c := rng.randi() % GRID_SIZE
 		if mines[r][c] or Vector2i(r, c) in forbidden: continue
-		mines[r][c] = true
-		placed += 1
+		mines[r][c] = true; placed += 1
 	_compute_adj()
 
 func _compute_adj() -> void:
@@ -478,7 +444,7 @@ func _compute_adj() -> void:
 			for dr in range(-1, 2):
 				for dc in range(-1, 2):
 					if dr == 0 and dc == 0: continue
-					var nr := r + dr; var nc := c + dc
+					var nr := r+dr; var nc := c+dc
 					if nr >= 0 and nr < GRID_SIZE and nc >= 0 and nc < GRID_SIZE:
 						if mines[nr][nc]: count += 1
 			adj_counts[r][c] = count
@@ -489,25 +455,19 @@ func _on_reveal(r: int, c: int) -> void:
 	if first_click:
 		first_click = false
 		_place_mines(r, c)
-		_set_status("GOOD LUCK, SOLDIER", C_ACCENT)
-	if mines[r][c]:
-		_explode(r, c); return
+		_set_status("SECURE NODES TO PREVENT SYSTEM BREACH", C_ACCENT)
+	if mines[r][c]: _explode(r, c); return
 	_flood_reveal(r, c)
 	_check_win()
 
 func _on_flag(r: int, c: int) -> void:
 	if game_over_f or revealed[r][c]: return
-	var btn :Button= cell_btns[r * GRID_SIZE + c]
+	var btn : Button = cell_btns[r * GRID_SIZE + c]
 	if flagged[r][c]:
-		flagged[r][c] = false
-		flags_left += 1
-		_style_cell_up(btn)
+		flagged[r][c] = false; flags_left += 1; _style_cell_up(btn)
 	else:
-		if flags_left <= 0:
-			_set_status("NO FLAGS REMAINING", C_DANGER)
-			return
-		flagged[r][c] = true
-		flags_left   -= 1
+		if flags_left <= 0: _set_status("NO FLAGS REMAINING", C_DANGER); return
+		flagged[r][c] = true; flags_left -= 1
 		_style_cell_flagged(btn)
 		AudioManager.play_sfx(AudioManager.SFX.CLICK)
 	_flag_count_lbl.text = "%02d" % flags_left
@@ -516,14 +476,13 @@ func _on_flag(r: int, c: int) -> void:
 func _flood_reveal(r: int, c: int) -> void:
 	if r < 0 or r >= GRID_SIZE or c < 0 or c >= GRID_SIZE: return
 	if revealed[r][c] or flagged[r][c] or mines[r][c]: return
-	revealed[r][c]  = true
-	cells_revealed += 1
+	revealed[r][c] = true; cells_revealed += 1
 	_style_cell_revealed(cell_btns[r * GRID_SIZE + c], adj_counts[r][c])
 	if adj_counts[r][c] == 0:
 		for dr in range(-1, 2):
 			for dc in range(-1, 2):
 				if dr == 0 and dc == 0: continue
-				_flood_reveal(r + dr, c + dc)
+				_flood_reveal(r+dr, c+dc)
 
 func _set_status(msg: String, col: Color) -> void:
 	if _status_lbl:
@@ -532,24 +491,21 @@ func _set_status(msg: String, col: Color) -> void:
 
 # ── WIN / LOSE ────────────────────────────────────────────────────────────────
 func _check_win() -> void:
-	var remaining := 0
 	for r in range(GRID_SIZE):
 		for c in range(GRID_SIZE):
-			if not revealed[r][c] and not mines[r][c]:
-				remaining += 1
-	if remaining == 0:
-		game_over_f = true
-		popup.title_label.text = "FIELD CLEARED"
-		_set_status("ALL MINES AVOIDED  ·  MISSION COMPLETE", C_ACCENT)
-		AudioManager.play_sfx(AudioManager.SFX.CORRECT)
-		await get_tree().create_timer(1.0).timeout
-		win_game()
+			if not revealed[r][c] and not mines[r][c]: return
+	game_over_f            = true
+	popup.title_label.text = "FIELD CLEARED"
+	_set_status("ALL MINES AVOIDED  ·  MISSION COMPLETE", C_ACCENT)
+	AudioManager.play_sfx(AudioManager.SFX.CORRECT)
+	await get_tree().create_timer(1.0).timeout
+	win_game()
 
 func _explode(r: int, c: int) -> void:
-	game_over_f = true
-	AudioManager.play_sfx(AudioManager.SFX.WRONG)
+	game_over_f            = true
 	popup.title_label.text = "DETONATION"
 	_set_status("MINE TRIGGERED  ·  MISSION FAILED", C_DANGER)
+	AudioManager.play_sfx(AudioManager.SFX.WRONG)
 	for mr in range(GRID_SIZE):
 		for mc in range(GRID_SIZE):
 			if mines[mr][mc]:

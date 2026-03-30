@@ -222,7 +222,7 @@ layout_mode = 2
 theme_override_colors/font_color = Color(0.478, 0.561, 0.659, 1)
 theme_override_font_sizes/font_size = 26
 autowrap_mode = 2
-text = "\"The institution assumes no liability for psychic or neural degradation resulting from prolonged exposure to high-velocity decision-making interfaces.\""
+; text = "\"The institution assumes no liability for psychic or neural degradation resulting from prolonged exposure to high-velocity decision-making interfaces.\""
 
 [node name="Divider2" type="ColorRect" parent="MainVBox/ScrollContainer/ContentVBox" unique_id=3001000049]
 custom_minimum_size = Vector2(0, 2)

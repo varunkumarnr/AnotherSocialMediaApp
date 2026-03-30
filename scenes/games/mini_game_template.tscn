@@ -3,51 +3,40 @@
 [ext_resource type="Script" uid="uid://da1jkxi1qorno" path="res://scripts/core/miniGamesTemplate.gd" id="1_t35xr"]
 
 [sub_resource type="StyleBoxFlat" id="SB_topbar"]
-bg_color = Color(0.027, 0.035, 0.051, 0.97)
-border_color = Color(0.0, 0.831, 1.0, 1)
+bg_color = Color(0.030, 0.040, 0.058, 1)
+border_color = Color(0.427, 0.612, 0.976, 1)
 border_width_bottom = 2
 
 [sub_resource type="StyleBoxFlat" id="SB_instructions"]
-bg_color = Color(0.039, 0.047, 0.063, 0.95)
-border_color = Color(0.0, 0.831, 1.0, 1)
-border_width_left = 4
-border_width_top = 1
-border_width_right = 1
-border_width_bottom = 1
+bg_color = Color(0.030, 0.040, 0.058, 1)
+border_color = Color(0.427, 0.612, 0.976, 1)
+border_width_left = 0
+border_width_top = 0
+border_width_right = 0
+border_width_bottom = 0
 
 [sub_resource type="StyleBoxFlat" id="SB_bottombar"]
-bg_color = Color(0.027, 0.035, 0.051, 0.97)
-border_color = Color(0.118, 0.137, 0.176, 1)
-border_width_top = 2
+bg_color = Color(0.030, 0.040, 0.058, 1)
+border_color = Color(0.110, 0.140, 0.200, 1)
+border_width_top = 1
 
-[sub_resource type="StyleBoxFlat" id="SB_timer_normal"]
-bg_color = Color(0.039, 0.047, 0.063, 1)
-border_color = Color(0.0, 0.831, 1.0, 1)
-border_width_left = 2
-border_width_right = 2
-border_width_top = 2
-border_width_bottom = 2
-corner_radius_top_left = 8
-corner_radius_top_right = 8
-corner_radius_bottom_left = 8
-corner_radius_bottom_right = 8
-
-[sub_resource type="StyleBoxFlat" id="SB_score_panel"]
-bg_color = Color(0.0, 0.15, 0.08, 1)
-border_color = Color(0.0, 1.0, 0.533, 1)
-border_width_left = 2
-border_width_right = 2
-border_width_top = 2
-border_width_bottom = 2
-corner_radius_top_left = 8
-corner_radius_top_right = 8
-corner_radius_bottom_left = 8
-corner_radius_bottom_right = 8
+[sub_resource type="StyleBoxFlat" id="SB_stat_panel"]
+bg_color = Color(0.020, 0.027, 0.039, 1)
+border_color = Color(0.110, 0.140, 0.200, 1)
+border_width_left = 1
+border_width_right = 1
+border_width_top = 1
+border_width_bottom = 1
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_left = 4
+corner_radius_bottom_right = 4
 
 [node name="MiniGameTemplate" type="Node2D" unique_id=1547774175]
 script = ExtResource("1_t35xr")
 
 [node name="GameUI" type="CanvasLayer" parent="." unique_id=999235674]
+layer = 20
 
 [node name="VignetteRect" type="ColorRect" parent="GameUI" unique_id=1000000099]
 layout_mode = 1
@@ -81,14 +70,14 @@ theme_override_constants/separation = 6
 
 [node name="ModuleCaption" type="Label" parent="GameUI/TopBar/TopMargin/TopVBox" unique_id=1000000004]
 layout_mode = 2
-theme_override_colors/font_color = Color(0.29, 0.353, 0.439, 1)
-theme_override_font_sizes/font_size = 24
-text = "SUBROUTINE DEPLOYMENT"
+theme_override_colors/font_color = Color(0.427, 0.612, 0.976, 1)
+theme_override_font_sizes/font_size = 14
+text = "CORE_PROCESS: ACTIVE"
 
 [node name="ArticleLabel" type="Label" parent="GameUI/TopBar/TopMargin/TopVBox" unique_id=1394137633]
 layout_mode = 2
 theme_override_colors/font_color = Color(0.784, 0.831, 0.910, 1)
-theme_override_font_sizes/font_size = 48
+theme_override_font_sizes/font_size = 34
 text = "MODULE 01 — SHELL GAME"
 autowrap_mode = 0
 
@@ -97,7 +86,7 @@ layout_mode = 1
 anchor_right = 1.0
 offset_top = 160
 grow_horizontal = 2
-custom_minimum_size = Vector2(0, 80)
+custom_minimum_size = Vector2(0, 44)
 theme_override_styles/panel = SubResource("SB_instructions")
 
 [node name="InstructionsMargin" type="MarginContainer" parent="GameUI/InstructionsBar" unique_id=1000000011]
@@ -107,15 +96,15 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 theme_override_constants/margin_left = 40
 theme_override_constants/margin_right = 40
-theme_override_constants/margin_top = 14
-theme_override_constants/margin_bottom = 14
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_bottom = 10
 
 [node name="InstructionsLabel" type="Label" parent="GameUI/InstructionsBar/InstructionsMargin" unique_id=1679269945]
 layout_mode = 2
 size_flags_horizontal = 3
-theme_override_colors/font_color = Color(0.478, 0.561, 0.659, 1)
-theme_override_font_sizes/font_size = 32
-text = "Instructions goes here"
+theme_override_colors/font_color = Color(0.290, 0.353, 0.439, 1)
+theme_override_font_sizes/font_size = 14
+text = "Instructions go here"
 horizontal_alignment = 0
 autowrap_mode = 2
 
@@ -126,100 +115,140 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 0
-custom_minimum_size = Vector2(0, 180)
+custom_minimum_size = Vector2(0, 155)
 theme_override_styles/panel = SubResource("SB_bottombar")
 
-[node name="BottomMargin" type="MarginContainer" parent="GameUI/BottomBar" unique_id=1000000021]
+[node name="BottomVBox" type="VBoxContainer" parent="GameUI/BottomBar" unique_id=1000000021]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
-theme_override_constants/margin_left = 40
-theme_override_constants/margin_right = 40
-theme_override_constants/margin_top = 20
-theme_override_constants/margin_bottom = 20
+theme_override_constants/separation = 0
 
-[node name="BottomHBox" type="HBoxContainer" parent="GameUI/BottomBar/BottomMargin" unique_id=1000000022]
+[node name="StatusRow" type="HBoxContainer" parent="GameUI/BottomBar/BottomVBox" unique_id=1000000060]
+layout_mode = 2
+size_flags_horizontal = 3
+custom_minimum_size = Vector2(0, 32)
+theme_override_constants/separation = 0
+
+[node name="StatusMargin" type="MarginContainer" parent="GameUI/BottomBar/BottomVBox/StatusRow" unique_id=1000000061]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
-theme_override_constants/separation = 30
+theme_override_constants/margin_left = 24
+theme_override_constants/margin_right = 24
+theme_override_constants/margin_top = 8
+theme_override_constants/margin_bottom = 0
 
-[node name="ScorePanel" type="Panel" parent="GameUI/BottomBar/BottomMargin/BottomHBox" unique_id=1000000030]
-layout_mode = 2
-size_flags_horizontal = 0
-size_flags_vertical = 0
-theme_override_styles/panel = SubResource("SB_score_panel")
-
-[node name="ScoreMargin" type="MarginContainer" parent="GameUI/BottomBar/BottomMargin/BottomHBox/ScorePanel" unique_id=1000000031]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-theme_override_constants/margin_left = 30
-theme_override_constants/margin_right = 30
-theme_override_constants/margin_top = 10
-theme_override_constants/margin_bottom = 10
-
-[node name="ScoreVBox" type="VBoxContainer" parent="GameUI/BottomBar/BottomMargin/BottomHBox/ScorePanel/ScoreMargin" unique_id=1000000032]
-layout_mode = 2
-theme_override_constants/separation = 2
-
-[node name="ScoreCaption" type="Label" parent="GameUI/BottomBar/BottomMargin/BottomHBox/ScorePanel/ScoreMargin/ScoreVBox" unique_id=1000000033]
-layout_mode = 2
-horizontal_alignment = 1
-theme_override_colors/font_color = Color(0.0, 0.8, 0.4, 1)
-theme_override_font_sizes/font_size = 22
-text = "SCORE"
-
-[node name="ScoreLabel" type="Label" parent="GameUI/BottomBar/BottomMargin/BottomHBox/ScorePanel/ScoreMargin/ScoreVBox" unique_id=707634814]
-layout_mode = 2
-horizontal_alignment = 1
-theme_override_colors/font_color = Color(0.0, 1.0, 0.533, 1)
-theme_override_font_sizes/font_size = 60
-text = "0"
-
-[node name="CenterSpacer" type="Control" parent="GameUI/BottomBar/BottomMargin/BottomHBox" unique_id=1000000040]
+[node name="StatusHBox" type="HBoxContainer" parent="GameUI/BottomBar/BottomVBox/StatusRow/StatusMargin" unique_id=1000000062]
 layout_mode = 2
 size_flags_horizontal = 3
+theme_override_constants/separation = 8
 
-[node name="TimerPanel" type="Panel" parent="GameUI/BottomBar/BottomMargin/BottomHBox" unique_id=1000000041]
+[node name="StatusDot" type="ColorRect" parent="GameUI/BottomBar/BottomVBox/StatusRow/StatusMargin/StatusHBox" unique_id=1000000063]
 layout_mode = 2
-size_flags_horizontal = 0
-size_flags_vertical = 0
-theme_override_styles/panel = SubResource("SB_timer_normal")
+custom_minimum_size = Vector2(8, 8)
+size_flags_vertical = 4
+color = Color(0.427, 0.612, 0.976, 1)
 
-[node name="TimerMargin" type="MarginContainer" parent="GameUI/BottomBar/BottomMargin/BottomHBox/TimerPanel" unique_id=1000000042]
+[node name="SysLoadLabel" type="Label" parent="GameUI/BottomBar/BottomVBox/StatusRow/StatusMargin/StatusHBox" unique_id=1000000064]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_colors/font_color = Color(0.140, 0.180, 0.250, 1)
+theme_override_font_sizes/font_size = 12
+text = "SYSTEM_LOAD: 42.8%"
+
+[node name="StatusNominal" type="Label" parent="GameUI/BottomBar/BottomVBox/StatusRow/StatusMargin/StatusHBox" unique_id=1000000065]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.140, 0.180, 0.250, 1)
+theme_override_font_sizes/font_size = 12
+text = "STATUS: NOMINAL"
+horizontal_alignment = 2
+
+[node name="Separator" type="ColorRect" parent="GameUI/BottomBar/BottomVBox" unique_id=1000000066]
+layout_mode = 2
+size_flags_horizontal = 3
+custom_minimum_size = Vector2(0, 1)
+color = Color(0.110, 0.140, 0.200, 1)
+
+[node name="BottomMargin" type="MarginContainer" parent="GameUI/BottomBar/BottomVBox" unique_id=1000000022]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme_override_constants/margin_left = 24
+theme_override_constants/margin_right = 24
+theme_override_constants/margin_top = 8
+theme_override_constants/margin_bottom = 8
+
+[node name="BottomHBox" type="HBoxContainer" parent="GameUI/BottomBar/BottomVBox/BottomMargin" unique_id=1000000023]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme_override_constants/separation = 8
+
+[node name="TimerPanel" type="Panel" parent="GameUI/BottomBar/BottomVBox/BottomMargin/BottomHBox" unique_id=1000000041]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme_override_styles/panel = SubResource("SB_stat_panel")
+
+[node name="TimerMargin" type="MarginContainer" parent="GameUI/BottomBar/BottomVBox/BottomMargin/BottomHBox/TimerPanel" unique_id=1000000042]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
-theme_override_constants/margin_left = 40
-theme_override_constants/margin_right = 40
-theme_override_constants/margin_top = 10
-theme_override_constants/margin_bottom = 10
+theme_override_constants/margin_left = 14
+theme_override_constants/margin_right = 14
+theme_override_constants/margin_top = 8
+theme_override_constants/margin_bottom = 8
 
-[node name="TimerVBox" type="VBoxContainer" parent="GameUI/BottomBar/BottomMargin/BottomHBox/TimerPanel/TimerMargin" unique_id=1000000043]
+[node name="TimerVBox" type="VBoxContainer" parent="GameUI/BottomBar/BottomVBox/BottomMargin/BottomHBox/TimerPanel/TimerMargin" unique_id=1000000043]
 layout_mode = 2
 theme_override_constants/separation = 2
 
-[node name="TimerCaption" type="Label" parent="GameUI/BottomBar/BottomMargin/BottomHBox/TimerPanel/TimerMargin/TimerVBox" unique_id=1000000044]
+[node name="TimerCaption" type="Label" parent="GameUI/BottomBar/BottomVBox/BottomMargin/BottomHBox/TimerPanel/TimerMargin/TimerVBox" unique_id=1000000044]
 layout_mode = 2
-horizontal_alignment = 1
-theme_override_colors/font_color = Color(0.29, 0.353, 0.439, 1)
-theme_override_font_sizes/font_size = 22
-text = "SESSION COUNTDOWN"
+theme_override_colors/font_color = Color(0.290, 0.353, 0.439, 1)
+theme_override_font_sizes/font_size = 12
+text = "TIME ELAPSED"
 
-[node name="TimerLabel" type="Label" parent="GameUI/BottomBar/BottomMargin/BottomHBox/TimerPanel/TimerMargin/TimerVBox" unique_id=1053945353]
+[node name="TimerLabel" type="Label" parent="GameUI/BottomBar/BottomVBox/BottomMargin/BottomHBox/TimerPanel/TimerMargin/TimerVBox" unique_id=1053945353]
 layout_mode = 2
-horizontal_alignment = 1
 theme_override_colors/font_color = Color(0.784, 0.831, 0.910, 1)
 theme_override_font_sizes/font_size = 72
-text = "00:30:00"
+text = "00:00.0"
 
-[node name="RightSpacer" type="Control" parent="GameUI/BottomBar/BottomMargin/BottomHBox" unique_id=1000000050]
+[node name="ScorePanel" type="Panel" parent="GameUI/BottomBar/BottomVBox/BottomMargin/BottomHBox" unique_id=1000000030]
 layout_mode = 2
 size_flags_horizontal = 3
+size_flags_vertical = 3
+theme_override_styles/panel = SubResource("SB_stat_panel")
+
+[node name="ScoreMargin" type="MarginContainer" parent="GameUI/BottomBar/BottomVBox/BottomMargin/BottomHBox/ScorePanel" unique_id=1000000031]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+theme_override_constants/margin_left = 14
+theme_override_constants/margin_right = 14
+theme_override_constants/margin_top = 8
+theme_override_constants/margin_bottom = 8
+
+[node name="ScoreVBox" type="VBoxContainer" parent="GameUI/BottomBar/BottomVBox/BottomMargin/BottomHBox/ScorePanel/ScoreMargin" unique_id=1000000032]
+layout_mode = 2
+theme_override_constants/separation = 2
+
+[node name="ScoreCaption" type="Label" parent="GameUI/BottomBar/BottomVBox/BottomMargin/BottomHBox/ScorePanel/ScoreMargin/ScoreVBox" unique_id=1000000033]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.290, 0.353, 0.439, 1)
+theme_override_font_sizes/font_size = 12
+text = "NODES SECURED"
+
+[node name="ScoreLabel" type="Label" parent="GameUI/BottomBar/BottomVBox/BottomMargin/BottomHBox/ScorePanel/ScoreMargin/ScoreVBox" unique_id=707634814]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.427, 0.612, 0.976, 1)
+theme_override_font_sizes/font_size = 72
+text = "0"
 
 [node name="GameContent" type="Node2D" parent="." unique_id=1692499069]
 
